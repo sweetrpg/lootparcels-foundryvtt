@@ -1,0 +1,51 @@
+{
+  "id": "loot-parcels",
+  "name": "loot-parcels",
+  "title": "Loot Parcels",
+  "version": "[Current Version]",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "11"
+  },
+  "authors": [
+    {
+      "name": "Paul Schifferer",
+      "url": "https://github.com/paulyhedral",
+      "discord": ".paulyhedral",
+      "flags": {
+        "github": "paulyhedral",
+        "patreon": "sweetrpg"
+      }
+    }
+  ],
+  "esmodules": [
+    "loot-parcels.js"
+  ],
+  "styles": [
+    "styles/loot-parcels.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "path": "lang/en.json",
+      "name": "",
+      "flags": {}
+    }
+  ],
+  "socket": true,
+  "relationships": {
+    "systems": [
+      {
+        "id": "cyphersystem",
+        "type": "system",
+        "manifest": "https://raw.githubusercontent.com/mrkwnzl/cyphersystem-foundryvtt/v2.2.0/system.json",
+        "compatibility": {
+          "verified": "2.2.0"
+        }
+      }
+    ]
+  },
+  "url": "[Github URL]",
+  "manifest": "[Manifest URL]",
+  "download": "[Download URL]"
+}

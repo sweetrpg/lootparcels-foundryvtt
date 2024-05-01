@@ -3,8 +3,8 @@
 import { Config } from "./scripts/config.js";
 // import { Utils } from "./scripts/utilities.js";
 import { handleParcelDrop } from "./scripts/parcels.js";
-import { handleCurrency } from "./scripts/loot-handlers-generic.js";
-import { handleIotum, handleParts } from "./scripts/loot-handlers-cyphersystem.js";
+import { handleCurrency } from "./scripts/handlers-generic.js";
+import { handleIotum, handleParts } from "./scripts/handlers-cyphersystem.js";
 import { Registry } from "./scripts/registry.js";
 import { Logging } from "./scripts/logging.js";
 
@@ -61,7 +61,7 @@ Hooks.on('dropActorSheetData', async (actor, html, item) => {
 	Config.getSettings();
 
 	if ((item.type.toLowerCase() === 'journalentry' || item.type.toLowerCase() === 'journalentrypage') && actor.type === "pc") {
-		handleParcelDrop(actor, html, item);
+		await handleParcelDrop(actor, html, item);
 	}
 });
 

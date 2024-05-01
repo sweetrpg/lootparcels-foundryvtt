@@ -40,19 +40,16 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         return;
     };
 
-    journalContent.forEach(jc => {
+    journalContent.forEach(async (jc) => {
         // parse line
-        const parts = jc.trim().split(/\s+/);
-        Logging.debug('parts', parts);
+        let line = jc.trim();
 
+        // get marker
+        const parts = line.split(/\s+/, 1);
+        Logging.debug('parts', parts);
         if (parts.length == 0) {
             return;
         }
-
-        // if (!allowedAnnotations.includes(parts[0])) {
-        //     Logging.warn("Unrecognized parcel annotation in journal", parts[0], droppedEntity);
-        //     return;
-        // }
 
         const fnType = parts[0].substring(1);
         const fn = Registry.lootHandlers[fnType];
@@ -64,6 +61,54 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
             return;
         }
 
-        fn(actor, parts.slice(1));
+        let args = [];
+
+        // remove marker
+        const firstSpace = line.search(/\s/);
+        let remainingLine = line.substring(firstSpace).trim();
+        Logger.debug("remainingLine", remainingLine);
+
+        // determine if there's a link present
+        const linkExpr = /@UUID\[(\S+)\]\{(.+?)\}/;
+        const matchResult = remainingLine.match(linkExpr);
+        Logging.debug('matchResult', matchResult);
+        if (matchResult === undefined) {
+            // no match
+            const lastIndex = remainingLine.lastIndexOf(' ');
+            let quantity = "";
+            if (lastIndex >= 0) {
+                quantity = remainingLine.substring(lastIndex);
+                Logging.debug('quantity', quantity);
+                remainingLine = remainingLine.substring(0, lastIndex);
+                Logging.debug('remainingLine', remainingLine);
+            }
+
+            args.push(remainingLine);
+            if (quantity.trim().length > 0) {
+                args.push(quantity.trim());
+            }
+        }
+        else {
+            const link = matchResult[0];
+            Logging.debug('link', link);
+            const linkLength = link.length;
+            const linkStart = matchResult.index;
+
+            args.push(matchResult[0]);
+
+            // remove link to find the rest
+            remainingLine.replace(link, "");
+            Logging.debug('remainingLine', remainingLine);
+
+            const whatsLeft = remainingLine.trim();
+            Logging.debug('whatsLeft', whatsLeft);
+            if (whatsLeft.length > 0) {
+                args.push(whatsLeft);
+            }
+        }
+
+        Logging.debug('args', args);
+
+        await fn(actor, args);
     });
 }

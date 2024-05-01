@@ -1,8 +1,9 @@
 'use strict';
 
 import { Logging } from "./logging.js";
+import { Utils } from "./utilities.js";
 
-export function handleCurrency(actor, components) {
+export async function handleCurrency(actor, components) {
     Logging.debug('handleCurrency', components);
 
     if (components.length == 0) {
@@ -14,13 +15,15 @@ export function handleCurrency(actor, components) {
     let name = "";
     let quantity = 0;
 
-    if(components.length == 1) {
+    if (components.length == 1) {
         // only amount is specified
-        quantity = parseInt(components[0]);
+        // quantity = parseInt(components[0]);
+        quantity = Utils.determineQuantity(components[0]);
     }
-    else if(components.length >= 2) {
+    else if (components.length >= 2) {
         name = components[0].trim().toLowerCase();
-        quantity = parseInt(components[1]);
+        // quantity = parseInt(components[1]);
+        quantity = Utils.determineQuantity(components[1]);
     }
     Logging.debug('name', name);
     Logging.debug('quantity', quantity);
@@ -36,7 +39,14 @@ export function handleCurrency(actor, components) {
         case 'cyphersystem':
             handleCypherCurrency(actor, name, quantity);
             break;
+        default:
+            handleDefaultCurrency(actor, name, quantity);
+            break;
     }
+}
+
+function handleDefaultCurrency(actor, name, quantity) {
+    // TODO
 }
 
 function handleCypherCurrency(actor, name, quantity) {
@@ -45,12 +55,12 @@ function handleCypherCurrency(actor, name, quantity) {
     const currencyCount = parseInt(actor.system.settings.equipment.currency.numberCategories);
     Logging.debug('currencyCount', currencyCount);
 
-    if(name == "") {
+    if (name == "") {
         // no name specified, so use default
         const amount = parseInt(actor.system.settings.equipment.currency.quantity1) + parseInt(quantity);
         Logging.debug('amount', amount);
-        actor.update({'system.settings.equipment.currency.quantity1': amount});
-    return;
+        actor.update({ 'system.settings.equipment.currency.quantity1': amount });
+        return;
     }
 
     for (let i = 1; i <= currencyCount; i++) {
@@ -62,7 +72,7 @@ function handleCypherCurrency(actor, name, quantity) {
             const amount = parseInt(actor.system.settings.equipment.currency[qtyAttr]) + parseInt(quantity);
             Logging.debug('amount', amount);
             const updateAttr = `system.settings.equipment.currency.quantity${i}`;
-            actor.update({updateAttr: amount});
+            actor.update({ updateAttr: amount });
             return;
         }
     }

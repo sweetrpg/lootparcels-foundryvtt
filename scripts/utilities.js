@@ -30,6 +30,8 @@
 
 'use strict';
 
+import { Logging } from "./logging.js";
+
 /*------------------------------------------------------------------------------------------------
 ------------------------------------------- Class(es) --------------------------------------------
 ------------------------------------------------------------------------------------------------*/
@@ -89,4 +91,17 @@ export class Utils {
 	 */
 	static capitalizeFirstLetter = (str, locale = navigator.language) =>
 		str.replace(/^\p{CWU}/u, char => char.toLocaleUpperCase(locale));
+
+	static async determineQuantity(valueOrDieSpec) {
+		Logging.debug('determineQuantity', valueOrDieSpec);
+
+		let r = new Roll(valueOrDieSpec)
+		await r.evaluate();
+
+		return r.total;
+	}
+
+	static parseLink(text) {
+
+	}
 };

@@ -101,7 +101,4 @@ export class Utils {
 		return r.total;
 	}
 
-	static parseLink(text) {
-
-	}
 };

@@ -66,13 +66,13 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         // remove marker
         const firstSpace = line.search(/\s/);
         let remainingLine = line.substring(firstSpace).trim();
-        Logger.debug("remainingLine", remainingLine);
+        Logging.debug("remainingLine", remainingLine);
 
         // determine if there's a link present
         const linkExpr = /@UUID\[(\S+)\]\{(.+?)\}/;
         const matchResult = remainingLine.match(linkExpr);
         Logging.debug('matchResult', matchResult);
-        if (matchResult === undefined) {
+        if (matchResult === undefined || matchResult === null) {
             // no match
             const lastIndex = remainingLine.lastIndexOf(' ');
             let quantity = "";
@@ -97,7 +97,7 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
             args.push(matchResult[0]);
 
             // remove link to find the rest
-            remainingLine.replace(link, "");
+            remainingLine = remainingLine.replace(link, "");
             Logging.debug('remainingLine', remainingLine);
 
             const whatsLeft = remainingLine.trim();

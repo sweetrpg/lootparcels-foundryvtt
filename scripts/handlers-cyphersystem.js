@@ -3,18 +3,18 @@
 import { Logging } from "./logging.js";
 import { Utils } from "./utilities.js";
 
-export async function handleIotum(actor, components) {
-    Logging.debug('handleIotum', components);
+export async function handleIotum(actor, args) {
+    Logging.debug('handleIotum', args);
 }
 
-export async function handleParts(actor, components) {
-    Logging.debug('handleParts', components);
+export async function handleParts(actor, args) {
+    Logging.debug('handleParts', args);
 
     let quantity = 1;
 
-    if (components.length > 0) {
+    if (args.length > 0) {
         // get number of parts
-        quantity = Utils.determineQuantity(components[0]);
+        quantity = await Utils.determineQuantity(args[0]);
         // quantity = parseInt(components[0]);
     }
     Logging.debug('quantity', quantity);
@@ -37,6 +37,7 @@ export async function handleParts(actor, components) {
         }
     });
 
+    Logging.debug("foundParts", foundParts);
     if (!foundParts) {
         // add an entry
         const data = [{ name: "Parts", type: 'material', quantity: quantity }];

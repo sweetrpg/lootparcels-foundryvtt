@@ -6,32 +6,19 @@ import { Utils } from "./utilities.js";
 export async function handleCurrency(actor, args) {
     Logging.debug('handleCurrency', args);
 
-    if (args.length == 0) {
-        ui.notifications.warn(game.i18n.format('LOOTPARCELS.MissingArguments',
-            { name: "handleCurrency" }));
-        return;
-    }
-
     let name = args.name;
     let quantity = 1;
 
-    if(parseInt(name) == NaN) {
-    quantity = await Utils.determineQuantity(args.quantity);
+    if (parseInt(name) == NaN) {
+        Logging.debug("name is a name");
+        quantity = parseInt(await Utils.determineQuantity(args.quantity));
     }
     else {
-        quantity = await Utils.determineQuantity(args.name);
+        Logging.debug("name is a number", name);
+        quantity = parseInt(await Utils.determineQuantity(name));
+        name = 'default';
     }
 
-    // if (args.length == 1) {
-    //     // only amount is specified
-    //     // quantity = parseInt(components[0]);
-    //     quantity = await Utils.determineQuantity(args[0]);
-    // }
-    // else if (args.length >= 2) {
-    //     name = args[0].trim().toLowerCase();
-    //     // quantity = parseInt(components[1]);
-    //     quantity = await Utils.determineQuantity(args[1]);
-    // }
     Logging.debug('name', name);
     Logging.debug('quantity', quantity);
 
@@ -62,7 +49,7 @@ function handleCypherCurrency(actor, name, quantity) {
     const currencyCount = parseInt(actor.system.settings.equipment.currency.numberCategories);
     Logging.debug('currencyCount', currencyCount);
 
-    if (name == "") {
+    if (name == "" || name == "default") {
         Logging.debug("No name specified");
         // no name specified, so use default
         const amount = parseInt(actor.system.settings.equipment.currency.quantity1) + parseInt(quantity);

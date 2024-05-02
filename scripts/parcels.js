@@ -71,42 +71,36 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         Logging.debug("remainingLine", remainingLine);
 
         // find quantifiers
-        remainingLine.split(/\s+/).forEach(async (q) => {
+        let removals = [];
+        for(let q of remainingLine.split(/\s+/)) {
+            Logging.debug("quantifier", q);
+
             const kv = q.split('=');
-            if (kv.length != 2) return;
+            Logging.debug("kv", kv);
+            if (kv.length != 2) continue;
 
             switch (kv[0]) {
                 case 'l':
                     args['level'] = parseInt(kv[1]);
+                    Logging.debug('args (parsing)', args);
                     remainingLine = remainingLine.replace(q, "");
                     break;
                 case 'q':
                     args['quantity'] = await Utils.determineQuantity(kv[1]);
+                    Logging.debug('args (parsing)', args);
                     remainingLine = remainingLine.replace(q, "");
                     break;
             }
-        });
+        }
+        Logging.debug("remainingLine", remainingLine);
 
         // determine if there's a link present
         const linkExpr = /@UUID\[(\S+)\]\{(.+?)\}/;
         const matchResult = remainingLine.match(linkExpr);
-        Logging.debug('matchResult', matchResult);
+        Logging.debug('link matchResult', matchResult);
         if (matchResult === undefined || matchResult === null) {
             // no match
             args['name'] = remainingLine.trim();
-            // const lastIndex = remainingLine.lastIndexOf(' ');
-            // let quantity = "";
-            // if (lastIndex >= 0) {
-            //     quantity = remainingLine.substring(lastIndex);
-            //     Logging.debug('quantity', quantity);
-            //     remainingLine = remainingLine.substring(0, lastIndex);
-            //     Logging.debug('remainingLine', remainingLine);
-            // }
-
-            // args.push(remainingLine);
-            // if (quantity.trim().length > 0) {
-            //     args.push(quantity.trim());
-            // }
         }
         else {
             const link = matchResult[0];
@@ -120,21 +114,9 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
                 source: link,
                 ...linkInfo
             };
-
-            // args.push(matchResult[0]);
-
-            // // remove link to find the rest
-            // remainingLine = remainingLine.replace(link, "");
-            // Logging.debug('remainingLine', remainingLine);
-
-            // const whatsLeft = remainingLine.trim();
-            // Logging.debug('whatsLeft', whatsLeft);
-            // if (whatsLeft.length > 0) {
-            //     args.push(whatsLeft);
-            // }
         }
 
-        Logging.debug('args', args);
+        Logging.debug('args (before call)', args);
 
         await fn(actor, args);
     });

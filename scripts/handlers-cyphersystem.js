@@ -3,8 +3,8 @@
 import { Logging } from "./logging.js";
 import { Utils } from "./utilities.js";
 
-export async function handleIotum(actor, args) {
-    Logging.debug('handleIotum', actor, args);
+async function _handleCSItem(actor, type, args) {
+    Logging.debug('_handleCSItem', actor, type, args);
 
     let itemName = args.name;
     let itemDesc = "";
@@ -24,12 +24,11 @@ export async function handleIotum(actor, args) {
         itemLevel = item.system.basic.level || args.level || 1;
     }
 
-    let foundItem = false;
     Logging.debug("actor items", actor.collections.items);
     for (let item of actor.collections.items) {
         Logging.debug("item", item);
 
-        if (item.type == 'material' && item.name.toLowerCase() == itemName.toLowerCase()) {
+        if (item.type == type && item.name.toLowerCase() == itemName.toLowerCase()) {
             const currentAmount = parseInt(item.system.basic.quantity || 1);
             Logging.debug("currentAmount", typeof(currentAmount), currentAmount);
             Logging.debug("quantity", typeof(quantity), quantity);
@@ -39,24 +38,42 @@ export async function handleIotum(actor, args) {
 
             item.update({ 'system.basic.quantity': newAmount });
 
-            // foundItem = true;
             return;
         }
     }
 
-    // Logging.debug("foundItem", foundItem);
-    // if (!foundItem) {
-    // add an entry
-    const data = [{ name: itemName, type: 'material', basic: { quantity: quantity, level: itemLevel }, description: itemDesc }];
+    const data = [{ name: itemName, type: type, basic: { quantity: quantity, level: itemLevel }, description: itemDesc }];
     Logging.debug("data", data);
-    const iotum = await Item.create(data, { parent: actor });
-    Logging.debug("iotum", iotum);
-    // }
-
+    const item = await Item.create(data, { parent: actor });
+    Logging.debug("item", item);
 }
 
-export async function handleParts(actor, args) {
-    Logging.debug('handleParts', actor, args);
+export async function handleCSEquipment(actor, args) {
+    Logging.debug('handleCSEquipment', actor, args);
+
+    await _handleCSItem(actor, 'equipment', args);
+}
+
+export async function handleCSArmor(actor, args) {
+    Logging.debug('handleCSArmor', actor, args);
+
+    await _handleCSItem(actor, 'armor', args);
+}
+
+export async function handleCSWeapon(actor, args) {
+    Logging.debug('handleCSWeapon', actor, args);
+
+    await _handleCSItem(actor, 'attack', args);
+}
+
+export async function handleCSIotum(actor, args) {
+    Logging.debug('handleCSIotum', actor, args);
+
+    await _handleCSItem(actor, 'material', args);
+}
+
+export async function handleCSParts(actor, args) {
+    Logging.debug('handleCSParts', actor, args);
 
     let quantity = parseInt(args.quantity);
     Logging.debug('quantity', quantity);

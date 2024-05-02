@@ -4,7 +4,7 @@ import { Config } from "./scripts/config.js";
 // import { Utils } from "./scripts/utilities.js";
 import { handleParcelDrop } from "./scripts/parcels.js";
 import { handleCurrency } from "./scripts/handlers-generic.js";
-import { handleIotum, handleParts } from "./scripts/handlers-cyphersystem.js";
+import { handleCSIotum, handleCSParts, handleCSEquipment, handleCSArmor, handleCSWeapon } from "./scripts/handlers-cyphersystem.js";
 import { Registry } from "./scripts/registry.js";
 import { Logging } from "./scripts/logging.js";
 
@@ -21,11 +21,14 @@ Hooks.once('setup', async () => {
 	// generic handlers
 	Registry.registerLootHandler('currency', handleCurrency);
 
-	// // system-specific handlers
+	// system-specific handlers
 	switch (game.system.id) {
 		case 'cyphersystem':
-			Registry.registerLootHandler('parts', handleParts);
-			Registry.registerLootHandler('iotum', handleIotum);
+			Registry.registerLootHandler('parts', handleCSParts);
+			Registry.registerLootHandler('iotum', handleCSIotum);
+			Registry.registerLootHandler('equipment', handleCSEquipment);
+			Registry.registerLootHandler('armor', handleCSArmor);
+			Registry.registerLootHandler('weapon', handleCSWeapon);
 			break;
 	}
 

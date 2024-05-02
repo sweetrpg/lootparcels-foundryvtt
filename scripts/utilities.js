@@ -64,7 +64,7 @@ export class Utils {
 
 		do {
 			oldHtml = html;
-			html = html.replaceAll('</p>','</p>\n').replace(tagOrComment, '');
+			html = html.replaceAll('</p>', '</p>\n').replace(tagOrComment, '');
 		} while (html !== oldHtml);
 
 		return html.replace(/</g, '&lt;').split('\n').filter(n => n);
@@ -98,7 +98,22 @@ export class Utils {
 		let r = new Roll(valueOrDieSpec)
 		await r.evaluate();
 
+		Logging.debug("total", r.total);
 		return r.total;
 	}
 
+	static parseLink(text) {
+		Logging.debug('parseLink', text);
+
+		const linkExpr = /@UUID\[(\S+)\]\{(.+?)\}/;
+		let matchResult = text.match(linkExpr);
+		if (matchResult === undefined || matchResult === null) {
+			return null;
+		}
+
+		return {
+			id: matchResult[1],
+			name: matchResult[2],
+		};
+	}
 };

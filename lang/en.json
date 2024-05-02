@@ -1,6 +1,6 @@
 {
     "LOOTPARCELS.UnsupportedJournalType": "The journal {name}'s type ({type}) is not recognized by Loot Parcels.",
     "LOOTPARCELS.UnsupportedLootType": "The loot item {name} is not recognized by Loot Parcels.",
-    "LOOTPARCELS.MissingArguments": "The loot item {name} does not have enough arguments.",
+    "LOOTPARCELS.MissingArguments": "The loot item {name} does not have enough arguments: {args}.",
     "LOOTPARCELS.InvalidArgument": "The loot item '{name}' argument '{value}' is invalid."
 }

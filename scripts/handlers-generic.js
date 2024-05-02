@@ -3,34 +3,41 @@
 import { Logging } from "./logging.js";
 import { Utils } from "./utilities.js";
 
-export async function handleCurrency(actor, components) {
-    Logging.debug('handleCurrency', components);
+export async function handleCurrency(actor, args) {
+    Logging.debug('handleCurrency', args);
 
-    if (components.length == 0) {
+    if (args.length == 0) {
         ui.notifications.warn(game.i18n.format('LOOTPARCELS.MissingArguments',
             { name: "handleCurrency" }));
         return;
     }
 
-    let name = "";
-    let quantity = 0;
+    let name = args.name;
+    let quantity = 1;
 
-    if (components.length == 1) {
-        // only amount is specified
-        // quantity = parseInt(components[0]);
-        quantity = Utils.determineQuantity(components[0]);
+    if(parseInt(name) == NaN) {
+    quantity = await Utils.determineQuantity(args.quantity);
     }
-    else if (components.length >= 2) {
-        name = components[0].trim().toLowerCase();
-        // quantity = parseInt(components[1]);
-        quantity = Utils.determineQuantity(components[1]);
+    else {
+        quantity = await Utils.determineQuantity(args.name);
     }
+
+    // if (args.length == 1) {
+    //     // only amount is specified
+    //     // quantity = parseInt(components[0]);
+    //     quantity = await Utils.determineQuantity(args[0]);
+    // }
+    // else if (args.length >= 2) {
+    //     name = args[0].trim().toLowerCase();
+    //     // quantity = parseInt(components[1]);
+    //     quantity = await Utils.determineQuantity(args[1]);
+    // }
     Logging.debug('name', name);
     Logging.debug('quantity', quantity);
 
     if (quantity === undefined || quantity == 0) {
         ui.notifications.warn(game.i18n.format('LOOTPARCELS.InvalidArgument',
-            { name: "quantity", value: components[1] }));
+            { name: "quantity", value: args }));
         return;
     }
 
@@ -56,6 +63,7 @@ function handleCypherCurrency(actor, name, quantity) {
     Logging.debug('currencyCount', currencyCount);
 
     if (name == "") {
+        Logging.debug("No name specified");
         // no name specified, so use default
         const amount = parseInt(actor.system.settings.equipment.currency.quantity1) + parseInt(quantity);
         Logging.debug('amount', amount);
@@ -63,6 +71,7 @@ function handleCypherCurrency(actor, name, quantity) {
         return;
     }
 
+    Logging.debug("Looking for currency by name:", name);
     for (let i = 1; i <= currencyCount; i++) {
         const nameAttr = `labelCategory${i}`;
         const qtyAttr = `quantity${i}`;

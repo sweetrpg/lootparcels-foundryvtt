@@ -61,12 +61,31 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
             return;
         }
 
-        let args = [];
+        let args = {
+            quantity: 1,
+        };
 
         // remove marker
         const firstSpace = line.search(/\s/);
         let remainingLine = line.substring(firstSpace).trim();
         Logging.debug("remainingLine", remainingLine);
+
+        // find quantifiers
+        remainingLine.split(/\s+/).forEach(async (q) => {
+            const kv = q.split('=');
+            if (kv.length != 2) return;
+
+            switch (kv[0]) {
+                case 'l':
+                    args['level'] = parseInt(kv[1]);
+                    remainingLine = remainingLine.replace(q, "");
+                    break;
+                case 'q':
+                    args['quantity'] = await Utils.determineQuantity(kv[1]);
+                    remainingLine = remainingLine.replace(q, "");
+                    break;
+            }
+        });
 
         // determine if there's a link present
         const linkExpr = /@UUID\[(\S+)\]\{(.+?)\}/;
@@ -74,37 +93,45 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         Logging.debug('matchResult', matchResult);
         if (matchResult === undefined || matchResult === null) {
             // no match
-            const lastIndex = remainingLine.lastIndexOf(' ');
-            let quantity = "";
-            if (lastIndex >= 0) {
-                quantity = remainingLine.substring(lastIndex);
-                Logging.debug('quantity', quantity);
-                remainingLine = remainingLine.substring(0, lastIndex);
-                Logging.debug('remainingLine', remainingLine);
-            }
+            args['name'] = remainingLine.trim();
+            // const lastIndex = remainingLine.lastIndexOf(' ');
+            // let quantity = "";
+            // if (lastIndex >= 0) {
+            //     quantity = remainingLine.substring(lastIndex);
+            //     Logging.debug('quantity', quantity);
+            //     remainingLine = remainingLine.substring(0, lastIndex);
+            //     Logging.debug('remainingLine', remainingLine);
+            // }
 
-            args.push(remainingLine);
-            if (quantity.trim().length > 0) {
-                args.push(quantity.trim());
-            }
+            // args.push(remainingLine);
+            // if (quantity.trim().length > 0) {
+            //     args.push(quantity.trim());
+            // }
         }
         else {
             const link = matchResult[0];
             Logging.debug('link', link);
             const linkLength = link.length;
             const linkStart = matchResult.index;
+            const linkInfo = Utils.parseLink(link);
 
-            args.push(matchResult[0]);
+            args['name'] = linkInfo.name;
+            args['link'] = {
+                source: link,
+                ...linkInfo
+            };
 
-            // remove link to find the rest
-            remainingLine = remainingLine.replace(link, "");
-            Logging.debug('remainingLine', remainingLine);
+            // args.push(matchResult[0]);
 
-            const whatsLeft = remainingLine.trim();
-            Logging.debug('whatsLeft', whatsLeft);
-            if (whatsLeft.length > 0) {
-                args.push(whatsLeft);
-            }
+            // // remove link to find the rest
+            // remainingLine = remainingLine.replace(link, "");
+            // Logging.debug('remainingLine', remainingLine);
+
+            // const whatsLeft = remainingLine.trim();
+            // Logging.debug('whatsLeft', whatsLeft);
+            // if (whatsLeft.length > 0) {
+            //     args.push(whatsLeft);
+            // }
         }
 
         Logging.debug('args', args);

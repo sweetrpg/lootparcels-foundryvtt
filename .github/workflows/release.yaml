@@ -47,3 +47,10 @@ jobs:
         artifacts: './module.json, ./module.zip'
         tag: ${{ github.event.release.tag_name }}
         body: ${{steps.github_release.outputs.changelog}}
+
+    # Push release to Foundry
+    - id: foundryvtt_release
+      uses: illandril/FoundryVTT-package-release-action@latest
+      with:
+        package-release-token: ${{ secrets.PACKAGE_RELEASE_TOKEN }}
+        manifest-url: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.json

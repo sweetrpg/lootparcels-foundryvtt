@@ -32,6 +32,7 @@ $currency shins 1d6
 $armor Leather jerkin
 $weapon Light sword q=1d3
 $cypher @UUID[Compendium.world.cyphers.abc123]{A really cool cypher} l=1d6
+$parts 1d10
 ```
 
 ## Documentation
@@ -53,7 +54,7 @@ description for the directive.
 | `$weapon` | `<name>` | All | A weapon. |
 | `$equipment` | `<name>` | All | A piece of gear. |
 | `$iotum` | `<name>` | Cypher | A specific type of iotum. |
-| `$parts` | `<name>` | Cypher | A quantity of parts. |
+| `$parts` | `<quantity>` | Cypher | A quantity of parts. |
 | `$cypher` | `<name>` | Cypher | A cypher. |
 | `$artifact` | `<name>` | Cypher | An artifact. |
 

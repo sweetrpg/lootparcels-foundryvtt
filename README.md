@@ -24,6 +24,16 @@ $armor Leather jerkin q=4
 ```
 4. Drag the journal page onto an actor to give them the loot!
 
+### Example
+
+```
+$loot
+$currency shins 1d6
+$armor Leather jerkin
+$weapon Light sword q=1d3
+$cypher @UUID[Compendium.world.cyphers.abc123]{A really cool cypher} l=1d6
+```
+
 ## Documentation
 
 ### Directives
@@ -50,6 +60,9 @@ description for the directive.
 Most parcel items, where the `name` is specified, support using a link instead. The link is in the standard form,
 `@UUID[<id>]{<name>}`. If a link is provided, the module will look up the item and use all the relevant information
 from the item when adding it to the actor. If no item is found, the module will just add an entry to the actor.
+
+Where `quantity` is used, either in an argument or quantifier (see below), a die spec can be provided to generate
+a random amount of that item.
 
 Parcel items can also include zero or more optional quantifiers, in the form of key/value pairs separated by an
 equal sign (`=`), for example, `q=3`. The currently supported quantifiers are described below.

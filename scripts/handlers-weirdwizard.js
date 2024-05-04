@@ -101,8 +101,9 @@ export async function handleWWCurrency(actor, args) {
     Logging.debug("currentAmount", currentAmount);
     const amount = parseInt(currentAmount) + parseInt(quantity);
     Logging.debug('amount', amount);
-    const updateAttr = `currency.${name}`;
-    actor.update({ updateAttr: amount });
+    const updateAttr = `system.currency.${name}`;
+    Logging.debug("updateAttr", updateAttr);
+    await actor.update({ updateAttr: amount });
 }
 
 export function isWWActorPC(actor) {

@@ -4,7 +4,7 @@ import { Config } from "./scripts/config.js";
 // import { Utils } from "./scripts/utilities.js";
 import { handleParcelDrop } from "./scripts/parcels.js";
 import { handleCurrency } from "./scripts/handlers-generic.js";
-import { handleCSIotum, handleCSParts, handleCSEquipment, handleCSArmor, handleCSWeapon } from "./scripts/handlers-cyphersystem.js";
+import { handleCSIotum, handleCSParts, handleCSEquipment, handleCSArmor, handleCSWeapon, handleCSArtifact, handleCSCypher } from "./scripts/handlers-cyphersystem.js";
 import { Registry } from "./scripts/registry.js";
 import { Logging } from "./scripts/logging.js";
 
@@ -29,6 +29,8 @@ Hooks.once('setup', async () => {
 			Registry.registerLootHandler('equipment', handleCSEquipment);
 			Registry.registerLootHandler('armor', handleCSArmor);
 			Registry.registerLootHandler('weapon', handleCSWeapon);
+			Registry.registerLootHandler('cypher', handleCSCypher);
+			Registry.registerLootHandler('artifact', handleCSArtifact);
 			break;
 	}
 

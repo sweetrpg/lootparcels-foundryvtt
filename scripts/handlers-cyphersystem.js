@@ -72,6 +72,18 @@ export async function handleCSIotum(actor, args) {
     await _handleCSItem(actor, 'material', args);
 }
 
+export async function handleCSCypher(actor, args) {
+    Logging.debug('handleCSCypher', actor, args);
+
+    await _handleCSItem(actor, 'cypher', args);
+}
+
+export async function handleCSArtifact(actor, args) {
+    Logging.debug('handleCSArtifact', actor, args);
+
+    await _handleCSItem(actor, 'artifact', args);
+}
+
 export async function handleCSParts(actor, args) {
     Logging.debug('handleCSParts', actor, args);
 

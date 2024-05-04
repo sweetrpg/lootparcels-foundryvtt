@@ -10,18 +10,23 @@ async function _handleCSItem(actor, type, args) {
     let itemDesc = "";
     let itemLevel = args.level;
     let quantity = parseInt(args.quantity);
+    let itemData = null;
 
     const linkInfo = args.link;
     // if a link is provided and valid, get name and level from it
-    if (linkInfo?.id?.startsWith('@UUID[')) {
+    if (linkInfo?.id !== undefined) {
         const item = await fromUuid(linkInfo.id);
-        Logging.debug("item", item);
+        Logging.debug("(link) item", item);
 
         itemName = item.name;
         Logging.debug('itemName', itemName);
         itemDesc = item.system.description || "";
 
         itemLevel = item.system.basic.level || args.level || 1;
+        Logging.debug("itemLevel", itemLevel);
+
+        itemData = item.system;
+        Logging.debug("itemData", itemData);
     }
 
     Logging.debug("actor items", actor.collections.items);
@@ -30,8 +35,8 @@ async function _handleCSItem(actor, type, args) {
 
         if (item.type == type && item.name.toLowerCase() == itemName.toLowerCase()) {
             const currentAmount = parseInt(item.system.basic.quantity || 1);
-            Logging.debug("currentAmount", typeof(currentAmount), currentAmount);
-            Logging.debug("quantity", typeof(quantity), quantity);
+            Logging.debug("currentAmount", typeof (currentAmount), currentAmount);
+            Logging.debug("quantity", typeof (quantity), quantity);
 
             const newAmount = parseInt(currentAmount) + parseInt(quantity);
             Logging.debug("newAmount", newAmount);
@@ -116,4 +121,44 @@ export async function handleCSParts(actor, args) {
     const plan = await Item.create(data, { parent: actor });
     Logging.debug("plan", plan);
     // }
+}
+
+export async function handleCSCurrency(actor, args) {
+    Logging.debug('handleCSCurrency', actor, args);
+
+    let name = args.name;
+    let quantity = args.quantity;
+
+    const currencyCount = parseInt(actor.system.settings.equipment.currency.numberCategories);
+    Logging.debug('currencyCount', currencyCount);
+
+    if (name == "" || name == "default") {
+        Logging.debug("No name specified");
+        // no name specified, so use default
+        const amount = parseInt(actor.system.settings.equipment.currency.quantity1) + parseInt(quantity);
+        Logging.debug('amount', amount);
+        actor.update({ 'system.settings.equipment.currency.quantity1': amount });
+        return;
+    }
+
+    Logging.debug("Looking for currency by name:", name);
+    for (let i = 1; i <= currencyCount; i++) {
+        const nameAttr = `labelCategory${i}`;
+        const qtyAttr = `quantity${i}`;
+        const currencyName = actor.system.settings.equipment.currency[nameAttr].trim().toLowerCase();
+        Logging.debug('currencyName', currencyName);
+        if (currencyName == name) {
+            const amount = parseInt(actor.system.settings.equipment.currency[qtyAttr]) + parseInt(quantity);
+            Logging.debug('amount', amount);
+            const updateAttr = `system.settings.equipment.currency.quantity${i}`;
+            actor.update({ updateAttr: amount });
+            return;
+        }
+    }
+}
+
+export function isCSActorPC(actor) {
+    Logging.debug('[cyphersystem] isCSActorPC', actor);
+
+    return actor?.type?.toLowerCase() === 'pc';
 }

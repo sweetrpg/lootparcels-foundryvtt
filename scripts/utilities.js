@@ -95,11 +95,16 @@ export class Utils {
 	static async determineQuantity(valueOrDieSpec) {
 		Logging.debug('determineQuantity', valueOrDieSpec);
 
-		let r = new Roll(valueOrDieSpec)
-		await r.evaluate();
+		try {
+			let r = new Roll(valueOrDieSpec)
+			await r.evaluate();
 
-		Logging.debug("total", r.total);
-		return r.total;
+			Logging.debug("total", r.total);
+			return r.total;
+		}
+		catch(error) {
+			return null;
+		}
 	}
 
 	static parseLink(text) {

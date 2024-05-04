@@ -7,6 +7,7 @@ Create parcels of loot to hand out to the PCs
 The following systems are currently supported:
 
 * Cypher System
+* Shadow of the Weird Wizard
 
 If you would like to see a system added, please open an [issue](https://github.com/sweetrpg/lootparcels-foundryvtt/issues).
 

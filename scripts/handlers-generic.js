@@ -33,43 +33,18 @@ export async function handleCurrency(actor, args) {
         case 'cyphersystem':
             handleCypherCurrency(actor, name, quantity);
             break;
+        case 'weirdwizard':
+            handleWWCurrency(actor, name, quantity);
+            break;
         default:
             handleDefaultCurrency(actor, name, quantity);
             break;
     }
 }
 
+
 function handleDefaultCurrency(actor, name, quantity) {
+    Logging.debug('handleDefaultCurrency', actor, quantity);
+
     // TODO
-}
-
-function handleCypherCurrency(actor, name, quantity) {
-    Logging.debug('handleCypherCurrency', actor, quantity);
-
-    const currencyCount = parseInt(actor.system.settings.equipment.currency.numberCategories);
-    Logging.debug('currencyCount', currencyCount);
-
-    if (name == "" || name == "default") {
-        Logging.debug("No name specified");
-        // no name specified, so use default
-        const amount = parseInt(actor.system.settings.equipment.currency.quantity1) + parseInt(quantity);
-        Logging.debug('amount', amount);
-        actor.update({ 'system.settings.equipment.currency.quantity1': amount });
-        return;
-    }
-
-    Logging.debug("Looking for currency by name:", name);
-    for (let i = 1; i <= currencyCount; i++) {
-        const nameAttr = `labelCategory${i}`;
-        const qtyAttr = `quantity${i}`;
-        const currencyName = actor.system.settings.equipment.currency[nameAttr].trim().toLowerCase();
-        Logging.debug('currencyName', currencyName);
-        if (currencyName == name) {
-            const amount = parseInt(actor.system.settings.equipment.currency[qtyAttr]) + parseInt(quantity);
-            Logging.debug('amount', amount);
-            const updateAttr = `system.settings.equipment.currency.quantity${i}`;
-            actor.update({ updateAttr: amount });
-            return;
-        }
-    }
 }

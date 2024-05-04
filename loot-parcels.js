@@ -3,8 +3,8 @@
 import { Config } from "./scripts/config.js";
 // import { Utils } from "./scripts/utilities.js";
 import { handleParcelDrop } from "./scripts/parcels.js";
-import { handleCurrency } from "./scripts/handlers-generic.js";
-import { handleCSIotum, handleCSParts, handleCSEquipment, handleCSArmor, handleCSWeapon, handleCSArtifact, handleCSCypher } from "./scripts/handlers-cyphersystem.js";
+import { handleCSCurrency, handleCSIotum, handleCSParts, handleCSEquipment, handleCSArmor, handleCSWeapon, handleCSArtifact, handleCSCypher, isCSActorPC } from "./scripts/handlers-cyphersystem.js";
+import { handleWWCurrency, handleWWEquipment, handleWWArmor, handleWWWeapon, isWWActorPC } from "./scripts/handlers-weirdwizard.js";
 import { Registry } from "./scripts/registry.js";
 import { Logging } from "./scripts/logging.js";
 
@@ -19,11 +19,14 @@ Hooks.once('init', () => {
 Hooks.once('setup', async () => {
 	Logging.info('Registering loot handlers...');
 	// generic handlers
-	Registry.registerLootHandler('currency', handleCurrency);
 
 	// system-specific handlers
 	switch (game.system.id) {
 		case 'cyphersystem':
+			// isActor check
+			Registry.setIsActorPCFn(isCSActorPC);
+			// loot handlers
+			Registry.registerLootHandler('currency', handleCSCurrency);
 			Registry.registerLootHandler('parts', handleCSParts);
 			Registry.registerLootHandler('iotum', handleCSIotum);
 			Registry.registerLootHandler('equipment', handleCSEquipment);
@@ -31,6 +34,48 @@ Hooks.once('setup', async () => {
 			Registry.registerLootHandler('weapon', handleCSWeapon);
 			Registry.registerLootHandler('cypher', handleCSCypher);
 			Registry.registerLootHandler('artifact', handleCSArtifact);
+			break;
+		case 'dnd1e':
+			// TODO
+			break;
+		case 'genesys':
+			// TODO
+			break;
+		case 't2k4e':
+			// TODO
+			break;
+		case 'pf2e':
+			// TODO
+			break;
+		case 'pf1':
+			// TODO
+			break;
+		case 'weirdwizard':
+			// isActor check
+			Registry.setIsActorPCFn(isWWActorPC);
+			// loot handlers
+			Registry.registerLootHandler('currency', handleWWCurrency);
+			Registry.registerLootHandler('equipment', handleWWEquipment);
+			Registry.registerLootHandler('armor', handleWWArmor);
+			Registry.registerLootHandler('weapon', handleWWWeapon);
+			break;
+		case 'demonlord':
+			// TODO
+			break;
+		case 'dnd5e':
+			// TODO
+			break;
+		case 'tor2e':
+			// TODO
+			break;
+		case 'tor1e':
+			// TODO
+			break;
+		case 'shadowdark':
+			// TODO
+			break;
+		case 'a5e':
+			// TODO
 			break;
 	}
 
@@ -42,20 +87,27 @@ Hooks.once('setup', async () => {
 		data.receiver = game.actors.get(packet.receiverId);
 		data.trader = game.actors.get(packet.traderId);
 		data.traderUserId = packet.traderUserId;
-		switch (packet.type) {
-			case 'requestTrade':
-				if (packet.traderUserId != game.user.id && data.receiver.isOwner && (!game.user.isGM || !data.receiver.hasPlayerOwner)) receiveTrade(data, packet.traderUserId);
-				break;
-			case 'acceptTrade':
-				if (packet.traderUserId == game.user.id) endTrade(data);
-				break;
-			case 'refuseTrade':
-				if (packet.traderUserId == game.user.id) denyTrade(data);
-				break;
-			case 'possessItem':
-				if (packet.traderUserId == game.user.id) alreadyTrade(data);
-				break;
-		}
+		// switch (packet.type) {
+		// 	case 'requestTrade':
+		// 		if (packet.traderUserId != game.user.id &&
+		// 			data.receiver.isOwner &&
+		// 			(!game.user.isGM ||
+		// 				!data.receiver.hasPlayerOwner)) {
+		// 					receiveTrade(data, packet.traderUserId);
+		// 				}
+		// 		break;
+		// 	case 'acceptTrade':
+		// 		if (packet.traderUserId == game.user.id) {
+		// 			endTrade(data)
+		// 		};
+		// 		break;
+		// 	case 'refuseTrade':
+		// 		if (packet.traderUserId == game.user.id) denyTrade(data);
+		// 		break;
+		// 	case 'possessItem':
+		// 		if (packet.traderUserId == game.user.id) alreadyTrade(data);
+		// 		break;
+		// }
 	});
 });
 
@@ -65,7 +117,9 @@ Hooks.on('dropActorSheetData', async (actor, html, item) => {
 
 	Config.getSettings();
 
-	if ((item.type.toLowerCase() === 'journalentry' || item.type.toLowerCase() === 'journalentrypage') && actor.type === "pc") {
+	if ((item.type.toLowerCase() === 'journalentry' ||
+		item.type.toLowerCase() === 'journalentrypage') &&
+		Registry.isActorPC(actor)) {
 		await handleParcelDrop(actor, html, item);
 	}
 });

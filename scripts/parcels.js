@@ -70,11 +70,21 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         let remainingLine = line.substring(firstSpace).trim();
         Logging.debug("remainingLine", remainingLine);
 
-        // find quantifiers
-        let removals = [];
-        for(let q of remainingLine.split(/\s+/)) {
+        // find quantifiers or die specs
+        for (let q of remainingLine.split(/\s+/)) {
             Logging.debug("quantifier", q);
 
+            // check if it's a die spec
+            const qty = await Utils.determineQuantity(q);
+            Logging.debug("qty", qty);
+            if (qty !== undefined && qty !== null) {
+                args['quantity'] = parseInt(qty);
+                Logging.debug('args (parsing)', args);
+                remainingLine = remainingLine.replace(q, "");
+                continue;
+            }
+
+            // check if it's a key/value pair
             const kv = q.split('=');
             Logging.debug("kv", kv);
             if (kv.length != 2) continue;

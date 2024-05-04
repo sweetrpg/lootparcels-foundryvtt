@@ -42,6 +42,14 @@
         "compatibility": {
           "verified": "2.2.0"
         }
+      },
+      {
+        "id": "weirdwizard",
+        "type": "system",
+        "manifest": "https://github.com/Savantford/foundry-weirdwizard/releases/download/3.6.2/system.json",
+        "compatibility": {
+          "verified": "3.6.2"
+        }
       }
     ]
   },

@@ -8,6 +8,7 @@ The following systems are currently supported:
 
 * Cypher System
 * Dungeons & Dragons, 5th edition
+* Genesys
 * Shadow of the Demon Lord
 * Shadow of the Weird Wizard
 * The One Ring, 2nd edition

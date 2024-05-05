@@ -74,6 +74,14 @@
         "compatibility": {
           "verified": "3.1.2"
         }
+      },
+      {
+        "id": "genesys",
+        "type": "system",
+        "manifest": "https://github.com/Mezryss/FVTT-Genesys/releases/download/release-0.2.10/manifest.json",
+        "compatibility": {
+          "verified": "0.2.10"
+        }
       }
     ]
   },

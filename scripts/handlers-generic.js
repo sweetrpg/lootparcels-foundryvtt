@@ -1,50 +1,54 @@
 'use strict';
 
 import { Logging } from "./logging.js";
-import { Utils } from "./utilities.js";
 
-export async function handleCurrency(actor, args) {
-    Logging.debug('handleCurrency', args);
+export async function _handleGenericItem(actor, type, args) {
+    Logging.debug('_handleGenericItem', actor, type, args);
 
-    let name = args.name;
-    let quantity = 1;
+    let itemName = args.name;
+    let itemDesc = "";
+    let itemLevel = args.level;
+    let quantity = parseInt(args.quantity);
+    let itemData = null;
 
-    if (parseInt(name) == NaN) {
-        Logging.debug("name is a name");
-        quantity = parseInt(await Utils.determineQuantity(args.quantity));
+    const linkInfo = args.link;
+    Logging.debug("linkInfo", linkInfo);
+    // if a link is provided and valid, get name and level from it
+    if (linkInfo?.id !== undefined) {
+        const item = await fromUuid(linkInfo.id);
+        Logging.debug("(link) item", item);
+
+        if (item !== undefined && item !== null) {
+            itemName = item.name;
+            Logging.debug('itemName', itemName);
+            itemDesc = item.system.description || "";
+
+            itemData = item;
+        }
+        else {
+            itemName = linkInfo.name;
+        }
+        itemLevel = 1;
     }
-    else {
-        Logging.debug("name is a number", name);
-        quantity = parseInt(await Utils.determineQuantity(name));
-        name = 'default';
+
+    for (let i=0; i<quantity; i++) {
+        Logging.debug("i", i);
+
+        if (itemData !== null) {
+            const item = await Item.create([itemData], { parent: actor });
+            Logging.debug("item", item);
+            continue;
+        }
+
+        const data = { name: itemName, type: type, system: { quantity: quantity }, description: { value: itemDesc } };
+        if (itemData !== null) {
+            data.system = {
+                quantity: quantity,
+                ...itemData
+            }
+        }
+        Logging.debug("data", data);
+        const item = await Item.create([data], { parent: actor });
+        Logging.debug("item", item);
     }
-
-    Logging.debug('name', name);
-    Logging.debug('quantity', quantity);
-
-    if (quantity === undefined || quantity == 0) {
-        ui.notifications.warn(game.i18n.format('LOOTPARCELS.InvalidArgument',
-            { name: "quantity", value: args }));
-        return;
-    }
-
-    // handle special cases
-    switch (game.system.id) {
-        case 'cyphersystem':
-            handleCypherCurrency(actor, name, quantity);
-            break;
-        case 'weirdwizard':
-            handleWWCurrency(actor, name, quantity);
-            break;
-        default:
-            handleDefaultCurrency(actor, name, quantity);
-            break;
-    }
-}
-
-
-function handleDefaultCurrency(actor, name, quantity) {
-    Logging.debug('handleDefaultCurrency', actor, quantity);
-
-    // TODO
 }

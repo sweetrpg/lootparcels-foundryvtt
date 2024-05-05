@@ -7,6 +7,7 @@ import { handleCSCurrency, handleCSIotum, handleCSParts, handleCSEquipment, hand
 import { handleWWCurrency, handleWWEquipment, handleWWArmor, handleWWWeapon, isWWActorPC } from "./scripts/handlers-weirdwizard.js";
 import { handleDLCurrency, handleDLEquipment, handleDLAmmo, handleDLArmor, handleDLWeapon, isDLActorPC } from "./scripts/handlers-demonlord.js";
 import { handleTOR2Currency, handleTOR2Armor, handleTOR2Misc, handleTOR2Weapon, isTOR2ActorPC } from "./scripts/handlers-tor2e.js";
+import { handleGenCurrency, handleGenArmor, handleGenEquipment, handleGenWeapon, handleGenConsumable, handleGenContainer, handleGenVehicleWeapon, isGenActorPC } from "./scripts/handlers-genesys.js";
 import { handleDnD5eCurrency, handleDnD5eArmor, handleDnD5eEquipment, handleDnD5eWeapon, handleDnD5eConsumable, handleDnD5eContainer, handleDnD5eLoot, handleDnD5eTool, isDnD5eActorPC } from "./scripts/handlers-dnd5e.js";
 import { Registry } from "./scripts/registry.js";
 import { Logging } from "./scripts/logging.js";
@@ -24,6 +25,7 @@ Hooks.once('setup', async () => {
 	// generic handlers
 
 	// system-specific handlers
+	Logging.debug("system", game.system.id);
 	switch (game.system.id) {
 		case 'cyphersystem':
 			// isActor check
@@ -42,7 +44,16 @@ Hooks.once('setup', async () => {
 			// TODO
 			break;
 		case 'genesys':
-			// TODO
+			// isActor check
+			Registry.setIsActorPCFn(isGenActorPC);
+			// loot handlers
+			Registry.registerLootHandler('currency', handleGenCurrency);
+			Registry.registerLootHandler('item', handleGenEquipment);
+			Registry.registerLootHandler('armor', handleGenArmor);
+			Registry.registerLootHandler('weapon', handleGenWeapon);
+			Registry.registerLootHandler('container', handleGenContainer);
+			Registry.registerLootHandler('vehicleweapon', handleGenVehicleWeapon);
+			Registry.registerLootHandler('consumable', handleGenConsumable);
 			break;
 		case 't2k4e':
 			// TODO

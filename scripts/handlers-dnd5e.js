@@ -33,18 +33,13 @@ async function _handleDnD5eItem(actor, type, args) {
     }
 
     if (itemData !== null) {
+        itemData.system.quantity = quantity;
         const item = await Item.create([itemData], { parent: actor });
         Logging.debug("item", item);
         return;
     }
 
     const data = { name: itemName, type: type, system: { quantity: quantity }, description: { value: itemDesc } };
-    if (itemData !== null) {
-        data.system = {
-            quantity: quantity,
-            ...itemData
-        }
-    }
     Logging.debug("data", data);
     const item = await Item.create([data], { parent: actor });
     Logging.debug("item", item);
@@ -59,7 +54,7 @@ export async function handleDnD5eEquipment(actor, args) {
 export async function handleDnD5eArmor(actor, args) {
     Logging.debug('handleDnD5eArmor', actor, args);
 
-    await _handleDnD5eItem(actor, 'armor', args);
+    await _handleDnD5eItem(actor, 'equipment', args);
 }
 
 export async function handleDnD5eWeapon(actor, args) {

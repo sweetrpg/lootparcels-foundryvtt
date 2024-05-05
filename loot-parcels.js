@@ -5,6 +5,8 @@ import { Config } from "./scripts/config.js";
 import { handleParcelDrop } from "./scripts/parcels.js";
 import { handleCSCurrency, handleCSIotum, handleCSParts, handleCSEquipment, handleCSArmor, handleCSWeapon, handleCSArtifact, handleCSCypher, isCSActorPC } from "./scripts/handlers-cyphersystem.js";
 import { handleWWCurrency, handleWWEquipment, handleWWArmor, handleWWWeapon, isWWActorPC } from "./scripts/handlers-weirdwizard.js";
+import { handleDLCurrency, handleDLEquipment, handleDLAmmo, handleDLArmor, handleDLWeapon, isDLActorPC } from "./scripts/handlers-demonlord.js";
+import { handleTOR2Currency, isTOR2ActorPC } from "./scripts/handlers-tor2e.js";
 import { Registry } from "./scripts/registry.js";
 import { Logging } from "./scripts/logging.js";
 
@@ -60,12 +62,23 @@ Hooks.once('setup', async () => {
 			Registry.registerLootHandler('weapon', handleWWWeapon);
 			break;
 		case 'demonlord':
-			// TODO
+			// isActor check
+			Registry.setIsActorPCFn(isDLActorPC);
+			// loot handlers
+			Registry.registerLootHandler('currency', handleDLCurrency);
+			Registry.registerLootHandler('item', handleDLEquipment);
+			Registry.registerLootHandler('armor', handleDLArmor);
+			Registry.registerLootHandler('weapon', handleDLWeapon);
+			Registry.registerLootHandler('ammo', handleDLAmmo);
 			break;
 		case 'dnd5e':
 			// TODO
 			break;
 		case 'tor2e':
+			// isActor check
+			Registry.setIsActorPCFn(isTOR2ActorPC);
+			// loot handlers
+			Registry.registerLootHandler('currency', handleTOR2Currency);
 			// TODO
 			break;
 		case 'tor1e':

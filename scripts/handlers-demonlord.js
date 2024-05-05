@@ -3,8 +3,8 @@
 import { Logging } from "./logging.js";
 import { Utils } from "./utilities.js";
 
-async function _handleWWItem(actor, type, args) {
-    Logging.debug('_handleWWItem', actor, type, args);
+async function _handleDLItem(actor, type, args) {
+    Logging.debug('_handleDLItem', actor, type, args);
 
     let itemName = args.name;
     let itemDesc = "";
@@ -38,38 +38,41 @@ async function _handleWWItem(actor, type, args) {
         return;
     }
 
-    const data = { name: itemName, type: 'Equipment', system: { subtype: type }, quantity: quantity, description: { value: itemDesc } };
+    const data = { name: itemName, type: type, quantity: quantity, description: { value: itemDesc } };
     if (itemData !== null) {
-        data.system = {
-            subtype: type,
-            ...itemData
-        }
+        data.system = itemData;
     }
     Logging.debug("data", data);
     const item = await Item.create([data], { parent: actor });
     Logging.debug("item", item);
 }
 
-export async function handleWWEquipment(actor, args) {
-    Logging.debug('handleWWEquipment', actor, args);
+export async function handleDLEquipment(actor, args) {
+    Logging.debug('handleDLEquipment', actor, args);
 
-    await _handleWWItem(actor, 'equipment', args);
+    await _handleDLItem(actor, 'item', args);
 }
 
-export async function handleWWArmor(actor, args) {
-    Logging.debug('handleWWArmor', actor, args);
+export async function handleDLArmor(actor, args) {
+    Logging.debug('handleDLArmor', actor, args);
 
-    await _handleWWItem(actor, 'armor', args);
+    await _handleDLItem(actor, 'armor', args);
 }
 
-export async function handleWWWeapon(actor, args) {
-    Logging.debug('handleWWWeapon', actor, args);
+export async function handleDLWeapon(actor, args) {
+    Logging.debug('handleDLWeapon', actor, args);
 
-    await _handleWWItem(actor, 'weapon', args);
+    await _handleDLItem(actor, 'weapon', args);
 }
 
-export async function handleWWCurrency(actor, args) {
-    Logging.debug('handleWWCurrency', actor, args);
+export async function handleDLAmmo(actor, args) {
+    Logging.debug('handleDLAmmo', actor, args);
+
+    await _handleDLItem(actor, 'ammo', args);
+}
+
+export async function handleDLCurrency(actor, args) {
+    Logging.debug('handleDLCurrency', actor, args);
 
     let name = args.name;
     let quantity = args.quantity;
@@ -79,21 +82,20 @@ export async function handleWWCurrency(actor, args) {
         name = 'gp';
     }
 
-    const currentAmount = actor.system.currency[name];
+    const currentAmount = actor.system.wealth[name];
     Logging.debug("currentAmount", currentAmount);
     const amount = parseInt(currentAmount) + parseInt(quantity);
     Logging.debug('amount', amount);
-    const updateAttr = `system.currency.${name}`;
+    const updateAttr = `system.wealth.${name}`;
     Logging.debug("updateAttr", updateAttr);
-    const data = {};
+    const data = {}
     data[updateAttr] = amount;
     Logging.debug("data", data);
     await actor.update(data);
-    Logging.debug("actor (after update)", actor);
 }
 
-export function isWWActorPC(actor) {
-    Logging.debug('[weirdwizard] isWWActorPC', actor);
+export function isDLActorPC(actor) {
+    Logging.debug('[weirdwizard] isDLActorPC', actor);
 
     return actor?.type?.toLowerCase() === 'character';
 }

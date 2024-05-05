@@ -151,7 +151,11 @@ export async function handleCSCurrency(actor, args) {
             const amount = parseInt(actor.system.settings.equipment.currency[qtyAttr]) + parseInt(quantity);
             Logging.debug('amount', amount);
             const updateAttr = `system.settings.equipment.currency.quantity${i}`;
-            actor.update({ updateAttr: amount });
+            Logging.debug('updateAttr', updateAttr);
+            const data = {}
+            data[updateAttr] = amount;
+            Logging.debug("data", data);
+            actor.update(data);
             return;
         }
     }

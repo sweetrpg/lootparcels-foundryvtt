@@ -6,17 +6,8 @@ import { Registry } from "./registry.js";
 
 const prefix = '$';
 const allowedJournalTypes = [
-    `${prefix}loot`,
+    `${prefix}parcel`,
 ];
-// const allowedContents = [
-//     `${prefix}iotum`,    // name|link quantity|die-spec -- Numenera Destiny, p. 110
-//     `${prefix}currency`,    // [type] quantity|die-spec
-//     `${prefix}parts`,    // quantity|die-spec
-//     `${prefix}item`,     // link
-//     `${prefix}cypher`,   // link
-//     `${prefix}artifact`, // link
-//     `${prefix}plan`,     // name|link
-// ];
 
 export async function handleParcelDrop(actor, html, droppedEntity) {
     Logging.debug("handleParcelDrop", actor, html, droppedEntity);

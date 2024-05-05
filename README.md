@@ -7,8 +7,9 @@ Create parcels of loot to hand out to the PCs
 The following systems are currently supported:
 
 * Cypher System
-* Shadow of the Weird Wizard
+* Dungeons & Dragons, 5th edition
 * Shadow of the Demon Lord
+* Shadow of the Weird Wizard
 * The One Ring, 2nd edition
 
 If you would like to see a system added, please open an [issue](https://github.com/sweetrpg/lootparcels-foundryvtt/issues).
@@ -18,7 +19,7 @@ If you would like to see a system added, please open an [issue](https://github.c
 1. Create a Journal entry and page
 2. At the top of the page, on a line by itself, enter:
 ```
-$loot
+$parcel
 ```
 3. Add more lines, one line per item in the parcel:
 ```
@@ -30,7 +31,7 @@ $armor Leather jerkin q=4
 ### Example
 
 ```
-$loot
+$parcel
 $currency shins 1d6
 $armor Leather jerkin
 $weapon Light sword q=1d3
@@ -51,10 +52,14 @@ description for the directive.
 
 | Directive | Arguments | System | Description |
 | - | - | - | - |
-| `$loot` | None | All | Marks the journal page as a loot parcel |
+| `$parcel` | None | All | Marks the journal page as a loot parcel |
 | `$currency` | `[name] <quantity>` | All | This is for money. The `name` is the type of currency, if the system supports more than one kind. If omitted, the default currency for the system is used. `quantity` indicates the amount. |
 | `$armor` | `<name>` | All | Armor or shields. |
 | `$weapon` | `<name>` | All | A weapon. |
+| `$equipment` or `$item` | `<name>` | All | A piece of gear. |
+| `$loot` or `$item` | `<name>` | All | A piece of gear. |
+| `$tool` or `$item` | `<name>` | All | A piece of gear. |
+| `$equipment` or `$item` | `<name>` | All | A piece of gear. |
 | `$equipment` or `$item` | `<name>` | All | A piece of gear. |
 | `$ammo` | `<name>` | Shadow of the Demon Lord | A piece of gear. |
 | `$iotum` | `<name>` | Cypher | A specific type of iotum. |

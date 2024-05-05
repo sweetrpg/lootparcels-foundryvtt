@@ -50,6 +50,22 @@
         "compatibility": {
           "verified": "3.6.2"
         }
+      },
+      {
+        "id": "demonlord",
+        "type": "system",
+        "manifest": "https://github.com/Xacus/demonlord/releases/download/3.9.6/system.json",
+        "compatibility": {
+          "verified": "3.9.6"
+        }
+      },
+      {
+        "id": "tor2e",
+        "type": "system",
+        "manifest": "https://gitlab.com/herve.darritchon/foundryvtt-tor2e/-/raw/main/src/system.json",
+        "compatibility": {
+          "verified": "3.4.4"
+        }
       }
     ]
   },

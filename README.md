@@ -8,6 +8,8 @@ The following systems are currently supported:
 
 * Cypher System
 * Shadow of the Weird Wizard
+* Shadow of the Demon Lord
+* The One Ring, 2nd edition
 
 If you would like to see a system added, please open an [issue](https://github.com/sweetrpg/lootparcels-foundryvtt/issues).
 
@@ -53,7 +55,8 @@ description for the directive.
 | `$currency` | `[name] <quantity>` | All | This is for money. The `name` is the type of currency, if the system supports more than one kind. If omitted, the default currency for the system is used. `quantity` indicates the amount. |
 | `$armor` | `<name>` | All | Armor or shields. |
 | `$weapon` | `<name>` | All | A weapon. |
-| `$equipment` | `<name>` | All | A piece of gear. |
+| `$equipment` or `$item` | `<name>` | All | A piece of gear. |
+| `$ammo` | `<name>` | Shadow of the Demon Lord | A piece of gear. |
 | `$iotum` | `<name>` | Cypher | A specific type of iotum. |
 | `$parts` | `<quantity>` | Cypher | A quantity of parts. |
 | `$cypher` | `<name>` | Cypher | A cypher. |

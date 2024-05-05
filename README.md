@@ -57,11 +57,11 @@ description for the directive.
 | `$armor` | `<name>` | All | Armor or shields. |
 | `$weapon` | `<name>` | All | A weapon. |
 | `$equipment` or `$item` | `<name>` | All | A piece of gear. |
-| `$loot` or `$item` | `<name>` | All | A piece of gear. |
-| `$tool` or `$item` | `<name>` | All | A piece of gear. |
-| `$equipment` or `$item` | `<name>` | All | A piece of gear. |
-| `$equipment` or `$item` | `<name>` | All | A piece of gear. |
-| `$ammo` | `<name>` | Shadow of the Demon Lord | A piece of gear. |
+| `$loot` or `$item` | `<name>` | D&D5e | Miscellaneous items, like trinkets. |
+| `$tool` or `$item` | `<name>` | D&D5e | Tools and items use to support other activities. |
+| `$container` | `<name>` | D&D5e | Something that can hold other items. |
+| `$consumable` | `<name>` | D&D5e | Anything that can be used up, like ammo, potions, scrolls, etc. |
+| `$ammo` | `<name>` | Shadow of the Demon Lord | Stuff for your weapon. |
 | `$iotum` | `<name>` | Cypher | A specific type of iotum. |
 | `$parts` | `<quantity>` | Cypher | A quantity of parts. |
 | `$cypher` | `<name>` | Cypher | A cypher. |

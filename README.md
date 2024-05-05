@@ -62,10 +62,10 @@ description for the directive.
 | `$container` | `<name>` | D&D5e | Something that can hold other items. |
 | `$consumable` | `<name>` | D&D5e | Anything that can be used up, like ammo, potions, scrolls, etc. |
 | `$ammo` | `<name>` | Shadow of the Demon Lord | Stuff for your weapon. |
-| `$iotum` | `<name>` | Cypher | A specific type of iotum. |
-| `$parts` | `<quantity>` | Cypher | A quantity of parts. |
-| `$cypher` | `<name>` | Cypher | A cypher. |
-| `$artifact` | `<name>` | Cypher | An artifact. |
+| `$iotum` | `<name>` | Cypher System | A specific type of iotum. |
+| `$parts` | `<quantity>` | Cypher System | A quantity of parts. |
+| `$cypher` | `<name>` | Cypher System | A cypher. |
+| `$artifact` | `<name>` | Cypher System | An artifact. |
 
 Most parcel items, where the `name` is specified, support using a link instead. The link is in the standard form,
 `@UUID[<id>]{<name>}`. If a link is provided, the module will look up the item and use all the relevant information

@@ -44,7 +44,7 @@ $parts 1d10
 ### Directives
 
 Directives are the first part of each line in a parcel, indicating what type of item is in the parcel.
-A directive begins with a `$`.
+A directive begins with a `$` (you know, for loot).
 
 Some directives support additional arguments. An optional argument is enclosed in square brackets, like `[this]`,
 whereas a required argument is enclosed in angle brackets, like `<this>`. Arguments are explained in the

@@ -57,8 +57,8 @@ description for the directive.
 | `$armor` | `<name>` | All | Armor or shields. |
 | `$weapon` | `<name>` | All | A weapon. |
 | `$equipment` or `$item` | `<name>` | All | A piece of gear. |
-| `$loot` or `$item` | `<name>` | D&D5e | Miscellaneous items, like trinkets. |
-| `$tool` or `$item` | `<name>` | D&D5e | Tools and items use to support other activities. |
+| `$loot` | `<name>` | D&D5e | Miscellaneous items, like trinkets. |
+| `$tool` | `<name>` | D&D5e | Tools and items use to support other activities. |
 | `$container` | `<name>` | D&D5e | Something that can hold other items. |
 | `$consumable` | `<name>` | D&D5e | Anything that can be used up, like ammo, potions, scrolls, etc. |
 | `$ammo` | `<name>` | Shadow of the Demon Lord | Stuff for your weapon. |

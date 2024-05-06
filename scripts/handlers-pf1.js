@@ -8,39 +8,63 @@ export class PF1System {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        // Registry.registerLootHandler('currency', TOR2eSystem.handleCurrency);
-        // Registry.registerLootHandler('item', TOR2eSystem.handleMisc);
-        // Registry.registerLootHandler('armor', TOR2eSystem.handleArmor);
-        // Registry.registerLootHandler('weapon', TOR2eSystem.handleWeapon);
+        Registry.registerLootHandler('currency', AllSystems.handleNamedCurrency);
+        Registry.registerLootHandler('ammo', PF1System.handleAmmo);
+        Registry.registerLootHandler('equipment', PF1System.handleEquipment);
+        Registry.registerLootHandler('container', PF1System.handleContainer);
+        Registry.registerLootHandler('consumable', PF1System.handleConsumable);
+        Registry.registerLootHandler('loot', PF1System.handleLoot);
+        Registry.registerLootHandler('armor', PF1System.handleArmor);
+        Registry.registerLootHandler('weapon', PF1System.handleWeapon);
+        Registry.registerLootHandler('wondrous', PF1System.handleWondrous);
     }
 
-    // static async handleMisc(actor, args) {
-    //     Logging.debug('handleMisc', actor, args);
+    static async handleEquipment(actor, args) {
+        Logging.debug('handleEquipment', actor, args);
 
-    //     await AllSystems.handleItem(actor, 'miscellaneous', args);
-    // }
+        await AllSystems.handleItem(actor, 'equipment', args, {subtype: ''});
+    }
 
-    // static async handleArmor(actor, args) {
-    //     Logging.debug('handleArmor', actor, args);
+    static async handleContainer(actor, args) {
+        Logging.debug('handleContainer', actor, args);
 
-    //     await AllSystems.handleItem(actor, 'armor', args);
-    // }
+        await AllSystems.handleItem(actor, 'container', args);
+    }
 
-    // static async handleWeapon(actor, args) {
-    //     Logging.debug('handleWeapon', actor, args);
+    static async handleConsumable(actor, args) {
+        Logging.debug('handleConsumable', actor, args);
 
-    //     await AllSystems.handleItem(actor, 'weapon', args);
-    // }
+        await AllSystems.handleStackedItem(actor, 'consumable', args);
+    }
 
-    // static async handleCurrency(actor, args) {
-    //     Logging.debug('handleCurrency', actor, args);
+    static async handleLoot(actor, args) {
+        Logging.debug('handleLoot', actor, args);
 
-    //     let quantity = args.quantity;
+        await AllSystems.handleStackedItem(actor, 'loot', args, {subtype: 'misc'});
+    }
 
-    //     const currentAmount = actor.system.treasure.value;
-    //     Logging.debug("currentAmount", currentAmount);
-    //     const amount = parseInt(currentAmount) + parseInt(quantity);
-    //     Logging.debug('amount', amount);
-    //     await actor.update({ 'system.treasure.value': amount });
-    // }
+    static async handleAmmo(actor, args) {
+        Logging.debug('handleAmmo', actor, args);
+
+        await AllSystems.handleStackedItem(actor, 'loot', args, {subtype: 'ammo'});
+    }
+
+    static async handleArmor(actor, args) {
+        Logging.debug('handleArmor', actor, args);
+
+        await AllSystems.handleItem(actor, 'equipment', args, {subtype: 'armor'});
+    }
+
+    static async handleWondrous(actor, args) {
+        Logging.debug('handleWondrous', actor, args);
+
+        await AllSystems.handleItem(actor, 'equipment', args, {subtype: 'wondrous'});
+    }
+
+    static async handleWeapon(actor, args) {
+        Logging.debug('handleWeapon', actor, args);
+
+        await AllSystems.handleItem(actor, 'weapon', args);
+    }
+
 }

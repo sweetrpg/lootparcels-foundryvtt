@@ -51,11 +51,11 @@ Hooks.once('setup', async () => {
 			T2K4eSystem.registerHandlers();
 			break;
 		case 'pf2e':
-			Registry.registerAcceptableActorTypes(['TBD']);
+			Registry.registerAcceptableActorTypes(['character']);
 			PF2eSystem.registerHandlers();
 			break;
 		case 'pf1':
-			Registry.registerAcceptableActorTypes(['TBD']);
+			Registry.registerAcceptableActorTypes(['character']);
 			PF1System.registerHandlers();
 			break;
 		case 'weirdwizard':

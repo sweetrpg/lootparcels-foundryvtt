@@ -10,6 +10,7 @@ export class TOR2eSystem {
 
         Registry.registerLootHandler('currency', TOR2eSystem.handleCurrency);
         Registry.registerLootHandler('item', TOR2eSystem.handleMisc);
+        Registry.registerLootHandler('consumable', TOR2eSystem.handleConsumable);
         Registry.registerLootHandler('armor', TOR2eSystem.handleArmor);
         Registry.registerLootHandler('weapon', TOR2eSystem.handleWeapon);
     }
@@ -18,6 +19,12 @@ export class TOR2eSystem {
         Logging.debug('handleMisc', actor, args);
 
         await AllSystems.handleItem(actor, 'miscellaneous', args);
+    }
+
+    static async handleConsumable(actor, args) {
+        Logging.debug('handleConsumable', actor, args);
+
+        await AllSystems.handleStackedItem(actor, 'miscellaneous', args);
     }
 
     static async handleArmor(actor, args) {

@@ -50,7 +50,7 @@ export class GenesysSystem {
     static async handleConsumable(actor, args) {
         Logging.debug('handleConsumable', actor, args);
 
-        await AllSystems.handleItem(actor, 'consumable', args);
+        await AllSystems.handleStackedItem(actor, 'consumable', args);
     }
 
     static async handleCurrency(actor, args) {

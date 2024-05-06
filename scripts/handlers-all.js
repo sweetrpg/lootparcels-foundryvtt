@@ -10,8 +10,8 @@ export class AllSystems {
      * @param {*} type
      * @param {*} args
      */
-    static async handleItem(actor, type, args) {
-        Logging.debug('handleItem', actor, type, args);
+    static async handleItem(actor, type, args, addlSystemInfo) {
+        Logging.debug('handleItem', actor, type, args, addlSystemInfo);
 
         let itemName = args.name;
         let itemDesc = "";
@@ -61,8 +61,8 @@ export class AllSystems {
         }
     }
 
-    static async handleStackedItem(actor, type, args) {
-        Logging.debug('handleStackedItem', actor, type, args);
+    static async handleStackedItem(actor, type, args, addlSystemInfo) {
+        Logging.debug('handleStackedItem', actor, type, args, addlSystemInfo);
 
         let itemName = args.name;
         let itemDesc = "";

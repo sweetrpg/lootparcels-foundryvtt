@@ -58,10 +58,10 @@ description for the directive.
 | `$armor` | `<name>` | All | Armor or shields. |
 | `$weapon` | `<name>` | All | A weapon. |
 | `$equipment` or `$item` | `<name>` | All | A piece of gear. |
-| `$loot` | `<name>` | D&D5e | Miscellaneous items, like trinkets. |
-| `$tool` | `<name>` | D&D5e | Tools and items use to support other activities. |
-| `$container` | `<name>` | D&D5e | Something that can hold other items. |
-| `$consumable` | `<name>` | D&D5e | Anything that can be used up, like ammo, potions, scrolls, etc. |
+| `$loot` | `<name>` | D&D5e, A5e | Miscellaneous items, like trinkets. |
+| `$tool` | `<name>` | D&D5e, A5e | Tools and items use to support other activities. |
+| `$container` | `<name>` | D&D5e, A5e | Something that can hold other items. |
+| `$consumable` | `<name>` | D&D5e, A5e, The One Ring | Anything that can be used up, like ammo, potions, scrolls, etc. |
 | `$ammo` | `<name>` | Shadow of the Demon Lord | Stuff for your weapon. |
 | `$iotum` | `<name>` | Cypher System | A specific type of iotum. |
 | `$parts` | `<quantity>` | Cypher System | A quantity of parts. |
@@ -73,7 +73,10 @@ Most parcel items, where the `name` is specified, support using a link instead. 
 from the item when adding it to the actor. If no item is found, the module will just add an entry to the actor.
 
 Where `quantity` is used, either in an argument or quantifier (see below), a die spec can be provided to generate
-a random amount of that item.
+a random amount of that item. It's worth noting that some items you want to have stacked (i.e., if the character already
+has a quantity of the item, you just want the quantity to increase) as opposed to creating a new entry on the Actor
+sheet. For some systems, this is the difference between using `$item` and `$consumable`. And some systems do not support
+`$ammo`, so you probably want to use `$consumable` instead.
 
 Parcel items can also include zero or more optional quantifiers, in the form of key/value pairs separated by an
 equal sign (`=`), for example, `q=3`. The currently supported quantifiers are described below.

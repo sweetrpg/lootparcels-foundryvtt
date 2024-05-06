@@ -8,39 +8,40 @@ export class ShadowdarkSystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        // Registry.registerLootHandler('currency', TOR2eSystem.handleCurrency);
-        // Registry.registerLootHandler('item', TOR2eSystem.handleMisc);
-        // Registry.registerLootHandler('armor', TOR2eSystem.handleArmor);
-        // Registry.registerLootHandler('weapon', TOR2eSystem.handleWeapon);
+        Registry.registerLootHandler('currency', ShadowdarkSystem.handleCurrency);
+        Registry.registerLootHandler('item', ShadowdarkSystem.handleItem);
+        Registry.registerLootHandler('armor', ShadowdarkSystem.handleArmor);
+        Registry.registerLootHandler('weapon', ShadowdarkSystem.handleWeapon);
     }
 
-    // static async handleMisc(actor, args) {
-    //     Logging.debug('handleMisc', actor, args);
+    static async handleItem(actor, args) {
+        Logging.debug('handleBasic', actor, args);
 
-    //     await AllSystems.handleItem(actor, 'miscellaneous', args);
-    // }
+        await AllSystems.handleStackedItem(actor, '', args);
+    }
 
-    // static async handleArmor(actor, args) {
-    //     Logging.debug('handleArmor', actor, args);
+    static async handleArmor(actor, args) {
+        Logging.debug('handleArmor', actor, args);
 
-    //     await AllSystems.handleItem(actor, 'armor', args);
-    // }
+        await AllSystems.handleItem(actor, 'Armor', args);
+    }
 
-    // static async handleWeapon(actor, args) {
-    //     Logging.debug('handleWeapon', actor, args);
+    static async handleWeapon(actor, args) {
+        Logging.debug('handleWeapon', actor, args);
 
-    //     await AllSystems.handleItem(actor, 'weapon', args);
-    // }
+        await AllSystems.handleItem(actor, 'Weapon', args);
+    }
 
-    // static async handleCurrency(actor, args) {
-    //     Logging.debug('handleCurrency', actor, args);
+    static async handleCurrency(actor, args) {
+        Logging.debug('handleCurrency', actor, args);
 
-    //     let quantity = args.quantity;
+        let name = args.name
+        let quantity = args.quantity;
 
-    //     const currentAmount = actor.system.treasure.value;
-    //     Logging.debug("currentAmount", currentAmount);
-    //     const amount = parseInt(currentAmount) + parseInt(quantity);
-    //     Logging.debug('amount', amount);
-    //     await actor.update({ 'system.treasure.value': amount });
-    // }
+        const currentAmount = actor.system.coins[name];
+        Logging.debug("currentAmount", currentAmount);
+        const amount = parseInt(currentAmount) + parseInt(quantity);
+        Logging.debug('amount', amount);
+        await actor.update({ [`system.coins.${name}`]: amount });
+    }
 }

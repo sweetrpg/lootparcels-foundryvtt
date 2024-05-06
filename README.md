@@ -85,3 +85,4 @@ equal sign (`=`), for example, `q=3`. The currently supported quantifiers are de
 | - | - |
 | `q` | Specifies a quantity for the parcel item. If omitted, the quantity defaults to 1. |
 | `l` | Indicates the level of the parcel item. If omitted, the level defaults to 1. |
+| `t` | Allows you to specify a sub-type of a parcel item. |

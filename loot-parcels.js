@@ -79,7 +79,7 @@ Hooks.once('setup', async () => {
 			TOR1eSystem.registerHandlers();
 			break;
 		case 'shadowdark':
-			Registry.registerAcceptableActorTypes(['TBD']);
+			Registry.registerAcceptableActorTypes(['Player']);
 			ShadowdarkSystem.registerHandlers();
 			break;
 		case 'a5e':

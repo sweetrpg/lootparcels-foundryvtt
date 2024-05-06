@@ -48,6 +48,9 @@ export class AllSystems {
                 continue;
             }
 
+            if (type == null || type == '') {
+                type = args.type || 'item';
+            }
             const data = { name: itemName, type: type, description: { value: itemDesc } };
             if (itemData !== null) {
                 data.system = {
@@ -120,6 +123,9 @@ export class AllSystems {
             return;
         }
 
+        if (type == null || type == '') {
+            type = args.type || 'item';
+        }
         const data = { name: itemName, type: type, description: { value: itemDesc } };
         Logging.debug("data", data);
         const item = await Item.create([data], { parent: actor });

@@ -1,0 +1,64 @@
+name: Dev Release
+
+on:
+    push:
+        branches:
+            - develop
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+
+        - uses: actions-ecosystem/action-get-latest-tag@v1
+          id: get_latest_tag
+
+        - uses: actions-ecosystem/action-bump-semver@v1
+          id: bump_semver
+          with:
+            current_version: ${{ steps.get_latest_tag.outputs.tag }}
+            level: patch
+
+        - uses: actions-ecosystem/action-push-tag@v1
+          with:
+            tag: ${{ steps.bump_semver.outputs.new_version }}
+            message: 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}'
+
+        # Build the changelog
+        - name: Build Changelog
+          id: build_changelog
+          uses: mikepenz/release-changelog-builder-action@v3.6.0
+          with:
+            configuration: ".github/configs/release-changelog-builder-action.json"
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        # Substitute the Manifest and Download URLs in the module.json
+        - name: Substitute Manifest and Download Links For Versioned Ones
+          id: sub_manifest_link_version
+          uses: microsoft/variable-substitution@v1
+          with:
+            files: 'module.json'
+          env:
+            version: ${{ steps.bump_semver.outputs.new_version }}
+            url: https://github.com/${{ github.repository }}
+            manifest: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.json
+            download: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.zip
+
+        # Create a zip file with all files required by the module to add to the release
+        - run: zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+
+        # Create a release for this specific version
+        - name: Create Release with Files
+          id: create_version_release
+          uses: ncipollo/release-action@v1.12.0
+          with:
+            allowUpdates: false
+            name: 'Dev release: ${{ steps.bump_semver.outputs.new_version }}'
+            draft: false
+            prerelease: true
+            token: ${{ secrets.GITHUB_TOKEN }}
+            artifacts: './module.json, ./module.zip'
+            tag: ${{ steps.bump_semver.outputs.new_version }}
+            body: ${{steps.build_changelog.outputs.changelog }}

@@ -11,7 +11,7 @@ export class AllSystems {
      * @param {*} args
      */
     static async handleItem(actor, type, args) {
-        Logging.debug('_handleGenericItem', actor, type, args);
+        Logging.debug('handleItem', actor, type, args);
 
         let itemName = args.name;
         let itemDesc = "";
@@ -48,7 +48,7 @@ export class AllSystems {
                 continue;
             }
 
-            const data = { name: itemName, type: type, system: { quantity: quantity }, description: { value: itemDesc } };
+            const data = { name: itemName, type: type, description: { value: itemDesc } };
             if (itemData !== null) {
                 data.system = {
                     quantity: quantity,
@@ -59,6 +59,74 @@ export class AllSystems {
             const item = await Item.create([data], { parent: actor });
             Logging.debug("item", item);
         }
+    }
+
+    static async handleStackedItem(actor, type, args) {
+        Logging.debug('handleStackedItem', actor, type, args);
+
+        let itemName = args.name;
+        let itemDesc = "";
+        let itemLevel = args.level;
+        let quantity = parseInt(args.quantity);
+        let itemData = null;
+
+        const linkInfo = args.link;
+        Logging.debug("linkInfo", linkInfo);
+        // if a link is provided and valid, get name and level from it
+        if (linkInfo?.id !== undefined) {
+            const item = await fromUuid(linkInfo.id);
+            Logging.debug("(link) item", item);
+
+            if (item !== undefined && item !== null) {
+                itemName = item.name;
+                Logging.debug('itemName', itemName);
+                itemDesc = item.system.description || "";
+
+                itemData = item;
+            }
+            else {
+                itemName = linkInfo.name;
+            }
+            itemLevel = 1;
+        }
+
+        // see if there's an item present
+        for (let item of actor.collections.items) {
+            Logging.debug('item', item);
+
+            if (item.name == itemName) {
+                // adjust quantity
+                const currentAmount = parseInt(item.system.quantity);
+                Logging.debug('currentAmount', currentAmount);
+                const newAmount = currentAmount + quantity;
+                Logging.debug('newAmount', newAmount);
+                const data = { 'system.quantity': newAmount };
+                await item.update(data);
+                return;
+            }
+        }
+
+        if (itemData !== null) {
+            // Logging.debug("itemData (before)", itemData);
+            // itemData.system.quantity = quantity;
+            // Logging.debug("itemData (after)", itemData);
+
+            const item = await Item.create([itemData], { parent: actor });
+            Logging.debug("item", item);
+
+            // adjust quantity
+            const data = { 'system.quantity': quantity };
+            await item.update(data);
+            return;
+        }
+
+        const data = { name: itemName, type: type, description: { value: itemDesc } };
+        Logging.debug("data", data);
+        const item = await Item.create([data], { parent: actor });
+        Logging.debug("item", item);
+
+        const qtyData = { 'system.quantity': quantity };
+        await item.update(qtyData);
     }
 
     /**

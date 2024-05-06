@@ -39,13 +39,13 @@ export class DnD5eSystem {
     static async handleLoot(actor, args) {
         Logging.debug('handleLoot', actor, args);
 
-        await AllSystems.handleItem(actor, 'loot', args);
+        await AllSystems.handleStackedItem(actor, 'loot', args);
     }
 
     static async handleTool(actor, args) {
         Logging.debug('handleTool', actor, args);
 
-        await AllSystems.handleItem(actor, 'tool', args);
+        await AllSystems.handleStackedItem(actor, 'tool', args);
     }
 
     static async handleContainer(actor, args) {
@@ -57,6 +57,6 @@ export class DnD5eSystem {
     static async handleConsumable(actor, args) {
         Logging.debug('handleConsumable', actor, args);
 
-        await AllSystems.handleItem(actor, 'consumable', args);
+        await AllSystems.handleStackedItem(actor, 'consumable', args);
     }
 }

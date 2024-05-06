@@ -3,12 +3,19 @@
 import { Config } from "./scripts/config.js";
 // import { Utils } from "./scripts/utilities.js";
 import { handleParcelDrop } from "./scripts/parcels.js";
-import { handleCSCurrency, handleCSIotum, handleCSParts, handleCSEquipment, handleCSArmor, handleCSWeapon, handleCSArtifact, handleCSCypher, isCSActorPC } from "./scripts/handlers-cyphersystem.js";
-import { handleWWCurrency, handleWWEquipment, handleWWArmor, handleWWWeapon, isWWActorPC } from "./scripts/handlers-weirdwizard.js";
-import { handleDLCurrency, handleDLEquipment, handleDLAmmo, handleDLArmor, handleDLWeapon, isDLActorPC } from "./scripts/handlers-demonlord.js";
-import { handleTOR2Currency, handleTOR2Armor, handleTOR2Misc, handleTOR2Weapon, isTOR2ActorPC } from "./scripts/handlers-tor2e.js";
-import { handleGenCurrency, handleGenArmor, handleGenEquipment, handleGenWeapon, handleGenConsumable, handleGenContainer, handleGenVehicleWeapon, isGenActorPC } from "./scripts/handlers-genesys.js";
-import { handleDnD5eCurrency, handleDnD5eArmor, handleDnD5eEquipment, handleDnD5eWeapon, handleDnD5eConsumable, handleDnD5eContainer, handleDnD5eLoot, handleDnD5eTool, isDnD5eActorPC } from "./scripts/handlers-dnd5e.js";
+import { CypherSystem } from "./scripts/handlers-cyphersystem.js";
+import { A5eSystem } from "./scripts/handlers-a5e.js";
+import { GenesysSystem } from "./scripts/handlers-genesys.js";
+import { DnD5eSystem } from "./scripts/handlers-dnd5e.js";
+import { SotDLSystem } from "./scripts/handlers-demonlord.js";
+import { SotWWSystem } from "./scripts/handlers-weirdwizard.js";
+import { TOR2eSystem } from "./scripts/handlers-tor2e.js";
+import { TOR1eSystem } from "./scripts/handlers-tor1e.js";
+import { T2K4eSystem } from "./scripts/handlers-t2k4e.js";
+import { DnD1eSystem } from "./scripts/handlers-dnd1e.js";
+import { ShadowdarkSystem } from "./scripts/handlers-shadowdark.js";
+import { PF1System } from "./scripts/handlers-pf1.js";
+import { PF2eSystem } from "./scripts/handlers-pf2e.js";
 import { Registry } from "./scripts/registry.js";
 import { Logging } from "./scripts/logging.js";
 
@@ -28,91 +35,56 @@ Hooks.once('setup', async () => {
 	Logging.debug("system", game.system.id);
 	switch (game.system.id) {
 		case 'cyphersystem':
-			// isActor check
-			Registry.setIsActorPCFn(isCSActorPC);
-			// loot handlers
-			Registry.registerLootHandler('currency', handleCSCurrency);
-			Registry.registerLootHandler('parts', handleCSParts);
-			Registry.registerLootHandler('iotum', handleCSIotum);
-			Registry.registerLootHandler('equipment', handleCSEquipment);
-			Registry.registerLootHandler('armor', handleCSArmor);
-			Registry.registerLootHandler('weapon', handleCSWeapon);
-			Registry.registerLootHandler('cypher', handleCSCypher);
-			Registry.registerLootHandler('artifact', handleCSArtifact);
+			Registry.registerAcceptableActorTypes(['pc']);
+			CypherSystem.registerHandlers();
 			break;
 		case 'dnd1e':
-			// TODO
+			Registry.registerAcceptableActorTypes(['TBD']);
+			DnD1eSystem.registerHandlers();
 			break;
 		case 'genesys':
-			// isActor check
-			Registry.setIsActorPCFn(isGenActorPC);
-			// loot handlers
-			Registry.registerLootHandler('currency', handleGenCurrency);
-			Registry.registerLootHandler('item', handleGenEquipment);
-			Registry.registerLootHandler('armor', handleGenArmor);
-			Registry.registerLootHandler('weapon', handleGenWeapon);
-			Registry.registerLootHandler('container', handleGenContainer);
-			Registry.registerLootHandler('vehicleweapon', handleGenVehicleWeapon);
-			Registry.registerLootHandler('consumable', handleGenConsumable);
+			Registry.registerAcceptableActorTypes(['character']);
+			GenesysSystem.registerHandlers();
 			break;
 		case 't2k4e':
-			// TODO
+			Registry.registerAcceptableActorTypes(['TBD']);
+			T2K4eSystem.registerHandlers();
 			break;
 		case 'pf2e':
-			// TODO
+			Registry.registerAcceptableActorTypes(['TBD']);
+			PF2eSystem.registerHandlers();
 			break;
 		case 'pf1':
-			// TODO
+			Registry.registerAcceptableActorTypes(['TBD']);
+			PF1System.registerHandlers();
 			break;
 		case 'weirdwizard':
-			// isActor check
-			Registry.setIsActorPCFn(isWWActorPC);
-			// loot handlers
-			Registry.registerLootHandler('currency', handleWWCurrency);
-			Registry.registerLootHandler('equipment', handleWWEquipment);
-			Registry.registerLootHandler('armor', handleWWArmor);
-			Registry.registerLootHandler('weapon', handleWWWeapon);
+			Registry.registerAcceptableActorTypes(['character']);
+			SotWWSystem.registerHandlers();
 			break;
 		case 'demonlord':
-			// isActor check
-			Registry.setIsActorPCFn(isDLActorPC);
-			// loot handlers
-			Registry.registerLootHandler('currency', handleDLCurrency);
-			Registry.registerLootHandler('item', handleDLEquipment);
-			Registry.registerLootHandler('armor', handleDLArmor);
-			Registry.registerLootHandler('weapon', handleDLWeapon);
-			Registry.registerLootHandler('ammo', handleDLAmmo);
+			Registry.registerAcceptableActorTypes(['character']);
+			SotDLSystem.registerHandlers();
 			break;
 		case 'dnd5e':
-			// isActor check
-			Registry.setIsActorPCFn(isDnD5eActorPC);
-			// loot handlers
-			Registry.registerLootHandler('currency', handleDnD5eCurrency);
-			Registry.registerLootHandler('equipment', handleDnD5eEquipment);
-			Registry.registerLootHandler('consumable', handleDnD5eConsumable);
-			Registry.registerLootHandler('container', handleDnD5eContainer);
-			Registry.registerLootHandler('loot', handleDnD5eLoot);
-			Registry.registerLootHandler('tool', handleDnD5eTool);
-			Registry.registerLootHandler('armor', handleDnD5eArmor);
-			Registry.registerLootHandler('weapon', handleDnD5eWeapon);
+			Registry.registerAcceptableActorTypes(['character']);
+			DnD5eSystem.registerHandlers();
 			break;
 		case 'tor2e':
-			// isActor check
-			Registry.setIsActorPCFn(isTOR2ActorPC);
-			// loot handlers
-			Registry.registerLootHandler('currency', handleTOR2Currency);
-			Registry.registerLootHandler('item', handleTOR2Misc);
-			Registry.registerLootHandler('armor', handleTOR2Armor);
-			Registry.registerLootHandler('weapon', handleTOR2Weapon);
+			Registry.registerAcceptableActorTypes(['character']);
+			TOR2eSystem.registerHandlers();
 			break;
 		case 'tor1e':
-			// TODO
+			Registry.registerAcceptableActorTypes(['TBD']);
+			TOR1eSystem.registerHandlers();
 			break;
 		case 'shadowdark':
-			// TODO
+			Registry.registerAcceptableActorTypes(['TBD']);
+			ShadowdarkSystem.registerHandlers();
 			break;
 		case 'a5e':
-			// TODO
+			Registry.registerAcceptableActorTypes(['character']);
+			A5eSystem.registerHandlers();
 			break;
 	}
 

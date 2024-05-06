@@ -4,7 +4,7 @@ import { Logging } from "./logging.js";
 
 export class Registry {
     static lootHandlers = {};
-    static isActorPCFn = null;
+    static actorTypes = [];
 
     static getHandler(name) {
         Logging.debug("Registry.getHandler", name);
@@ -18,22 +18,29 @@ export class Registry {
      */
     static isActorPC(actor) {
         Logging.debug("Registry.isActorPC", actor);
-        if(Registry.isActorPCFn != null) {
-            return Registry.isActorPCFn(actor);
+        for (let type of Registry.actorTypes) {
+            Logging.debug('type', type);
+            if (actor?.type?.toLowerCase() === type) {
+                return true;
+            }
         }
 
+        Logging.debug("No registered type matched actor type", actor?.type);
         return false;
     }
 
     static registerLootHandler(name, fn) {
-        Logging.info('Registering loot handler', name);
+        Logging.info('Registering loot handler:', name);
 
         Registry.lootHandlers[name] = fn;
     }
 
-    static setIsActorPCFn(fn) {
-        Logging.info('Registering isActorPCFn', fn);
+    static registerAcceptableActorTypes(types) {
+        Logging.info('Registering actor types:', types);
 
-        Registry.isActorPCFn = fn;
+        types?.forEach(type => {
+            Logging.debug("Registering type", type);
+            Registry.actorTypes.push(type.toLowerCase());
+        });
     }
 };

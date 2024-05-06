@@ -1,59 +1,67 @@
 'use strict';
 
+import { AllSystems } from "./handlers-all.js";
+import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
-import { Utils } from "./utilities.js";
-import { _handleGenericItem } from "./handlers-generic.js";
 
-export async function handleGenEquipment(actor, args) {
-    Logging.debug('handleGenEquipment', actor, args);
+export class GenesysSystem {
+    static registerHandlers() {
+        Logging.debug("registerHandlers");
 
-    await _handleGenericItem(actor, 'gear', args);
-}
+        Registry.registerLootHandler('currency', GenesysSystem.handleCurrency);
+        Registry.registerLootHandler('item', GenesysSystem.handleEquipment);
+        Registry.registerLootHandler('armor', GenesysSystem.handleArmor);
+        Registry.registerLootHandler('weapon', GenesysSystem.handleWeapon);
+        Registry.registerLootHandler('container', GenesysSystem.handleContainer);
+        Registry.registerLootHandler('vehicleweapon', GenesysSystem.handleVehicleWeapon);
+        Registry.registerLootHandler('consumable', GenesysSystem.handleConsumable);
+    }
 
-export async function handleGenArmor(actor, args) {
-    Logging.debug('handleGenArmor', actor, args);
+    static async handleEquipment(actor, args) {
+        Logging.debug('handleEquipment', actor, args);
 
-    await _handleGenericItem(actor, 'armor', args);
-}
+        await AllSystems.handleItem(actor, 'gear', args);
+    }
 
-export async function handleGenWeapon(actor, args) {
-    Logging.debug('handleGenWeapon', actor, args);
+    static async handleArmor(actor, args) {
+        Logging.debug('handleArmor', actor, args);
 
-    await _handleGenericItem(actor, 'weapon', args);
-}
+        await AllSystems.handleItem(actor, 'armor', args);
+    }
 
-export async function handleGenVehicleWeapon(actor, args) {
-    Logging.debug('handleGenVehicleWeapon', actor, args);
+    static async handleWeapon(actor, args) {
+        Logging.debug('handleWeapon', actor, args);
 
-    await _handleGenericItem(actor, 'vehicleWeapon', args);
-}
+        await AllSystems.handleItem(actor, 'weapon', args);
+    }
 
-export async function handleGenContainer(actor, args) {
-    Logging.debug('handleGenContainer', actor, args);
+    static async handleVehicleWeapon(actor, args) {
+        Logging.debug('handleVehicleWeapon', actor, args);
 
-    await _handleGenericItem(actor, 'container', args);
-}
+        await AllSystems.handleItem(actor, 'vehicleWeapon', args);
+    }
 
-export async function handleGenConsumable(actor, args) {
-    Logging.debug('handleGenConsumable', actor, args);
+    static async handleContainer(actor, args) {
+        Logging.debug('handleContainer', actor, args);
 
-    await _handleGenericItem(actor, 'consumable', args);
-}
+        await AllSystems.handleItem(actor, 'container', args);
+    }
 
-export async function handleGenCurrency(actor, args) {
-    Logging.debug('handleGenCurrency', actor, args);
+    static async handleConsumable(actor, args) {
+        Logging.debug('handleConsumable', actor, args);
 
-    let quantity = args.quantity;
+        await AllSystems.handleItem(actor, 'consumable', args);
+    }
 
-    const currentAmount = actor.system.currency;
-    Logging.debug("currentAmount", currentAmount);
-    const amount = parseInt(currentAmount) + parseInt(quantity);
-    Logging.debug('amount', amount);
-    await actor.update({ 'system.currency': amount });
-}
+    static async handleCurrency(actor, args) {
+        Logging.debug('handleCurrency', actor, args);
 
-export function isGenActorPC(actor) {
-    Logging.debug('[genesys] isGenActorPC', actor);
+        let quantity = args.quantity;
 
-    return actor?.type?.toLowerCase() === 'character';
+        const currentAmount = actor.system.currency;
+        Logging.debug("currentAmount", currentAmount);
+        const amount = parseInt(currentAmount) + parseInt(quantity);
+        Logging.debug('amount', amount);
+        await actor.update({ 'system.currency': amount });
+    }
 }

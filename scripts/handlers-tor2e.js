@@ -1,41 +1,46 @@
 'use strict';
 
+import { AllSystems } from "./handlers-all.js";
+import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
-import { Utils } from "./utilities.js";
-import { _handleGenericItem } from "./handlers-generic.js";
 
-export async function handleTOR2Misc(actor, args) {
-    Logging.debug('handleTOR2Misc', actor, args);
+export class TOR2eSystem {
+    static registerHandlers() {
+        Logging.debug("registerHandlers");
 
-    await _handleGenericItem(actor, 'miscellaneous', args);
-}
+        Registry.registerLootHandler('currency', TOR2eSystem.handleCurrency);
+        Registry.registerLootHandler('item', TOR2eSystem.handleMisc);
+        Registry.registerLootHandler('armor', TOR2eSystem.handleArmor);
+        Registry.registerLootHandler('weapon', TOR2eSystem.handleWeapon);
+    }
 
-export async function handleTOR2Armor(actor, args) {
-    Logging.debug('handleTOR2Armor', actor, args);
+    static async handleMisc(actor, args) {
+        Logging.debug('handleMisc', actor, args);
 
-    await _handleGenericItem(actor, 'armor', args);
-}
+        await AllSystems.handleItem(actor, 'miscellaneous', args);
+    }
 
-export async function handleTOR2Weapon(actor, args) {
-    Logging.debug('handleTOR2Weapon', actor, args);
+    static async handleArmor(actor, args) {
+        Logging.debug('handleArmor', actor, args);
 
-    await _handleGenericItem(actor, 'weapon', args);
-}
+        await AllSystems.handleItem(actor, 'armor', args);
+    }
 
-export async function handleTOR2Currency(actor, args) {
-    Logging.debug('handleTOR2Currency', actor, args);
+    static async handleWeapon(actor, args) {
+        Logging.debug('handleWeapon', actor, args);
 
-    let quantity = args.quantity;
+        await AllSystems.handleItem(actor, 'weapon', args);
+    }
 
-    const currentAmount = actor.system.treasure.value;
-    Logging.debug("currentAmount", currentAmount);
-    const amount = parseInt(currentAmount) + parseInt(quantity);
-    Logging.debug('amount', amount);
-    await actor.update({ 'system.treasure.value': amount });
-}
+    static async handleCurrency(actor, args) {
+        Logging.debug('handleCurrency', actor, args);
 
-export function isTOR2ActorPC(actor) {
-    Logging.debug('[tor2e] isTOR2ActorPC', actor);
+        let quantity = args.quantity;
 
-    return actor?.type?.toLowerCase() === 'character';
+        const currentAmount = actor.system.treasure.value;
+        Logging.debug("currentAmount", currentAmount);
+        const amount = parseInt(currentAmount) + parseInt(quantity);
+        Logging.debug('amount', amount);
+        await actor.update({ 'system.treasure.value': amount });
+    }
 }

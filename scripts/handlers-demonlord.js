@@ -1,58 +1,64 @@
 'use strict';
 
+import { AllSystems } from "./handlers-all.js";
+import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
-import { Utils } from "./utilities.js";
-import { _handleGenericItem } from "./handlers-generic.js";
 
-export async function handleDLEquipment(actor, args) {
-    Logging.debug('handleDLEquipment', actor, args);
+export class SotDLSystem {
+    static registerHandlers() {
+        Logging.debug("registerHandlers");
 
-    await _handleDLItem(actor, 'item', args);
-}
-
-export async function handleDLArmor(actor, args) {
-    Logging.debug('handleDLArmor', actor, args);
-
-    await _handleDLItem(actor, 'armor', args);
-}
-
-export async function handleDLWeapon(actor, args) {
-    Logging.debug('handleDLWeapon', actor, args);
-
-    await _handleDLItem(actor, 'weapon', args);
-}
-
-export async function handleDLAmmo(actor, args) {
-    Logging.debug('handleDLAmmo', actor, args);
-
-    await _handleDLItem(actor, 'ammo', args);
-}
-
-export async function handleDLCurrency(actor, args) {
-    Logging.debug('handleDLCurrency', actor, args);
-
-    let name = args.name;
-    let quantity = args.quantity;
-
-    if (name == "" || name == "default") {
-        Logging.debug("No name specified");
-        name = 'gp';
+        Registry.registerLootHandler('currency', SotDLSystem.handleCurrency);
+        Registry.registerLootHandler('item', SotDLSystem.handleEquipment);
+        Registry.registerLootHandler('armor', SotDLSystem.handleArmor);
+        Registry.registerLootHandler('weapon', SotDLSystem.handleWeapon);
+        Registry.registerLootHandler('ammo', SotDLSystem.handleAmmo);
     }
 
-    const currentAmount = actor.system.wealth[name];
-    Logging.debug("currentAmount", currentAmount);
-    const amount = parseInt(currentAmount) + parseInt(quantity);
-    Logging.debug('amount', amount);
-    const updateAttr = `system.wealth.${name}`;
-    Logging.debug("updateAttr", updateAttr);
-    const data = {}
-    data[updateAttr] = amount;
-    Logging.debug("data", data);
-    await actor.update(data);
-}
+    static async handleEquipment(actor, args) {
+        Logging.debug('handleEquipment', actor, args);
 
-export function isDLActorPC(actor) {
-    Logging.debug('[demonlord] isDLActorPC', actor);
+        await AllSystems.handleItem(actor, 'item', args);
+    }
 
-    return actor?.type?.toLowerCase() === 'character';
+    static async handleArmor(actor, args) {
+        Logging.debug('handleArmor', actor, args);
+
+        await AllSystems.handleItem(actor, 'armor', args);
+    }
+
+    static async handleWeapon(actor, args) {
+        Logging.debug('handleWeapon', actor, args);
+
+        await AllSystems.handleItem(actor, 'weapon', args);
+    }
+
+    static async handleAmmo(actor, args) {
+        Logging.debug('handleAmmo', actor, args);
+
+        await AllSystems.handleItem(actor, 'ammo', args);
+    }
+
+    static async handleCurrency(actor, args) {
+        Logging.debug('handleCurrency', actor, args);
+
+        let name = args.name;
+        let quantity = args.quantity;
+
+        if (name == "" || name == "default") {
+            Logging.debug("No name specified");
+            name = 'gp';
+        }
+
+        const currentAmount = actor.system.wealth[name];
+        Logging.debug("currentAmount", currentAmount);
+        const amount = parseInt(currentAmount) + parseInt(quantity);
+        Logging.debug('amount', amount);
+        const updateAttr = `system.wealth.${name}`;
+        Logging.debug("updateAttr", updateAttr);
+        const data = {}
+        data[updateAttr] = amount;
+        Logging.debug("data", data);
+        await actor.update(data);
+    }
 }

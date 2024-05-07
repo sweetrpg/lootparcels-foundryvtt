@@ -9,28 +9,45 @@ export class T2K4eSystem {
         Logging.debug("registerHandlers");
 
         // Registry.registerLootHandler('currency', TOR2eSystem.handleCurrency);
-        // Registry.registerLootHandler('item', TOR2eSystem.handleMisc);
-        // Registry.registerLootHandler('armor', TOR2eSystem.handleArmor);
-        // Registry.registerLootHandler('weapon', TOR2eSystem.handleWeapon);
+        Registry.registerLootHandler('ammo', T2K4eSystem.handleAmmo);
+        Registry.registerLootHandler('ammunition', T2K4eSystem.handleAmmo);
+        Registry.registerLootHandler('explosive', T2K4eSystem.handleExplosive);
+        Registry.registerLootHandler('gear', T2K4eSystem.handleGear);
+        Registry.registerLootHandler('equipment', T2K4eSystem.handleGear);
+        Registry.registerLootHandler('item', T2K4eSystem.handleGear);
+        Registry.registerLootHandler('armor', T2K4eSystem.handleArmor);
+        Registry.registerLootHandler('weapon', T2K4eSystem.handleWeapon);
     }
 
-    // static async handleMisc(actor, args) {
-    //     Logging.debug('handleMisc', actor, args);
+    static async handleAmmo(actor, args) {
+        Logging.debug('handleAmmo', actor, args);
 
-    //     await AllSystems.handleItem(actor, 'miscellaneous', args);
-    // }
+        await AllSystems.handleStackedItem(actor, 'ammunition', args, null, 'system.qty');
+    }
 
-    // static async handleArmor(actor, args) {
-    //     Logging.debug('handleArmor', actor, args);
+    static async handleExplosive(actor, args) {
+        Logging.debug('handleExplosive', actor, args);
 
-    //     await AllSystems.handleItem(actor, 'armor', args);
-    // }
+        await AllSystems.handleStackedItem(actor, 'gear', args, {itemType: "Explosive"}, 'system.qty');
+    }
 
-    // static async handleWeapon(actor, args) {
-    //     Logging.debug('handleWeapon', actor, args);
+    static async handleGear(actor, args) {
+        Logging.debug('handleGear', actor, args);
 
-    //     await AllSystems.handleItem(actor, 'weapon', args);
-    // }
+        await AllSystems.handleItem(actor, 'gear', args);
+    }
+
+    static async handleArmor(actor, args) {
+        Logging.debug('handleArmor', actor, args);
+
+        await AllSystems.handleItem(actor, 'armor', args);
+    }
+
+    static async handleWeapon(actor, args) {
+        Logging.debug('handleWeapon', actor, args);
+
+        await AllSystems.handleItem(actor, 'weapon', args);
+    }
 
     // static async handleCurrency(actor, args) {
     //     Logging.debug('handleCurrency', actor, args);

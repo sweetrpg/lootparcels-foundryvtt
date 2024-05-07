@@ -91,6 +91,11 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
                     Logging.debug('args (parsing)', args);
                     remainingLine = remainingLine.replace(q, "");
                     break;
+                case 't':
+                    args['type'] = kv[1];
+                    Logging.debug('args (parsing)', args);
+                    remainingLine = remainingLine.replace(q, "");
+                    break;
             }
         }
         Logging.debug("remainingLine", remainingLine);

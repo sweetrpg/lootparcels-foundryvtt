@@ -10,6 +10,8 @@ export class DnD5eSystem {
 
         Registry.registerLootHandler('currency', AllSystems.handleNamedCurrency);
         Registry.registerLootHandler('equipment', DnD5eSystem.handleEquipment);
+        Registry.registerLootHandler('item', DnD5eSystem.handleEquipment);
+        Registry.registerLootHandler('gear', DnD5eSystem.handleEquipment);
         Registry.registerLootHandler('consumable', DnD5eSystem.handleConsumable);
         Registry.registerLootHandler('container', DnD5eSystem.handleContainer);
         Registry.registerLootHandler('loot', DnD5eSystem.handleLoot);

@@ -4,20 +4,20 @@ import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
 
-export class A5eSystem {
+export class BlackFlagSystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
         Registry.registerLootHandler('currency', AllSystems.handleNamedCurrency);
-        Registry.registerLootHandler('equipment', A5eSystem.handleEquipment);
-        Registry.registerLootHandler('item', A5eSystem.handleEquipment);
-        Registry.registerLootHandler('gear', A5eSystem.handleEquipment);
-        Registry.registerLootHandler('consumable', A5eSystem.handleConsumable);
-        Registry.registerLootHandler('container', A5eSystem.handleContainer);
-        Registry.registerLootHandler('loot', A5eSystem.handleLoot);
-        Registry.registerLootHandler('tool', A5eSystem.handleTool);
-        Registry.registerLootHandler('armor', A5eSystem.handleArmor);
-        Registry.registerLootHandler('weapon', A5eSystem.handleWeapon);
+        Registry.registerLootHandler('equipment', BlackFlagSystem.handleEquipment);
+        Registry.registerLootHandler('item', BlackFlagSystem.handleEquipment);
+        Registry.registerLootHandler('gear', BlackFlagSystem.handleEquipment);
+        Registry.registerLootHandler('consumable', BlackFlagSystem.handleConsumable);
+        Registry.registerLootHandler('container', BlackFlagSystem.handleContainer);
+        Registry.registerLootHandler('loot', BlackFlagSystem.handleLoot);
+        Registry.registerLootHandler('tool', BlackFlagSystem.handleTool);
+        Registry.registerLootHandler('armor', BlackFlagSystem.handleArmor);
+        Registry.registerLootHandler('weapon', BlackFlagSystem.handleWeapon);
     }
 
     static async handleEquipment(actor, args) {

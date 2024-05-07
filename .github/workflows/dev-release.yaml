@@ -1,9 +1,9 @@
-name: Release
+name: Dev Release
 
 on:
     push:
         branches:
-            - master
+            - develop
 
 jobs:
     build:
@@ -18,7 +18,7 @@ jobs:
           id: bump_semver
           with:
             current_version: ${{ steps.get_latest_tag.outputs.tag }}
-            level: minor
+            level: patch
 
         - uses: actions-ecosystem/action-push-tag@v1
           with:
@@ -62,10 +62,3 @@ jobs:
             artifacts: './module.json, ./module.zip'
             tag: ${{ steps.bump_semver.outputs.new_version }}
             body: ${{steps.build_changelog.outputs.changelog }}
-
-        # Push release to Foundry
-        - id: foundryvtt_release
-          uses: illandril/FoundryVTT-package-release-action@v1
-          with:
-            package-release-token: ${{ secrets.PACKAGE_RELEASE_TOKEN }}
-            manifest-url: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.json

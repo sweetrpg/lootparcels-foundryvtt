@@ -5,6 +5,7 @@ import { Config } from "./scripts/config.js";
 import { handleParcelDrop } from "./scripts/parcels.js";
 import { CypherSystem } from "./scripts/handlers-cyphersystem.js";
 import { A5eSystem } from "./scripts/handlers-a5e.js";
+import { BlackFlagSystem } from "./scripts/handlers-black-flag.js";
 import { GenesysSystem } from "./scripts/handlers-genesys.js";
 import { DnD5eSystem } from "./scripts/handlers-dnd5e.js";
 import { SotDLSystem } from "./scripts/handlers-demonlord.js";
@@ -47,15 +48,15 @@ Hooks.once('setup', async () => {
 			GenesysSystem.registerHandlers();
 			break;
 		case 't2k4e':
-			Registry.registerAcceptableActorTypes(['TBD']);
+			Registry.registerAcceptableActorTypes(['character']);
 			T2K4eSystem.registerHandlers();
 			break;
 		case 'pf2e':
-			Registry.registerAcceptableActorTypes(['TBD']);
+			Registry.registerAcceptableActorTypes(['character']);
 			PF2eSystem.registerHandlers();
 			break;
 		case 'pf1':
-			Registry.registerAcceptableActorTypes(['TBD']);
+			Registry.registerAcceptableActorTypes(['character']);
 			PF1System.registerHandlers();
 			break;
 		case 'weirdwizard':
@@ -79,12 +80,16 @@ Hooks.once('setup', async () => {
 			TOR1eSystem.registerHandlers();
 			break;
 		case 'shadowdark':
-			Registry.registerAcceptableActorTypes(['TBD']);
+			Registry.registerAcceptableActorTypes(['Player']);
 			ShadowdarkSystem.registerHandlers();
 			break;
 		case 'a5e':
 			Registry.registerAcceptableActorTypes(['character']);
 			A5eSystem.registerHandlers();
+			break;
+		case 'black-flag':
+			Registry.registerAcceptableActorTypes(['pc']);
+			BlackFlagSystem.registerHandlers();
 			break;
 	}
 

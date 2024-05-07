@@ -10,6 +10,8 @@ export class GenesysSystem {
 
         Registry.registerLootHandler('currency', GenesysSystem.handleCurrency);
         Registry.registerLootHandler('item', GenesysSystem.handleEquipment);
+        Registry.registerLootHandler('equipment', GenesysSystem.handleEquipment);
+        Registry.registerLootHandler('gear', GenesysSystem.handleEquipment);
         Registry.registerLootHandler('armor', GenesysSystem.handleArmor);
         Registry.registerLootHandler('weapon', GenesysSystem.handleWeapon);
         Registry.registerLootHandler('container', GenesysSystem.handleContainer);

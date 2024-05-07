@@ -51,26 +51,21 @@ export class AllSystems {
             if (type == null || type == '') {
                 type = args.type || 'item';
             }
-            const data = { name: itemName, type: type, description: { value: itemDesc } };
-            if (itemData !== null) {
-                data.system = {
-                    quantity: quantity,
-                    ...itemData
-                }
-            }
+            const data = { name: itemName, type: type, system: addlSystemInfo || {}, description: { value: itemDesc } };
             Logging.debug("data", data);
             const item = await Item.create([data], { parent: actor });
             Logging.debug("item", item);
         }
     }
 
-    static async handleStackedItem(actor, type, args, addlSystemInfo) {
-        Logging.debug('handleStackedItem', actor, type, args, addlSystemInfo);
+    static async handleStackedItem(actor, type, args, addlSystemInfo, qtyProp) {
+        Logging.debug('handleStackedItem', actor, type, args, addlSystemInfo, qtyProp);
 
         let itemName = args.name;
         let itemDesc = "";
         let itemLevel = args.level;
         let quantity = parseInt(args.quantity);
+        let quantityProperty = qtyProp || 'system.quantity';
         let itemData = null;
 
         const linkInfo = args.link;
@@ -99,12 +94,20 @@ export class AllSystems {
 
             if (item.name == itemName) {
                 // adjust quantity
-                const currentAmount = parseInt(item.system.quantity);
+                const qtyValue = foundry.utils.getProperty(item, quantityProperty);
+                Logging.debug('qtyValue', qtyValue);
+                const currentAmount = parseInt(qtyValue);
                 Logging.debug('currentAmount', currentAmount);
                 const newAmount = currentAmount + quantity;
                 Logging.debug('newAmount', newAmount);
-                const data = { 'system.quantity': newAmount };
-                await item.update(data);
+                const data = { [quantityProperty]: newAmount };
+                Logging.debug("data", data);
+                try {
+                    await item.update(data);
+                }
+                catch (error) {
+                    foundry.utils.setProperty(item, quantityProperty, newAmount);
+                }
                 return;
             }
         }
@@ -118,21 +121,33 @@ export class AllSystems {
             Logging.debug("item", item);
 
             // adjust quantity
-            const data = { 'system.quantity': quantity };
-            await item.update(data);
+            const data = { [quantityProperty]: quantity };
+            Logging.debug("data", data);
+            try {
+                await item.update(data);
+            }
+            catch (error) {
+                foundry.utils.setProperty(item, quantityProperty, quantity);
+            }
             return;
         }
 
         if (type == null || type == '') {
             type = args.type || 'item';
         }
-        const data = { name: itemName, type: type, description: { value: itemDesc } };
+        const data = { name: itemName, type: type, system: addlSystemInfo || {}, description: { value: itemDesc } };
         Logging.debug("data", data);
         const item = await Item.create([data], { parent: actor });
         Logging.debug("item", item);
 
-        const qtyData = { 'system.quantity': quantity };
-        await item.update(qtyData);
+        const qtyData = { [quantityProperty]: quantity };
+        Logging.debug('qtyData', qtyData);
+        try {
+            await item.update(qtyData);
+        }
+        catch (error) {
+            foundry.utils.setProperty(item, quantityProperty, quantity);
+        }
     }
 
     /**

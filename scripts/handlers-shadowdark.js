@@ -10,6 +10,8 @@ export class ShadowdarkSystem {
 
         Registry.registerLootHandler('currency', ShadowdarkSystem.handleCurrency);
         Registry.registerLootHandler('item', ShadowdarkSystem.handleItem);
+        Registry.registerLootHandler('equipment', ShadowdarkSystem.handleItem);
+        Registry.registerLootHandler('gear', ShadowdarkSystem.handleItem);
         Registry.registerLootHandler('armor', ShadowdarkSystem.handleArmor);
         Registry.registerLootHandler('weapon', ShadowdarkSystem.handleWeapon);
     }

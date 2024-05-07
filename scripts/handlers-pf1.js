@@ -10,7 +10,10 @@ export class PF1System {
 
         Registry.registerLootHandler('currency', AllSystems.handleNamedCurrency);
         Registry.registerLootHandler('ammo', PF1System.handleAmmo);
+        Registry.registerLootHandler('ammunition', PF1System.handleAmmo);
         Registry.registerLootHandler('equipment', PF1System.handleEquipment);
+        Registry.registerLootHandler('item', PF1System.handleEquipment);
+        Registry.registerLootHandler('gear', PF1System.handleEquipment);
         Registry.registerLootHandler('container', PF1System.handleContainer);
         Registry.registerLootHandler('consumable', PF1System.handleConsumable);
         Registry.registerLootHandler('loot', PF1System.handleLoot);

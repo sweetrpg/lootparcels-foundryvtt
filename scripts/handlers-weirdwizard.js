@@ -10,6 +10,8 @@ export class SotWWSystem {
 
         Registry.registerLootHandler('currency', AllSystems.handleNamedCurrency);
         Registry.registerLootHandler('equipment', SotWWSystem.handleEquipment);
+        Registry.registerLootHandler('item', SotWWSystem.handleEquipment);
+        Registry.registerLootHandler('gear', SotWWSystem.handleEquipment);
         Registry.registerLootHandler('consumable', SotWWSystem.handleConsumable);
         Registry.registerLootHandler('container', SotWWSystem.handleContainer);
         Registry.registerLootHandler('armor', SotWWSystem.handleArmor);

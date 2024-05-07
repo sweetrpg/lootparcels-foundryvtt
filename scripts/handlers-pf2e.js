@@ -17,7 +17,10 @@ export class PF2eSystem {
 
         Registry.registerLootHandler('currency', PF2eSystem.handleCurrency);
         Registry.registerLootHandler('ammo', PF2eSystem.handleAmmo);
+        Registry.registerLootHandler('ammunition', PF2eSystem.handleAmmo);
         Registry.registerLootHandler('equipment', PF2eSystem.handleEquipment);
+        Registry.registerLootHandler('item', PF2eSystem.handleEquipment);
+        Registry.registerLootHandler('gear', PF2eSystem.handleEquipment);
         Registry.registerLootHandler('container', PF2eSystem.handleContainer);
         Registry.registerLootHandler('consumable', PF2eSystem.handleConsumable);
         Registry.registerLootHandler('loot', PF2eSystem.handleLoot);

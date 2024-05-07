@@ -10,6 +10,8 @@ export class A5eSystem {
 
         Registry.registerLootHandler('currency', AllSystems.handleNamedCurrency);
         Registry.registerLootHandler('equipment', A5eSystem.handleEquipment);
+        Registry.registerLootHandler('item', A5eSystem.handleEquipment);
+        Registry.registerLootHandler('gear', A5eSystem.handleEquipment);
         Registry.registerLootHandler('consumable', A5eSystem.handleConsumable);
         Registry.registerLootHandler('container', A5eSystem.handleContainer);
         Registry.registerLootHandler('loot', A5eSystem.handleLoot);

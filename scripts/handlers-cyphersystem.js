@@ -13,6 +13,8 @@ export class CypherSystem {
         Registry.registerLootHandler('parts', CypherSystem.handleParts);
         Registry.registerLootHandler('iotum', CypherSystem.handleIotum);
         Registry.registerLootHandler('equipment', CypherSystem.handleEquipment);
+        Registry.registerLootHandler('item', CypherSystem.handleEquipment);
+        Registry.registerLootHandler('gear', CypherSystem.handleEquipment);
         Registry.registerLootHandler('armor', CypherSystem.handleArmor);
         Registry.registerLootHandler('weapon', CypherSystem.handleWeapon);
         Registry.registerLootHandler('cypher', CypherSystem.handleCypher);

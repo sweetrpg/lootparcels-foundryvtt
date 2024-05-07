@@ -10,6 +10,8 @@ export class SotDLSystem {
 
         Registry.registerLootHandler('currency', SotDLSystem.handleCurrency);
         Registry.registerLootHandler('item', SotDLSystem.handleEquipment);
+        Registry.registerLootHandler('equipment', SotDLSystem.handleEquipment);
+        Registry.registerLootHandler('gear', SotDLSystem.handleEquipment);
         Registry.registerLootHandler('consumable', SotDLSystem.handleConsumable);
         Registry.registerLootHandler('armor', SotDLSystem.handleArmor);
         Registry.registerLootHandler('weapon', SotDLSystem.handleWeapon);

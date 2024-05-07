@@ -5,6 +5,7 @@ import { Config } from "./scripts/config.js";
 import { handleParcelDrop } from "./scripts/parcels.js";
 import { CypherSystem } from "./scripts/handlers-cyphersystem.js";
 import { A5eSystem } from "./scripts/handlers-a5e.js";
+import { BlackFlagSystem } from "./scripts/handlers-black-flag.js";
 import { GenesysSystem } from "./scripts/handlers-genesys.js";
 import { DnD5eSystem } from "./scripts/handlers-dnd5e.js";
 import { SotDLSystem } from "./scripts/handlers-demonlord.js";
@@ -85,6 +86,10 @@ Hooks.once('setup', async () => {
 		case 'a5e':
 			Registry.registerAcceptableActorTypes(['character']);
 			A5eSystem.registerHandlers();
+			break;
+		case 'black-flag':
+			Registry.registerAcceptableActorTypes(['pc']);
+			BlackFlagSystem.registerHandlers();
 			break;
 	}
 

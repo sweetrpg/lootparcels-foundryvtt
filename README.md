@@ -6,7 +6,8 @@ Create parcels of loot to hand out to the PCs
 
 The following systems are currently supported:
 
-* Advanced 5E (Level Up)
+* Advanced 5E (Level Up) [pending]
+* Black Flag Roleplaying [pending]
 * Cypher System
 * Dungeons & Dragons, 5th edition
 * Genesys

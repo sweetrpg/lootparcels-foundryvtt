@@ -130,6 +130,14 @@
         "compatibility": {
           "verified": "0.18.6"
         }
+      },
+      {
+        "id": "black-flag",
+        "type": "system",
+        "manifest": "https://github.com/koboldpress/black-flag/releases/latest/download/system.json",
+        "compatibility": {
+          "verified": "0.9.024"
+        }
       }
     ]
   },

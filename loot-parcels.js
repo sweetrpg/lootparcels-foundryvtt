@@ -47,7 +47,7 @@ Hooks.once('setup', async () => {
 			GenesysSystem.registerHandlers();
 			break;
 		case 't2k4e':
-			Registry.registerAcceptableActorTypes(['TBD']);
+			Registry.registerAcceptableActorTypes(['character']);
 			T2K4eSystem.registerHandlers();
 			break;
 		case 'pf2e':

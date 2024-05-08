@@ -33,10 +33,10 @@ If you would like to see a system added, please open an [issue](https://github.c
 ```
 $parcel
 ```
-3. Add more lines, one line per item in the parcel:
+3. Add links of items to the parcel, one per line:
 ```
-$cypher @UUID[...]{Detonation} l=1d6
-$armor @UUID[...]{Leather jerkin} q=4
+@UUID[...]{Detonation} l=1d6
+@UUID[...]{Leather jerkin} q=4
 ```
 4. Drag the journal page onto an actor to give them the loot!
 
@@ -44,16 +44,18 @@ $armor @UUID[...]{Leather jerkin} q=4
 
 ```
 $parcel
-$currency shins 1d6
-$armor @UUID[]{Leather jerkin}
-$weapon @UUID[]{Light sword} q=1d3
-$cypher @UUID[Compendium.world.cyphers.abc123]{A really cool cypher} l=1d6
-$parts 1d10
+shins 1d6 t=currency
+@UUID[]{Leather jerkin}
+@UUID[]{Light sword} q=1d3
+@UUID[Compendium.world.cyphers.abc123]{A really cool cypher} l=1d6
+parts 1d10
 ```
 
 ## Documentation
 
-### Directives
+### Breakdown of a parcel item
+
+TODO
 
 Directives are the first part of each line in a parcel, indicating what type of item is in the parcel.
 A directive begins with a `$` (you know, for loot).

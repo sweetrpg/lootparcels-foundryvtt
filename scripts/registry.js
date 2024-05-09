@@ -1,14 +1,25 @@
-'use strict';
 
 import { Logging } from "./logging.js";
 
 export class Registry {
-    static lootHandlers = {};
+    static directiveHandlers = {};
+    static linkEntryHandler = null;
+    static textEntryHandler = null;
     static actorTypes = [];
 
-    static getHandler(name) {
-        Logging.debug("Registry.getHandler", name);
-        return Registry.lootHandlers[name];
+    static getDirectiveHandler(name) {
+        Logging.debug("Registry.getDirectiveHandler", name);
+        return Registry.directiveHandlers[name];
+    }
+
+    static getLinkEntryHandler() {
+        Logging.debug("Registry.getLinkEntryHandler");
+        return Registry.linkEntryHandler;
+    }
+
+    static getTextEntryHandler() {
+        Logging.debug("Registry.getTextEntryHandler");
+        return Registry.textEntryHandler;
     }
 
     /**
@@ -29,10 +40,22 @@ export class Registry {
         return false;
     }
 
-    static registerLootHandler(name, fn) {
-        Logging.info('Registering loot handler:', name);
+    static registerLinkEntryHandler(fn) {
+        Logging.info("Registering link entry handler");
 
-        Registry.lootHandlers[name] = fn;
+        Registry.linkEntryHandler = fn;
+    }
+
+    static registerTextEntryHandler(fn) {
+        Logging.info("Registering text entry handler");
+
+        Registry.textEntryHandler = fn;
+    }
+
+    static registerDirectiveHandler(name, fn) {
+        Logging.info('Registering directive handler:', name);
+
+        Registry.directiveHandlers[name] = fn;
     }
 
     static registerAcceptableActorTypes(types) {

@@ -22,7 +22,6 @@
     "loot-parcels.js"
   ],
   "styles": [
-    "styles/loot-parcels.css"
   ],
   "languages": [
     {
@@ -32,7 +31,7 @@
       "flags": {}
     }
   ],
-  "socket": true,
+  "socket": false,
   "relationships": {
     "systems": [
       {

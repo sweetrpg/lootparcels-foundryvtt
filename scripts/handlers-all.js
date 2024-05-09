@@ -13,8 +13,7 @@ export class AllSystems {
     static async handleItem(actor, type, args, addlSystemInfo) {
         Logging.debug('handleItem', actor, type, args, addlSystemInfo);
 
-        let itemName = args.name;
-        let itemDesc = "";
+        let itemName = args.name || args.text || "An item with no name";
         let itemLevel = args.level;
         let quantity = parseInt(args.quantity);
         let itemData = null;
@@ -29,8 +28,6 @@ export class AllSystems {
             if (item !== undefined && item !== null) {
                 itemName = item.name;
                 Logging.debug('itemName', itemName);
-                itemDesc = item.system.description || "";
-
                 itemData = item;
             }
             else {
@@ -51,7 +48,7 @@ export class AllSystems {
             if (type == null || type == '') {
                 type = args.type || 'item';
             }
-            const data = { name: itemName, type: type, system: addlSystemInfo || {}, description: { value: itemDesc } };
+            const data = { name: itemName, type: type, system: addlSystemInfo || {} };
             Logging.debug("data", data);
             const item = await Item.create([data], { parent: actor });
             Logging.debug("item", item);
@@ -61,8 +58,7 @@ export class AllSystems {
     static async handleStackedItem(actor, type, args, addlSystemInfo, qtyProp) {
         Logging.debug('handleStackedItem', actor, type, args, addlSystemInfo, qtyProp);
 
-        let itemName = args.name;
-        let itemDesc = "";
+        let itemName = args.name || args.text || "An item with no name";
         let itemLevel = args.level;
         let quantity = parseInt(args.quantity);
         let quantityProperty = qtyProp || 'system.quantity';
@@ -78,8 +74,6 @@ export class AllSystems {
             if (item !== undefined && item !== null) {
                 itemName = item.name;
                 Logging.debug('itemName', itemName);
-                itemDesc = item.system.description || "";
-
                 itemData = item;
             }
             else {
@@ -135,7 +129,7 @@ export class AllSystems {
         if (type == null || type == '') {
             type = args.type || 'item';
         }
-        const data = { name: itemName, type: type, system: addlSystemInfo || {}, description: { value: itemDesc } };
+        const data = { name: itemName, type: type, system: addlSystemInfo || {} };
         Logging.debug("data", data);
         const item = await Item.create([data], { parent: actor });
         Logging.debug("item", item);
@@ -155,20 +149,28 @@ export class AllSystems {
      * @param {*} actor
      * @param {*} args
      */
-    static async handleNamedCurrency(actor, args) {
-        Logging.debug('handleNamedCurrency', actor, args);
+    static async handleCurrency(actor, args) {
+        Logging.debug('handleCurrency', actor, args);
 
         let name = args.name;
         let quantity = args.quantity;
 
-        const currentAmount = actor.system.currency[name];
+        AllSystems.updateCurrency(actor, 'system.currency', name, quantity);
+    }
+
+    static async updateCurrency(actor, basePath, name, quantity) {
+        Logging.debug('updateCurrency', actor, basePath, name, quantity);
+
+        const fullPath = `${basePath}.${name}`;
+        Logging.debug('fullPath', fullPath);
+        const currentAmount = foundry.utils.getProperty(actor, fullPath);
         Logging.debug("currentAmount", currentAmount);
         const amount = parseInt(currentAmount) + parseInt(quantity);
         Logging.debug('amount', amount);
-        const updateAttr = `system.currency.${name}`;
         const data = {
-            [updateAttr]: amount,
+            [fullPath]: amount,
         };
+        Logging.debug('data', data);
         await actor.update(data);
     }
 }

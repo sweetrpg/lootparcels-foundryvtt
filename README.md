@@ -10,8 +10,8 @@ Create parcels of loot to hand out to the PCs
 
 The following systems are currently supported:
 
-* Advanced 5E (Level Up) [pending]
-* Black Flag Roleplaying [pending]
+* Advanced 5E (Level Up)
+* Black Flag Roleplaying
 * Cypher System
 * Dungeons & Dragons, 5th edition
 * Genesys
@@ -44,21 +44,72 @@ $parcel
 
 ```
 $parcel
-shins 1d6 t=currency
-@UUID[]{Leather jerkin}
-@UUID[]{Light sword} q=1d3
-@UUID[Compendium.world.cyphers.abc123]{A really cool cypher} l=1d6
-parts 1d10
+$currency shins q=1d6
+@UUID[...]{Leather jerkin}
+@UUID[...]{Light sword} q=1d3
+@UUID[...]{A really cool cypher} l=1d6
+Parts q=1d10
 ```
 
 ## Documentation
 
 ### Breakdown of a parcel item
 
-TODO
+Each line of the journal that is marked as parcel contains an item. There are three different ways to
+specify the item, which are covered here.
 
-Directives are the first part of each line in a parcel, indicating what type of item is in the parcel.
-A directive begins with a `$` (you know, for loot).
+#### Item link
+
+An item link entry will look something like this:
+
+```
+@UUID[...]{Light sword} q=1d3
+```
+
+This type of entry is the recommended way of populating your parcels. Item links mean that all the item
+data can be copied to the actor.
+
+#### Free text
+
+A free text entry will look something like this:
+
+```
+Parts q=1d10
+```
+
+This type of entry allows you to create ad-hoc items on the actor. No lookup is performed, so you don't get
+any information about the item, because this type of entry only knows the item's name. The module will
+attempt to do the right thing in creating the item. You can provide modifiers (see below) to influence
+or coerce how the item is created.
+
+#### Directive
+
+A directive is a text token that starts with the character `$` and is followed immediately by alphanumeric
+characters with no spaces. A directive entry will look something like this:
+
+```
+$currency gp q=1d100
+```
+
+There is a common directive that works for most game systems, but for the most part, using Loot Parcels in a
+particular system may enable other directives (see below).
+
+#### Modifiers
+
+Parcel items can also include zero or more optional modifiers, in the form of key/value pairs separated by an
+equal sign (`=`), for example, `q=3`. The currently supported modifiers are described below.
+
+| Modifier | Value | Description |
+| - | - | - |
+| `quantity` or `q` | `number` or die spec | Specifies a quantity for the parcel item. If omitted, the quantity defaults to 1. Supports using a die spec. |
+| `level` or `l` | `number` or die spec | Indicates the level of the parcel item. If omitted, the level defaults to 1. Supports using a die spec. |
+| `type` | any | Allows you to specify the type of a parcel item. This is usually needed when using the free text form. |
+| `stacked` | `boolean` | Specifies that you want the item added to the actor by stacking with any existing items of the same name instead of creating a new instance. |
+
+### Directives
+
+When using the directive form of a parcel item entry, the directive is the first part of each line in a parcel.
+A directive begins with a `$`.
 
 Some directives support additional arguments. An optional argument is enclosed in square brackets, like `[this]`,
 whereas a required argument is enclosed in angle brackets, like `<this>`. Arguments are explained in the
@@ -66,37 +117,4 @@ description for the directive.
 
 | Directive | Arguments | System | Description |
 | - | - | - | - |
-| `$parcel` | None | All | Marks the journal page as a loot parcel |
-| `$currency` | `[name] <quantity>` | All | This is for money. The `name` is the type of currency, if the system supports more than one kind. If omitted, the default currency for the system is used. `quantity` indicates the amount. |
-| `$armor` | `<link>` | All | Armor or shields. |
-| `$weapon` | `<link>` | All | A weapon. |
-| `$equipment` or `$item` or `$gear` | `<link>` | All | A piece of gear. |
-| `$loot` | `<link>` | D&D5e, A5e | Miscellaneous items, like trinkets. |
-| `$tool` | `<link>` | D&D5e, A5e | Tools and items use to support other activities. |
-| `$container` | `<link>` | D&D5e, A5e | Something that can hold other items. |
-| `$consumable` | `<link>` | D&D5e, A5e, The One Ring | Anything that can be used up, like ammo, potions, scrolls, etc. |
-| `$ammo` or `$ammunition` | `<link>` | Shadow of the Demon Lord | Stuff for your weapon. |
-| `$iotum` | `<link>` | Cypher System | A specific type of iotum. |
-| `$parts` | `<quantity>` | Cypher System | A quantity of parts. |
-| `$cypher` | `<link>` | Cypher System | A cypher. |
-| `$artifact` | `<link>` | Cypher System | An artifact. |
-
-As a best practice, use a link (it looks something like `@UUID[<id>]{name}` in the editor)
-for the parcel item instead of a plain text name. Using a link allows Loot Parcels to copy all relevant information about the
-item to the character when the parcel is dropped on them. If you use text, the mod will do its best to create the
-appropriate item on the character, but it usually won't have all the useful information that you want.
-
-Where `quantity` is used, either in an argument or modifier (see below), a die spec can be provided to generate
-a random amount of that item. It's worth noting that some items you want to have stacked (i.e., if the character already
-has a quantity of the item, you just want the quantity to increase) as opposed to creating a new entry on the Actor
-sheet. For some systems, this is the difference between using `$item` and `$consumable`. And some systems do not support
-`$ammo`, so you probably want to use `$consumable` instead.
-
-Parcel items can also include zero or more optional modifiers, in the form of key/value pairs separated by an
-equal sign (`=`), for example, `q=3`. The currently supported modifiers are described below.
-
-| Modifier | Description |
-| - | - |
-| `q` | Specifies a quantity for the parcel item. If omitted, the quantity defaults to 1. |
-| `l` | Indicates the level of the parcel item. If omitted, the level defaults to 1. |
-| `t` | Allows you to specify a sub-type of a parcel item. |
+| `$currency` | `<name>` | All | This is for money. The `name` is the type of currency. To specify quantity, use the `q` modifier. |

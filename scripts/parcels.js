@@ -1,3 +1,7 @@
+/**
+ *
+ */
+
 import { Logging } from "./logging.js";
 import { Utils } from "./utilities.js";
 import { Registry } from "./registry.js";
@@ -7,6 +11,13 @@ const allowedJournalTypes = [
     `${prefix}parcel`,
 ];
 
+/**
+ *
+ * @param {*} actor
+ * @param {*} html
+ * @param {*} droppedEntity
+ * @returns
+ */
 export async function handleParcelDrop(actor, html, droppedEntity) {
     Logging.debug("handleParcelDrop", actor, html, droppedEntity);
 

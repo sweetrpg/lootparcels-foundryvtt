@@ -100,7 +100,7 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
             const qty = await Utils.determineQuantity(m);
             Logging.debug("qty", qty);
             if (qty !== undefined && qty !== null) {
-                args['q'] = parseInt(qty);
+                args['quantity'] = parseInt(qty);
                 Logging.debug('args (parsing)', args);
                 remainingLine = remainingLine.replace(m, "");
                 continue;

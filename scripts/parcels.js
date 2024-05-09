@@ -1,5 +1,5 @@
 /**
- *
+ * Parcel handling functions.
  */
 
 import { Logging } from "./logging.js";
@@ -12,11 +12,12 @@ const allowedJournalTypes = [
 ];
 
 /**
+ * Hook callback function that handles when a parcel is dropped on the actor.
  *
- * @param {*} actor
- * @param {*} html
- * @param {*} droppedEntity
- * @returns
+ * @param {BaseActor} actor An actor appropriate to the active system.
+ * @param {*} html Not used.
+ * @param {JournalEntry} droppedEntity If this is not a journal entry, the function exits early.
+ * @returns Nothing.
  */
 export async function handleParcelDrop(actor, html, droppedEntity) {
     Logging.debug("handleParcelDrop", actor, html, droppedEntity);

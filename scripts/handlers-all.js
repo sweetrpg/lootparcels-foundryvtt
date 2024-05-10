@@ -37,6 +37,26 @@ export class AllSystems {
     /**
      *
      * @param {Actor} actor
+     * @param {object} args
+     */
+    static async handleTextEntry(actor, args) {
+        Logging.debug('handleTextEntry', actor, args);
+
+        const stacked = args.stacked || false;
+        const type = args.type || 'item';
+        Logging.debug('type', type, 'stacked', stacked);
+
+        if (stacked) {
+            await AllSystems.handleStackedItem(actor, type, args);
+        }
+        else {
+            await AllSystems.handleItem(actor, type, args);
+        }
+    }
+
+    /**
+     *
+     * @param {Actor} actor
      * @param {*} type
      * @param {*} args
      */
@@ -130,6 +150,7 @@ export class AllSystems {
                     await item.update(data);
                 }
                 catch (error) {
+                    Logging.debug("item.update threw error", error);
                     foundry.utils.setProperty(item, quantityProperty, newAmount);
                 }
                 return;
@@ -151,6 +172,7 @@ export class AllSystems {
                 await item.update(data);
             }
             catch (error) {
+                Logging.debug("item.update threw error", error);
                 foundry.utils.setProperty(item, quantityProperty, quantity);
             }
             return;

@@ -4,6 +4,7 @@
 import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
+import { Utils } from "./utilities.js";
 
 /**
  * Class container for all Cypher System related functions.
@@ -17,26 +18,12 @@ export class CypherSystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
+        Registry.registerStackedItemTypes(this.stackedItemTypes);
         Registry.registerLinkEntryHandler(CypherSystem._handleLinkEntry);
         Registry.registerTextEntryHandler(CypherSystem._handleTextEntry);
         Registry.registerDirectiveHandler('currency', CypherSystem._handleCurrency);
         Registry.registerDirectiveHandler('parts', CypherSystem._handleParts);
         Registry.registerDirectiveHandler('iotum', CypherSystem._handleIotum);
-    }
-
-    /**
-     *
-     * @param {CypherItem} item
-     * @returns
-     */
-    static _shouldStackItem(item) {
-        Logging.debug('_shouldStackItem', item);
-
-        if (this.stackedItemTypes.includes(item.type.toLowerCase())) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -49,7 +36,7 @@ export class CypherSystem {
 
         const item = await fromUuid(args.link.id);
         Logging.debug('item', item);
-        const stacked = args.stacked || CypherSystem._shouldStackItem(item);
+        const stacked = args.stacked || Utils.shouldStackItem(item, this.stackedItemTypes);
         const type = item.type;
         Logging.debug('type', type, 'stacked', stacked);
         const addlSystemInfo = {};

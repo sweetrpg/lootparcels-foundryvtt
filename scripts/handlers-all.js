@@ -1,12 +1,42 @@
-'use strict';
-
+/**
+ *
+ */
 import { Logging } from "./logging.js";
+import { Utils } from "./utilities.js";
+import { Registry } from "./registry.js";
 
+/**
+ *
+ */
 export class AllSystems {
 
     /**
      *
-     * @param {*} actor
+     * @param {Actor} actor
+     * @param {object} args
+     */
+    static async handleLinkEntry(actor, args) {
+        Logging.debug('handleLinkEntry', actor, args);
+
+        const item = await fromUuid(args.link.id);
+        Logging.debug('item', item);
+        const stackedItemTypes = Registry.getStackedItemTypes();
+        Logging.debug('stackedItemTypes', stackedItemTypes);
+        const stacked = args.stacked || Utils.shouldStackItem(item, stackedItemTypes);
+        const type = item.type;
+        Logging.debug('type', type, 'stacked', stacked);
+
+        if (stacked) {
+            await AllSystems.handleStackedItem(actor, type, args);
+        }
+        else {
+            await AllSystems.handleItem(actor, type, args);
+        }
+    }
+
+    /**
+     *
+     * @param {Actor} actor
      * @param {*} type
      * @param {*} args
      */
@@ -152,7 +182,7 @@ export class AllSystems {
     static async handleCurrency(actor, args) {
         Logging.debug('handleCurrency', actor, args);
 
-        let name = args.name;
+        let name = args.name || args.text || 'default';
         let quantity = args.quantity;
 
         AllSystems.updateCurrency(actor, 'system.currency', name, quantity);

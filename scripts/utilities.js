@@ -70,7 +70,7 @@ export class Utils {
 			Logging.debug("total", r.total);
 			return r.total;
 		}
-		catch(error) {
+		catch (error) {
 			return null;
 		}
 	}
@@ -90,4 +90,46 @@ export class Utils {
 			name: matchResult[2],
 		};
 	}
+
+	/**
+	 *
+	 * @param {Item} item
+	 * @param {Array} types
+	 * @returns
+	 */
+	static shouldStackItem(item, types) {
+		Logging.debug('Utils.shouldStackItem', item, types);
+
+		const itemType = item.type.toLowerCase();
+		const itemSubtype = item.system.subtype?.toLowerCase() || null;
+
+		for (let type of types) {
+			Logging.debug('type', type);
+			const typeSubtype = type.split(':');
+			Logging.debug("typeSubtype", typeSubtype);
+
+			if (typeSubtype[0] === itemType) {
+				Logging.debug(`Item's type ${itemType} matches`);
+
+				if (typeSubtype.length > 1) {
+					Logging.debug("Registered type requires a subtype", typeSubtype[1]);
+
+					if (typeSubtype[1] === itemSubtype) {
+						Logging.debug(`Item's subtype ${itemSubtype} matches`);
+						return true;
+					}
+
+					Logging.debug("Subtype was required but did not match");
+					return false;
+				}
+
+				Logging.debug("Subtype was not required");
+				return true;
+			}
+		}
+
+		Logging.debug("No item types matched");
+		return false;
+	}
+
 };

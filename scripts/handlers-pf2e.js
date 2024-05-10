@@ -5,6 +5,7 @@ import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
 
 export class PF2eSystem {
+    // static stackedItemTypes = ['consumable', 'ammunition', 'tool', 'gear', 'currency', 'sundry'];
     static currencySlugMap = {
         'gp': 'gold-pieces',
         'sp': 'silver-pieces',
@@ -15,83 +16,98 @@ export class PF2eSystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerLootHandler('currency', PF2eSystem.handleCurrency);
-        Registry.registerLootHandler('ammo', PF2eSystem.handleAmmo);
-        Registry.registerLootHandler('ammunition', PF2eSystem.handleAmmo);
-        Registry.registerLootHandler('equipment', PF2eSystem.handleEquipment);
-        Registry.registerLootHandler('item', PF2eSystem.handleEquipment);
-        Registry.registerLootHandler('gear', PF2eSystem.handleEquipment);
-        Registry.registerLootHandler('container', PF2eSystem.handleContainer);
-        Registry.registerLootHandler('consumable', PF2eSystem.handleConsumable);
-        Registry.registerLootHandler('loot', PF2eSystem.handleLoot);
-        Registry.registerLootHandler('armor', PF2eSystem.handleArmor);
-        Registry.registerLootHandler('shield', PF2eSystem.handleShield);
-        Registry.registerLootHandler('weapon', PF2eSystem.handleWeapon);
-        Registry.registerLootHandler('treasure', PF2eSystem.handleTreasure);
-        Registry.registerLootHandler('kit', PF2eSystem.handleKit);
+        Registry.registerDirectiveHandler('currency', PF2eSystem._handleCurrency);
+        Registry.registerStackedItemCallback(PF2eSystem._isItemStackable);
+        Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
+        Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
+
+        // Registry.registerLootHandler('ammo', PF2eSystem.handleAmmo);
+        // Registry.registerLootHandler('ammunition', PF2eSystem.handleAmmo);
+        // Registry.registerLootHandler('equipment', PF2eSystem.handleEquipment);
+        // Registry.registerLootHandler('item', PF2eSystem.handleEquipment);
+        // Registry.registerLootHandler('gear', PF2eSystem.handleEquipment);
+        // Registry.registerLootHandler('container', PF2eSystem.handleContainer);
+        // Registry.registerLootHandler('consumable', PF2eSystem.handleConsumable);
+        // Registry.registerLootHandler('loot', PF2eSystem.handleLoot);
+        // Registry.registerLootHandler('armor', PF2eSystem.handleArmor);
+        // Registry.registerLootHandler('shield', PF2eSystem.handleShield);
+        // Registry.registerLootHandler('weapon', PF2eSystem.handleWeapon);
+        // Registry.registerLootHandler('treasure', PF2eSystem.handleTreasure);
+        // Registry.registerLootHandler('kit', PF2eSystem.handleKit);
     }
 
-    static async handleEquipment(actor, args) {
-        Logging.debug('handleEquipment', actor, args);
+    static _isItemStackable(item) {
+        Logging.debug("_isItemStackable", item);
 
-        await AllSystems.handleItem(actor, 'equipment', args, { subtype: '' });
+        return ((item.type == 'consumable') ||
+        (item.type == 'kit') ||
+        (item.type == 'treasure') ||
+            (item.type == 'loot' &&
+                (item.system.subType == 'misc' ||
+                    item.system.subType == 'ammo')));
     }
 
-    static async handleContainer(actor, args) {
-        Logging.debug('handleContainer', actor, args);
+    // static async handleEquipment(actor, args) {
+    //     Logging.debug('handleEquipment', actor, args);
 
-        await AllSystems.handleItem(actor, 'container', args);
-    }
+    //     await AllSystems.handleItem(actor, 'equipment', args, { subtype: '' });
+    // }
 
-    static async handleConsumable(actor, args) {
-        Logging.debug('handleConsumable', actor, args);
+    // static async handleContainer(actor, args) {
+    //     Logging.debug('handleContainer', actor, args);
 
-        await AllSystems.handleStackedItem(actor, 'consumable', args);
-    }
+    //     await AllSystems.handleItem(actor, 'container', args);
+    // }
 
-    static async handleLoot(actor, args) {
-        Logging.debug('handleLoot', actor, args);
+    // static async handleConsumable(actor, args) {
+    //     Logging.debug('handleConsumable', actor, args);
 
-        await AllSystems.handleStackedItem(actor, 'loot', args, { subtype: 'misc' });
-    }
+    //     await AllSystems.handleStackedItem(actor, 'consumable', args);
+    // }
 
-    static async handleAmmo(actor, args) {
-        Logging.debug('handleAmmo', actor, args);
+    // static async handleLoot(actor, args) {
+    //     Logging.debug('handleLoot', actor, args);
 
-        await AllSystems.handleStackedItem(actor, 'loot', args, { subtype: 'ammo' });
-    }
+    //     await AllSystems.handleStackedItem(actor, 'loot', args, { subtype: 'misc' });
+    // }
 
-    static async handleArmor(actor, args) {
-        Logging.debug('handleArmor', actor, args);
+    // static async handleAmmo(actor, args) {
+    //     Logging.debug('handleAmmo', actor, args);
 
-        await AllSystems.handleItem(actor, 'equipment', args, { subtype: 'armor' });
-    }
+    //     await AllSystems.handleStackedItem(actor, 'loot', args, { subtype: 'ammo' });
+    // }
 
-    static async handleShield(actor, args) {
-        Logging.debug('handleShield', actor, args);
+    // static async handleArmor(actor, args) {
+    //     Logging.debug('handleArmor', actor, args);
 
-        await AllSystems.handleItem(actor, 'shield', args);
-    }
+    //     await AllSystems.handleItem(actor, 'equipment', args, { subtype: 'armor' });
+    // }
 
-    static async handleKit(actor, args) {
-        Logging.debug('handleKit', actor, args);
+    // static async handleShield(actor, args) {
+    //     Logging.debug('handleShield', actor, args);
 
-        await AllSystems.handleStackedItem(actor, 'kit', args);
-    }
+    //     await AllSystems.handleItem(actor, 'shield', args);
+    // }
 
-    static async handleTreasure(actor, args) {
-        Logging.debug('handleTreasure', actor, args);
+    // static async handleKit(actor, args) {
+    //     Logging.debug('handleKit', actor, args);
 
-        await AllSystems.handleStackedItem(actor, 'treasure', args);
-    }
+    //     await AllSystems.handleStackedItem(actor, 'kit', args);
+    // }
 
-    static async handleWeapon(actor, args) {
-        Logging.debug('handleWeapon', actor, args);
+    // static async handleTreasure(actor, args) {
+    //     Logging.debug('handleTreasure', actor, args);
 
-        await AllSystems.handleItem(actor, 'weapon', args);
-    }
+    //     await AllSystems.handleStackedItem(actor, 'treasure', args);
+    // }
 
-    static async handleCurrency(actor, args) {
+    // static async handleWeapon(actor, args) {
+    //     Logging.debug('handleWeapon', actor, args);
+
+    //     await AllSystems.handleItem(actor, 'weapon', args);
+    // }
+
+    static async _handleCurrency(actor, args) {
         Logging.debug('handleCurrency', actor, args);
 
         const name = args.name || 'gp';
@@ -103,17 +119,19 @@ export class PF2eSystem {
 
             if (item.system.stackGroup == 'coins' && item.system.slug == PF2eSystem.currencySlugMap[name]) {
                 // adjust quantity
-                const currentAmount = parseInt(item.system.price.value[name]);
+                // const currentAmount = parseInt(item.system.price.value[name]);
+                const currentAmount = parseInt(item.system.quantity);
                 Logging.debug('currentAmount', currentAmount);
                 const newAmount = currentAmount + quantity;
                 Logging.debug('newAmount', newAmount);
-                const data = { [`system.price.value.${name}`]: newAmount };
+                // const data = { [`system.price.value.${name}`]: newAmount };
+                const data = { ['system.quantity']: newAmount };
                 await item.update(data);
                 return;
             }
         }
 
-        const data = { name: name, type: 'treasure', system: { stackGroup: 'coins', slug: PF2eSystem.currencySlugMap[name], [`price.value.${name}`]: quantity } };
+        const data = { name: name, type: 'treasure', system: { stackGroup: 'coins', slug: PF2eSystem.currencySlugMap[name], [`price.value.${name}`]: 1 } };
         Logging.debug("data", data);
         const item = await Item.create([data], { parent: actor });
         Logging.debug("item", item);

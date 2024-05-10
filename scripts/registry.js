@@ -7,6 +7,7 @@ export class Registry {
     static textEntryHandler = null;
     static actorTypes = [];
     static stackedItemTypes = [];
+    static stackedItemCallback = null;
 
     static getDirectiveHandler(name) {
         Logging.debug("Registry.getDirectiveHandler", name);
@@ -26,6 +27,11 @@ export class Registry {
     static getStackedItemTypes() {
         Logging.debug("Registry.getStackedItemTypes");
         return Registry.stackedItemTypes;
+    }
+
+    static getStackedItemCallback() {
+        Logging.debug("Registry.getStackedItemCallback");
+        return Registry.stackedItemCallback;
     }
 
     /**
@@ -88,6 +94,12 @@ export class Registry {
             Logging.debug("Registering stacked item type", type);
             Registry.stackedItemTypes.push(type.toLowerCase());
         });
+    }
+
+    static registerStackedItemCallback(fn) {
+        Logging.info("Registering stacked item callback", fn);
+
+        Registry.stackedItemCallback = fn;
     }
 
     /**

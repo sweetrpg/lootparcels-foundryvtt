@@ -1,64 +1,76 @@
-'use strict';
-
+/**
+ *
+ */
 import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
 
+/**
+ *
+ */
 export class A5eSystem {
+
+    /**
+     *
+     */
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerLootHandler('currency', AllSystems.handleNamedCurrency);
-        Registry.registerLootHandler('equipment', A5eSystem.handleEquipment);
-        Registry.registerLootHandler('item', A5eSystem.handleEquipment);
-        Registry.registerLootHandler('gear', A5eSystem.handleEquipment);
-        Registry.registerLootHandler('consumable', A5eSystem.handleConsumable);
-        Registry.registerLootHandler('container', A5eSystem.handleContainer);
-        Registry.registerLootHandler('loot', A5eSystem.handleLoot);
-        Registry.registerLootHandler('tool', A5eSystem.handleTool);
-        Registry.registerLootHandler('armor', A5eSystem.handleArmor);
-        Registry.registerLootHandler('weapon', A5eSystem.handleWeapon);
+        // Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerStackedItemCallback(A5eSystem._isItemStackable);
+        Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
+        Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
+        Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);
     }
 
-    static async handleEquipment(actor, args) {
-        Logging.debug('handleEquipment', actor, args);
+    static async _isItemStackable(item) {
+        Logging.debug("_isItemStackable", item);
 
-        await AllSystems.handleItem(actor, 'equipment', args);
+        return (item.type == 'object' &&
+            (item.system.objectType == 'tool' ||
+                item.system.objectType == 'miscellaneous' ||
+            item.system.objectType == 'consumable'));
     }
 
-    static async handleArmor(actor, args) {
-        Logging.debug('handleArmor', actor, args);
+    // static async handleEquipment(actor, args) {
+    //     Logging.debug('handleEquipment', actor, args);
 
-        await AllSystems.handleItem(actor, 'equipment', args);
-    }
+    //     await AllSystems.handleItem(actor, 'equipment', args);
+    // }
 
-    static async handleWeapon(actor, args) {
-        Logging.debug('handleWeapon', actor, args);
+    // static async handleArmor(actor, args) {
+    //     Logging.debug('handleArmor', actor, args);
 
-        await AllSystems.handleItem(actor, 'weapon', args);
-    }
+    //     await AllSystems.handleItem(actor, 'equipment', args);
+    // }
 
-    static async handleLoot(actor, args) {
-        Logging.debug('handleLoot', actor, args);
+    // static async handleWeapon(actor, args) {
+    //     Logging.debug('handleWeapon', actor, args);
 
-        await AllSystems.handleStackedItem(actor, 'loot', args);
-    }
+    //     await AllSystems.handleItem(actor, 'weapon', args);
+    // }
 
-    static async handleTool(actor, args) {
-        Logging.debug('handleTool', actor, args);
+    // static async handleLoot(actor, args) {
+    //     Logging.debug('handleLoot', actor, args);
 
-        await AllSystems.handleStackedItem(actor, 'tool', args);
-    }
+    //     await AllSystems.handleStackedItem(actor, 'loot', args);
+    // }
 
-    static async handleContainer(actor, args) {
-        Logging.debug('handleContainer', actor, args);
+    // static async handleTool(actor, args) {
+    //     Logging.debug('handleTool', actor, args);
 
-        await AllSystems.handleItem(actor, 'container', args);
-    }
+    //     await AllSystems.handleStackedItem(actor, 'tool', args);
+    // }
 
-    static async handleConsumable(actor, args) {
-        Logging.debug('handleConsumable', actor, args);
+    // static async handleContainer(actor, args) {
+    //     Logging.debug('handleContainer', actor, args);
 
-        await AllSystems.handleStackedItem(actor, 'consumable', args);
-    }
+    //     await AllSystems.handleItem(actor, 'container', args);
+    // }
+
+    // static async handleConsumable(actor, args) {
+    //     Logging.debug('handleConsumable', actor, args);
+
+    //     await AllSystems.handleStackedItem(actor, 'consumable', args);
+    // }
 }

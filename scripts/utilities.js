@@ -95,10 +95,16 @@ export class Utils {
 	 *
 	 * @param {Item} item
 	 * @param {Array} types
-	 * @returns
+	 * @param {function} callback
+	 * @returns {Boolean}
 	 */
-	static shouldStackItem(item, types) {
-		Logging.debug('Utils.shouldStackItem', item, types);
+	static shouldStackItem(item, types, callback) {
+		Logging.debug('Utils.shouldStackItem', item, types, callback);
+
+		if(callback) {
+			Logging.debug("Using stacked item callback");
+			return callback(item);
+		}
 
 		const itemType = item.type.toLowerCase();
 		const itemSubtype = item.system.subtype?.toLowerCase() || null;

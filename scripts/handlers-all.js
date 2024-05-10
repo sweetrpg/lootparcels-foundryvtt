@@ -21,7 +21,8 @@ export class AllSystems {
         const item = await fromUuid(args.link.id);
         Logging.debug('item', item);
         const stackedItemTypes = Registry.getStackedItemTypes();
-        Logging.debug('stackedItemTypes', stackedItemTypes);
+        const stackedItemCallback = Registry.getStackedItemCallback();
+        Logging.debug('stackedItemTypes', stackedItemTypes, "stackedItemCallback", stackedItemCallback);
         const stacked = args.stacked || Utils.shouldStackItem(item, stackedItemTypes);
         const type = item.type;
         Logging.debug('type', type, 'stacked', stacked);

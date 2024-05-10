@@ -23,7 +23,7 @@ export class A5eSystem {
         Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);
     }
 
-    static async _isItemStackable(item) {
+    static _isItemStackable(item) {
         Logging.debug("_isItemStackable", item);
 
         return (item.type == 'object' &&

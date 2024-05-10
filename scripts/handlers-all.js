@@ -23,7 +23,7 @@ export class AllSystems {
         const stackedItemTypes = Registry.getStackedItemTypes();
         const stackedItemCallback = Registry.getStackedItemCallback();
         Logging.debug('stackedItemTypes', stackedItemTypes, "stackedItemCallback", stackedItemCallback);
-        const stacked = args.stacked || Utils.shouldStackItem(item, stackedItemTypes);
+        const stacked = args.stacked || Utils.shouldStackItem(item, stackedItemTypes, stackedItemCallback);
         const type = item.type;
         Logging.debug('type', type, 'stacked', stacked);
 

@@ -14,7 +14,7 @@
     "rules": {
       "brace-style": "off",
       "class-methods-use-this": "off",
-      "comma-dangle": ["error", "never"],
+      "comma-dangle": ["off", "never"],
       "@typescript-eslint/brace-style": "off",
       "@typescript-eslint/comma-dangle": ["error", "never"],
       "@typescript-eslint/indent": "off",

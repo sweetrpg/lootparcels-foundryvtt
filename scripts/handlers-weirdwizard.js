@@ -5,47 +5,37 @@ import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
 
 export class SotWWSystem {
+    static stackedItemTypes = ['Equipment:consumable'];
+
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerLootHandler('currency', AllSystems.handleNamedCurrency);
-        Registry.registerLootHandler('equipment', SotWWSystem.handleEquipment);
-        Registry.registerLootHandler('item', SotWWSystem.handleEquipment);
-        Registry.registerLootHandler('gear', SotWWSystem.handleEquipment);
-        Registry.registerLootHandler('consumable', SotWWSystem.handleConsumable);
-        Registry.registerLootHandler('container', SotWWSystem.handleContainer);
-        Registry.registerLootHandler('armor', SotWWSystem.handleArmor);
-        Registry.registerLootHandler('weapon', SotWWSystem.handleWeapon);
+        Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
+        Registry.registerTextEntryHandler(SotWWSystem._handleTextEntry);
+        Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);
     }
 
-    static async handleEquipment(actor, args) {
-        Logging.debug('handleEquipment', actor, args);
+    /**
+     *
+     * @param {CypherActor} actor
+     * @param {object} args
+     */
+    static async _handleTextEntry(actor, args) {
+        Logging.debug('_handleTextEntry', actor, args);
 
-        await AllSystems.handleItem(actor, 'Equipment', args, {subtype: 'generic'});
-    }
+        const stacked = args.stacked || false;
+        const type = args.type || 'Equipment';
+        Logging.debug('type', type, 'stacked', stacked);
+        const addlSystemInfo = {subtype: args.subtype || 'generic' };
+        Logging.debug('addlSystemInfo', addlSystemInfo);
 
-    static async handleConsumable(actor, args) {
-        Logging.debug('handleConsumable', actor, args);
-
-        await AllSystems.handleStackedItem(actor, 'Equipment', args, {subtype: 'consumable'});
-    }
-
-    static async handleContainer(actor, args) {
-        Logging.debug('handleContainer', actor, args);
-
-        await AllSystems.handleItem(actor, 'container', args, {subtype: 'container'});
-    }
-
-    static async handleArmor(actor, args) {
-        Logging.debug('handleArmor', actor, args);
-
-        await AllSystems.handleItem(actor, 'armor', args, {subtype: 'armor'});
-    }
-
-    static async handleWeapon(actor, args) {
-        Logging.debug('handleWeapon', actor, args);
-
-        await AllSystems.handleItem(actor, 'weapon', args, {subtype: 'weapon'});
+        if (stacked) {
+            await AllSystems.handleStackedItem(actor, type, args, addlSystemInfo);
+        }
+        else {
+            await AllSystems.handleItem(actor, type, args, addlSystemInfo);
+        }
     }
 
 }

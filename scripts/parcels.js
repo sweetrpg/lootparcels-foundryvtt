@@ -1,4 +1,6 @@
-'use strict';
+/**
+ * Parcel handling functions.
+ */
 
 import { Logging } from "./logging.js";
 import { Utils } from "./utilities.js";
@@ -9,6 +11,14 @@ const allowedJournalTypes = [
     `${prefix}parcel`,
 ];
 
+/**
+ * Hook callback function that handles when a parcel is dropped on the actor.
+ *
+ * @param {BaseActor} actor An actor appropriate to the active system.
+ * @param {*} html Not used.
+ * @param {JournalEntry} droppedEntity If this is not a journal entry, the function exits early.
+ * @returns Nothing.
+ */
 export async function handleParcelDrop(actor, html, droppedEntity) {
     Logging.debug("handleParcelDrop", actor, html, droppedEntity);
 
@@ -34,95 +44,120 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
     journalContent.forEach(async (jc) => {
         // parse line
         let line = jc.trim();
+        let fn = null;
 
-        // get marker
+        // determine type of entry
         const parts = line.split(/\s+/, 1);
         Logging.debug('parts', parts);
         if (parts.length == 0) {
+            // line is empty
             return;
         }
 
-        const fnType = parts[0].substring(1);
-        const fn = Registry.lootHandlers[fnType];
-        Logging.debug("lootHandler", fn);
-
-        if (fn === undefined || fn === "") {
-            ui.notifications.warn(game.i18n.format('LOOTPARCELS.UnsupportedLootType',
-                { name: `${fnType}` }));
-            return;
-        }
-
+        const firstSpace = line.search(/\s/);
+        let remainingLine = line;
         let args = {
             quantity: 1,
+            level: 1,
         };
 
-        // remove marker
-        const firstSpace = line.search(/\s/);
-        let remainingLine = line.substring(firstSpace).trim();
-        Logging.debug("remainingLine", remainingLine);
+        const entryType = parts[0];
+        if (entryType.startsWith(prefix)) {
+            // directive
+            const fnType = entryType.substring(1);
+            fn = Registry.getDirectiveHandler(fnType);
+            Logging.debug("fn", fn);
 
-        // find quantifiers or die specs
-        for (let q of remainingLine.split(/\s+/)) {
-            Logging.debug("quantifier", q);
+            if (fn === undefined || fn === "") {
+                ui.notifications.warn(game.i18n.format('LOOTPARCELS.UnsupportedDirective',
+                    { name: `${fnType}` }));
+                return;
+            }
+
+            // remove directive from line
+            remainingLine = line.substring(firstSpace).trim();
+            Logging.debug("remainingLine", remainingLine);
+        }
+        else if (entryType.startsWith('@')) {
+            // link
+            const linkInfo = Utils.parseLink(line);
+            Logging.debug('linkInfo', linkInfo);
+
+            if (linkInfo === null) {
+                // no match, treat the line as text
+                fn = Registry.getTextEntryHandler();
+                Logging.debug("fn", fn);
+            }
+            else {
+                args['text'] = linkInfo.name;
+                args['link'] = linkInfo;
+
+                // remove link from line
+                remainingLine = line.replace(linkInfo.link, "");
+                fn = Registry.getLinkEntryHandler();
+                Logging.debug("fn", fn);
+            }
+        }
+        else {
+            // text?
+            fn = Registry.getTextEntryHandler();
+            Logging.debug("fn", fn);
+        }
+
+        // find modifiers or die specs
+        for (let m of remainingLine.split(/\s+/)) {
+            Logging.debug("modifier", m);
 
             // check if it's a die spec
-            const qty = await Utils.determineQuantity(q);
+            const qty = await Utils.determineQuantity(m);
             Logging.debug("qty", qty);
             if (qty !== undefined && qty !== null) {
                 args['quantity'] = parseInt(qty);
                 Logging.debug('args (parsing)', args);
-                remainingLine = remainingLine.replace(q, "");
+                remainingLine = remainingLine.replace(m, "");
                 continue;
             }
 
             // check if it's a key/value pair
-            const kv = q.split('=');
+            const kv = m.split('=');
             Logging.debug("kv", kv);
             if (kv.length != 2) continue;
 
             switch (kv[0]) {
+                // handle special cases
+                case 'level':
                 case 'l':
                     args['level'] = parseInt(kv[1]);
                     Logging.debug('args (parsing)', args);
-                    remainingLine = remainingLine.replace(q, "");
+                    remainingLine = remainingLine.replace(m, "");
                     break;
+                case 'quantity':
                 case 'q':
                     args['quantity'] = await Utils.determineQuantity(kv[1]);
                     Logging.debug('args (parsing)', args);
-                    remainingLine = remainingLine.replace(q, "");
+                    remainingLine = remainingLine.replace(m, "");
                     break;
-                case 't':
-                    args['type'] = kv[1];
+                default:
+                    args[kv[0]] = kv[1];
                     Logging.debug('args (parsing)', args);
-                    remainingLine = remainingLine.replace(q, "");
+                    remainingLine = remainingLine.replace(m, "");
                     break;
             }
         }
         Logging.debug("remainingLine", remainingLine);
 
-        // determine if there's a link present
-        const linkExpr = /@UUID\[(\S+)\]\{(.+?)\}/;
-        const matchResult = remainingLine.match(linkExpr);
-        Logging.debug('link matchResult', matchResult);
-        if (matchResult === undefined || matchResult === null) {
-            // no match
-            args['name'] = remainingLine.trim();
-        }
-        else {
-            const link = matchResult[0];
-            Logging.debug('link', link);
-            const linkLength = link.length;
-            const linkStart = matchResult.index;
-            const linkInfo = Utils.parseLink(link);
-
-            args['name'] = linkInfo.name;
-            args['link'] = {
-                source: link,
-                ...linkInfo
-            };
+        // if there's anything left, treat it as free text that goes in 'args.text'
+        if (remainingLine.trim().length > 0) {
+            args['text'] = remainingLine.trim();
         }
 
         Logging.debug('args (before call)', args);
+
+        // make sure we have a function to call
+        if (fn === null) {
+            ui.notifications.warn(game.i18n.localize('LOOTPARCELS.NoFunction'));
+            return;
+        }
 
         await fn(actor, args);
     });

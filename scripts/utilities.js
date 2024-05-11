@@ -1,35 +1,3 @@
-/*
-	Those scripts are aimed solely for the Cypher Systems on FoundryVTT made by Mrkwnzl and will
-	probably (totally in fact) not work with any other systems.
-
-	Those add-ons could be totally added directly inside the Cypher System at a later date
-	All of them are well-commented/documented and normally kept as understandable as possible for
-	anyone to pick them and modify/patch them as they wish.
-	I have no business in keeping anything obfuscated and blind. My main thoughts are that everyone
-	has to start somewhere and understanding other code is one way to do so. With this, I aim to
-	keep those different scripts as light as possible.
-
-	Moreover, all of my scripts are totally free to use, modify, etc. as they are under the BSD-3-Clause
-	license. I just ask for you to try to keep the same scope as me and if possible, a little credit is
-	always appreciated ;)
-	Also, feel free to make a pull request! I will be more than happy to see what are your QOL too!
-
-	However, everyone has his/her/its/their own way to code and mine is mine, so if you were not able
-	to understand something, please feel free to ask me on Discord.
-
-	This is my structure:
-	- 'Globales' are var used everywhere in this js and do not need to be re-made each time
-	- 'Classes' are either specific or custom classes used for scripts
-	- 'Handlers' are scripts that handle (or hook) specific events
-	- 'Functions' are functions either called by handlers or anywhere else, they hold most of my scripts
-	- 'Utilities' are scripts to do small calculation across other functions
-
-	Cheers,
-	Nice to see you (NiceTSY)
-*/
-
-'use strict';
-
 import { Logging } from "./logging.js";
 
 /*------------------------------------------------------------------------------------------------
@@ -102,7 +70,7 @@ export class Utils {
 			Logging.debug("total", r.total);
 			return r.total;
 		}
-		catch(error) {
+		catch (error) {
 			return null;
 		}
 	}
@@ -117,8 +85,57 @@ export class Utils {
 		}
 
 		return {
+			source: matchResult[0],
 			id: matchResult[1],
 			name: matchResult[2],
 		};
 	}
+
+	/**
+	 *
+	 * @param {Item} item
+	 * @param {Array} types
+	 * @param {function} callback
+	 * @returns {Boolean}
+	 */
+	static shouldStackItem(item, types, callback) {
+		Logging.debug('Utils.shouldStackItem', item, types, callback);
+
+		if(callback) {
+			Logging.debug("Using stacked item callback");
+			return callback(item);
+		}
+
+		const itemType = item.type.toLowerCase();
+		const itemSubtype = item.system.subtype?.toLowerCase() || null;
+
+		for (let type of types) {
+			Logging.debug('type', type);
+			const typeSubtype = type.split(':');
+			Logging.debug("typeSubtype", typeSubtype);
+
+			if (typeSubtype[0] === itemType) {
+				Logging.debug(`Item's type ${itemType} matches`);
+
+				if (typeSubtype.length > 1) {
+					Logging.debug("Registered type requires a subtype", typeSubtype[1]);
+
+					if (typeSubtype[1] === itemSubtype) {
+						Logging.debug(`Item's subtype ${itemSubtype} matches`);
+						return true;
+					}
+
+					Logging.debug("Subtype was required but did not match");
+					return false;
+				}
+
+				Logging.debug("Subtype was not required");
+				return true;
+			}
+		}
+
+		Logging.debug("No item types matched");
+		return false;
+	}
+
 };

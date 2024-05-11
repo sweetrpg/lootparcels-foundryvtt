@@ -1,57 +1,32 @@
-'use strict';
-
+/**
+ *
+ */
 import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
 
+/**
+ *
+ */
 export class SotDLSystem {
+    static stackedItemTypes = ['ammo', 'item'];
+
+    /**
+     *
+     */
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerLootHandler('currency', SotDLSystem.handleCurrency);
-        Registry.registerLootHandler('item', SotDLSystem.handleEquipment);
-        Registry.registerLootHandler('equipment', SotDLSystem.handleEquipment);
-        Registry.registerLootHandler('gear', SotDLSystem.handleEquipment);
-        Registry.registerLootHandler('consumable', SotDLSystem.handleConsumable);
-        Registry.registerLootHandler('armor', SotDLSystem.handleArmor);
-        Registry.registerLootHandler('weapon', SotDLSystem.handleWeapon);
-        Registry.registerLootHandler('ammo', SotDLSystem.handleAmmo);
+        Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
+        Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
+        Registry.registerDirectiveHandler('currency', SotDLSystem._handleCurrency);
     }
 
-    static async handleEquipment(actor, args) {
-        Logging.debug('handleEquipment', actor, args);
+    static async _handleCurrency(actor, args) {
+        Logging.debug('_handleCurrency', actor, args);
 
-        await AllSystems.handleItem(actor, 'item', args);
-    }
-
-    static async handleConsumable(actor, args) {
-        Logging.debug('handleConsumable', actor, args);
-
-        await AllSystems.handleStackedItem(actor, 'item', args);
-    }
-
-    static async handleArmor(actor, args) {
-        Logging.debug('handleArmor', actor, args);
-
-        await AllSystems.handleItem(actor, 'armor', args);
-    }
-
-    static async handleWeapon(actor, args) {
-        Logging.debug('handleWeapon', actor, args);
-
-        await AllSystems.handleItem(actor, 'weapon', args);
-    }
-
-    static async handleAmmo(actor, args) {
-        Logging.debug('handleAmmo', actor, args);
-
-        await AllSystems.handleStackedItem(actor, 'ammo', args);
-    }
-
-    static async handleCurrency(actor, args) {
-        Logging.debug('handleCurrency', actor, args);
-
-        let name = args.name;
+        let name = args.text;
         let quantity = args.quantity;
 
         if (name == "" || name == "default") {
@@ -65,8 +40,9 @@ export class SotDLSystem {
         Logging.debug('amount', amount);
         const updateAttr = `system.wealth.${name}`;
         Logging.debug("updateAttr", updateAttr);
-        const data = {}
-        data[updateAttr] = amount;
+        const data = {
+            [updateAttr]: amount,
+        };
         Logging.debug("data", data);
         await actor.update(data);
     }

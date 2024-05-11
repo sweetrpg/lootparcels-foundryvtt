@@ -1,14 +1,37 @@
-'use strict';
 
 import { Logging } from "./logging.js";
 
 export class Registry {
-    static lootHandlers = {};
+    static directiveHandlers = {};
+    static linkEntryHandler = null;
+    static textEntryHandler = null;
     static actorTypes = [];
+    static stackedItemTypes = [];
+    static stackedItemCallback = null;
 
-    static getHandler(name) {
-        Logging.debug("Registry.getHandler", name);
-        return Registry.lootHandlers[name];
+    static getDirectiveHandler(name) {
+        Logging.debug("Registry.getDirectiveHandler", name);
+        return Registry.directiveHandlers[name];
+    }
+
+    static getLinkEntryHandler() {
+        Logging.debug("Registry.getLinkEntryHandler");
+        return Registry.linkEntryHandler;
+    }
+
+    static getTextEntryHandler() {
+        Logging.debug("Registry.getTextEntryHandler");
+        return Registry.textEntryHandler;
+    }
+
+    static getStackedItemTypes() {
+        Logging.debug("Registry.getStackedItemTypes");
+        return Registry.stackedItemTypes;
+    }
+
+    static getStackedItemCallback() {
+        Logging.debug("Registry.getStackedItemCallback");
+        return Registry.stackedItemCallback;
     }
 
     /**
@@ -29,17 +52,65 @@ export class Registry {
         return false;
     }
 
-    static registerLootHandler(name, fn) {
-        Logging.info('Registering loot handler:', name);
+    /**
+     *
+     * @param {function} fn
+     */
+    static registerLinkEntryHandler(fn) {
+        Logging.info("Registering link entry handler");
 
-        Registry.lootHandlers[name] = fn;
+        Registry.linkEntryHandler = fn;
     }
 
+    /**
+     *
+     * @param {function} fn
+     */
+    static registerTextEntryHandler(fn) {
+        Logging.info("Registering text entry handler");
+
+        Registry.textEntryHandler = fn;
+    }
+
+    /**
+     *
+     * @param {String} name
+     * @param {function} fn
+     */
+    static registerDirectiveHandler(name, fn) {
+        Logging.info('Registering directive handler:', name);
+
+        Registry.directiveHandlers[name] = fn;
+    }
+
+    /**
+     *
+     * @param {Array} types
+     */
+    static registerStackedItemTypes(types) {
+        Logging.info("Registering stacked item types:", types)
+
+        types?.forEach(type => {
+            Logging.debug("Registering stacked item type", type);
+            Registry.stackedItemTypes.push(type.toLowerCase());
+        });
+    }
+
+    static registerStackedItemCallback(fn) {
+        Logging.info("Registering stacked item callback", fn);
+
+        Registry.stackedItemCallback = fn;
+    }
+
+    /**
+     *
+     * @param {Array} types
+     */
     static registerAcceptableActorTypes(types) {
         Logging.info('Registering actor types:', types);
 
         types?.forEach(type => {
-            Logging.debug("Registering type", type);
+            Logging.debug("Registering actor type", type);
             Registry.actorTypes.push(type.toLowerCase());
         });
     }

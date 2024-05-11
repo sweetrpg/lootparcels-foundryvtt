@@ -1,63 +1,78 @@
-'use strict';
-
+/**
+ *
+ */
 import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
+import { Utils } from "./utilities.js";
 
+/**
+ *
+ */
 export class T2K4eSystem {
+    static stackedItemTypes = ['explosive', 'ammunition', 'gear'];
+
+    /**
+     *
+     */
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        // Registry.registerLootHandler('currency', TOR2eSystem.handleCurrency);
-        Registry.registerLootHandler('ammo', T2K4eSystem.handleAmmo);
-        Registry.registerLootHandler('ammunition', T2K4eSystem.handleAmmo);
-        Registry.registerLootHandler('explosive', T2K4eSystem.handleExplosive);
-        Registry.registerLootHandler('gear', T2K4eSystem.handleGear);
-        Registry.registerLootHandler('equipment', T2K4eSystem.handleGear);
-        Registry.registerLootHandler('item', T2K4eSystem.handleGear);
-        Registry.registerLootHandler('armor', T2K4eSystem.handleArmor);
-        Registry.registerLootHandler('weapon', T2K4eSystem.handleWeapon);
+        Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerLinkEntryHandler(T2K4eSystem._handleLinkEntry);
+        Registry.registerTextEntryHandler(T2K4eSystem._handleTextEntry);
+        // Registry.registerDirectiveHandler('currency', BlackFlagSystem._handleCurrency);
     }
 
-    static async handleAmmo(actor, args) {
-        Logging.debug('handleAmmo', actor, args);
+    /**
+       *
+       * @param {CypherActor} actor
+       * @param {object} args
+       */
+    static async _handleLinkEntry(actor, args) {
+        Logging.debug('_handleLinkEntry', actor, args);
 
-        await AllSystems.handleStackedItem(actor, 'ammunition', args, null, 'system.qty');
+        const item = await fromUuid(args.link.id);
+        Logging.debug('item', item);
+        const stacked = args.stacked || Utils.shouldStackItem(item, T2K4eSystem.stackedItemTypes);
+        const type = item.type;
+        Logging.debug('type', type, 'stacked', stacked);
+
+        if (stacked) {
+            await AllSystems.handleStackedItem(actor, type, args, null, 'system.qty');
+        }
+        else {
+            await AllSystems.handleItem(actor, type, args, null, 'system.qty');
+        }
     }
 
-    static async handleExplosive(actor, args) {
-        Logging.debug('handleExplosive', actor, args);
+    /**
+     *
+     * @param {CypherActor} actor
+     * @param {object} args
+     */
+    static async _handleTextEntry(actor, args) {
+        Logging.debug('_handleTextEntry', actor, args);
 
-        await AllSystems.handleStackedItem(actor, 'gear', args, {itemType: "Explosive"}, 'system.qty');
+        const stacked = args.stacked || false;
+        const type = args.type || 'item';
+        Logging.debug('type', type, 'stacked', stacked);
+        const addlSystemInfo = {};
+        switch (args.type) {
+            case 'explosive':
+                type = 'gear';
+                addlSystemInfo['itemType'] = 'Explosive';
+                stacked = true;
+                break;
+        }
+        Logging.debug('addlSystemInfo', addlSystemInfo);
+
+        if (stacked) {
+            await AllSystems.handleStackedItem(actor, type, args, addlSystemInfo, 'system.qty');
+        }
+        else {
+            await AllSystems.handleItem(actor, type, args, addlSystemInfo, 'system.qty');
+        }
     }
 
-    static async handleGear(actor, args) {
-        Logging.debug('handleGear', actor, args);
-
-        await AllSystems.handleItem(actor, 'gear', args);
-    }
-
-    static async handleArmor(actor, args) {
-        Logging.debug('handleArmor', actor, args);
-
-        await AllSystems.handleItem(actor, 'armor', args);
-    }
-
-    static async handleWeapon(actor, args) {
-        Logging.debug('handleWeapon', actor, args);
-
-        await AllSystems.handleItem(actor, 'weapon', args);
-    }
-
-    // static async handleCurrency(actor, args) {
-    //     Logging.debug('handleCurrency', actor, args);
-
-    //     let quantity = args.quantity;
-
-    //     const currentAmount = actor.system.treasure.value;
-    //     Logging.debug("currentAmount", currentAmount);
-    //     const amount = parseInt(currentAmount) + parseInt(quantity);
-    //     Logging.debug('amount', amount);
-    //     await actor.update({ 'system.treasure.value': amount });
-    // }
 }

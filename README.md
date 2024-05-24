@@ -13,8 +13,8 @@ The following versions of Foundry are supports:
 
 | Version | Support |
 | - | - |
-| v11 | :check: |
-| v12 | :check: |
+| v11 | &check; |
+| v12 | &check; |
 
 The following systems are currently supported:
 

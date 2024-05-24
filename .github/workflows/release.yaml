@@ -4,6 +4,17 @@ on:
     push:
         branches:
             - master
+        paths:
+            - "*.js"
+            - "scripts/**"
+            - "img/**"
+            - "lang/**"
+            - "packs/**"
+            - "styles/**"
+            - "templates/**"
+            - "package*.json"
+            - "module.json"
+    workflow_dispatch:
 
 jobs:
     build:
@@ -55,9 +66,9 @@ jobs:
           uses: ncipollo/release-action@v1.12.0
           with:
             allowUpdates: false
-            name: 'Dev release: ${{ steps.bump_semver.outputs.new_version }}'
+            name: 'Release: ${{ steps.bump_semver.outputs.new_version }}'
             draft: false
-            prerelease: true
+            prerelease: false
             token: ${{ secrets.GITHUB_TOKEN }}
             artifacts: './module.json, ./module.zip'
             tag: ${{ steps.bump_semver.outputs.new_version }}

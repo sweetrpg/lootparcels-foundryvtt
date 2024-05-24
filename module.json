@@ -5,7 +5,7 @@
   "version": "[Current Version]",
   "compatibility": {
     "minimum": "11",
-    "verified": "11"
+    "verified": "12"
   },
   "authors": [
     {
@@ -39,6 +39,7 @@
         "type": "system",
         "manifest": "https://raw.githubusercontent.com/mrkwnzl/cyphersystem-foundryvtt/v2.2.0/system.json",
         "compatibility": {
+          "minimum": "2.2.0",
           "verified": "2.2.0"
         }
       },
@@ -47,6 +48,7 @@
         "type": "system",
         "manifest": "https://github.com/Savantford/foundry-weirdwizard/releases/download/3.6.2/system.json",
         "compatibility": {
+          "minimum": "3.6.2",
           "verified": "3.6.2"
         }
       },
@@ -55,6 +57,7 @@
         "type": "system",
         "manifest": "https://github.com/Xacus/demonlord/releases/download/3.9.6/system.json",
         "compatibility": {
+          "minimum": "3.9.6",
           "verified": "3.9.6"
         }
       },
@@ -63,6 +66,7 @@
         "type": "system",
         "manifest": "https://gitlab.com/herve.darritchon/foundryvtt-tor2e/-/raw/main/src/system.json",
         "compatibility": {
+          "minimum": "3.4.4",
           "verified": "3.4.4"
         }
       },
@@ -71,6 +75,7 @@
         "type": "system",
         "manifest": "https://gitlab.com/herve.darritchon/foundryvtt-tor1e/-/raw/master/src/system.json",
         "compatibility": {
+          "minimum": "3.0.1",
           "verified": "3.0.1"
         }
       },
@@ -79,6 +84,7 @@
         "type": "system",
         "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json",
         "compatibility": {
+          "minimum": "3.1.2",
           "verified": "3.1.2"
         }
       },
@@ -87,6 +93,7 @@
         "type": "system",
         "manifest": "https://github.com/Mezryss/FVTT-Genesys/releases/download/release-0.2.10/manifest.json",
         "compatibility": {
+          "minimum": "0.2.10",
           "verified": "0.2.10"
         }
       },
@@ -95,6 +102,7 @@
         "type": "system",
         "manifest": "https://gitlab.com/foundryvtt_pathfinder1e/foundryvtt-pathfinder1/-/releases/permalink/latest/downloads/system.json",
         "compatibility": {
+          "minimum": "9.6",
           "verified": "9.6"
         }
       },
@@ -103,6 +111,7 @@
         "type": "system",
         "manifest": "https://github.com/foundryvtt/pf2e/releases/download/5.15.2/system.json",
         "compatibility": {
+          "minimum": "5.15.1",
           "verified": "5.15.1"
         }
       },
@@ -111,6 +120,7 @@
         "type": "system",
         "manifest": "https://github.com/fvtt-fria-ligan/twilight2000-foundry-vtt/releases/download/11.0.1/system.json",
         "compatibility": {
+          "minimum": "11.0.1",
           "verified": "11.0.1"
         }
       },
@@ -119,7 +129,8 @@
         "type": "system",
         "manifest": "https://github.com/Muttley/foundryvtt-shadowdark/releases/download/release-2.1.0/system.json",
         "compatibility": {
-          "verified": "2.1.0"
+          "minimum": "2.1.0",
+          "verified": "2.2.1"
         }
       },
       {
@@ -127,6 +138,7 @@
         "type": "system",
         "manifest": "https://github.com/Pjb518/FoundryVTT-Level-Up-Official/releases/download/0.18.6/system.json",
         "compatibility": {
+          "minimum": "0.18.6",
           "verified": "0.18.6"
         }
       },
@@ -135,6 +147,7 @@
         "type": "system",
         "manifest": "https://github.com/koboldpress/black-flag/releases/latest/download/system.json",
         "compatibility": {
+          "minimum": "0.9.024",
           "verified": "0.9.024"
         }
       }

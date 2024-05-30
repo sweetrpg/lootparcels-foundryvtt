@@ -34,7 +34,7 @@ jobs:
         - uses: actions-ecosystem/action-push-tag@v1
           with:
             tag: ${{ steps.bump_semver.outputs.new_version }}
-            message: 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}'
+            message: 'Release tag: ${{ steps.bump_semver.outputs.new_version }}'
 
         # Build the changelog
         - name: Build Changelog

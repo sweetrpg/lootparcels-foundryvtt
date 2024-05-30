@@ -1,5 +1,7 @@
 name: Dev Release
 
+concurrency: dev-release
+
 on:
     push:
         branches:

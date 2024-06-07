@@ -15,8 +15,9 @@ jobs:
 
         - id: get_latest_tag
           run: |
+                git tag --sort -version:refname
                 tag=$(git tag --sort -version:refname | head -1)
-                echo "::set-output name=tag::$tag"
+                echo "tag=$tag" >> $GITHUB_OUTPUT
         # - uses: actions-ecosystem/action-get-latest-tag@v1
         #   id: get_latest_tag
         #   with:

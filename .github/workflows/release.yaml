@@ -60,7 +60,7 @@ jobs:
           env:
             version: ${{ steps.bump_semver.outputs.new_version }}
             url: https://github.com/${{ github.repository }}
-            manifest: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.json
+            manifest: https://github.com/${{ github.repository }}/releases/download/latest/module.json
             download: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.zip
 
         # Create a zip file with all files required by the module to add to the release

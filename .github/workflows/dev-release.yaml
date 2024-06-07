@@ -13,13 +13,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v4
+          with:
+            fetch-tags: true
 
         - id: get_latest_tag
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
                 set -x
-                ls -la
                 git tag --sort version:refname
                 tag=$(git tag --sort version:refname | tail -1)
                 echo "tag=$tag" >> $GITHUB_OUTPUT

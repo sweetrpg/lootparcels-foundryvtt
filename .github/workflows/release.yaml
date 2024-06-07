@@ -64,7 +64,11 @@ jobs:
             download: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.zip
 
         # Create a zip file with all files required by the module to add to the release
-        - run: zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+        - run: |
+                # change log level
+                sed -i -e 's/logLevel = 3/logLevel = 1/g' scripts/logging.js
+                # package
+                zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
         # Create a release for this specific version
         - name: Create Release with Files

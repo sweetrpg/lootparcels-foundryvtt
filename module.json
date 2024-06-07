@@ -21,8 +21,7 @@
   "esmodules": [
     "loot-parcels.js"
   ],
-  "styles": [
-  ],
+  "styles": [],
   "languages": [
     {
       "lang": "en",

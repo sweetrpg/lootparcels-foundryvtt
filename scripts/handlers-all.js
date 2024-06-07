@@ -170,7 +170,7 @@ export class AllSystems {
             const data = { [quantityProperty]: quantity };
             Logging.debug("data", data);
             try {
-                await item.update(data);
+                await item.forEach(async i => await i.update(data) );
             }
             catch (error) {
                 Logging.debug("item.update threw error", error);
@@ -193,6 +193,7 @@ export class AllSystems {
             await item.update(qtyData);
         }
         catch (error) {
+            Logging.debug("item.update threw error", error);
             foundry.utils.setProperty(item, quantityProperty, quantity);
         }
     }

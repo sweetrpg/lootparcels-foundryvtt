@@ -19,6 +19,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
                 set -x
+                ls -la
                 git tag --sort version:refname
                 tag=$(git tag --sort version:refname | tail -1)
                 echo "tag=$tag" >> $GITHUB_OUTPUT

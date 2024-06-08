@@ -37,6 +37,8 @@ jobs:
             level: patch
 
         - run: |
+                git config --global user.email 'ci@sweetrpg.com'
+                git config --global user.name 'SweetRPG CI'
                 git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
                 git push origin --tags
 

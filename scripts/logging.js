@@ -1,5 +1,6 @@
-'use strict';
-
+/**
+ * Logging methods.
+ */
 export class Logging {
 
     static logLevel = 3; // 0: error, 1: warn, 2: info, 3: debug

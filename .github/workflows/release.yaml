@@ -24,12 +24,11 @@ jobs:
         steps:
         - uses: actions/checkout@v4
 
-        - uses: actions-ecosystem/action-get-latest-tag@v1
-          id: get_latest_tag
-          with:
-            semver_only: true
-            with_initial_version: true
-            initial_version: 0.0.0
+        - id: get_latest_tag
+          run: |
+                git tag --sort version:refname
+                tag=$(git tag --sort version:refname | tail -1)
+                echo "tag=$tag" >> $GITHUB_OUTPUT
 
         - uses: actions-ecosystem/action-bump-semver@v1
           id: bump_semver
@@ -37,10 +36,11 @@ jobs:
             current_version: ${{ steps.get_latest_tag.outputs.tag }}
             level: minor
 
-        - uses: actions-ecosystem/action-push-tag@v1
-          with:
-            tag: ${{ steps.bump_semver.outputs.new_version }}
-            message: 'Release tag: ${{ steps.bump_semver.outputs.new_version }}'
+        - run: |
+                git config --global user.email 'ci@sweetrpg.com'
+                git config --global user.name 'SweetRPG CI'
+                git tag -a -m 'Release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
+                git push origin --tags
 
         # Build the changelog
         - name: Build Changelog

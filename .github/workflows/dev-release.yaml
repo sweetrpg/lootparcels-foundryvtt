@@ -23,12 +23,6 @@ jobs:
                 git tag --sort version:refname
                 tag=$(git tag --sort version:refname | tail -1)
                 echo "tag=$tag" >> $GITHUB_OUTPUT
-        # - uses: actions-ecosystem/action-get-latest-tag@v1
-        #   id: get_latest_tag
-        #   with:
-        #     semver_only: true
-        #     with_initial_version: true
-        #     initial_version: 0.0.0
 
         - uses: actions-ecosystem/action-bump-semver@v1
           id: bump_semver
@@ -41,11 +35,6 @@ jobs:
                 git config --global user.name 'SweetRPG CI'
                 git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
                 git push origin --tags
-
-        # - uses: actions-ecosystem/action-push-tag@v1
-        #   with:
-        #     tag: ${{ steps.bump_semver.outputs.new_version }}
-        #     message: 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}'
 
         # Build the changelog
         - name: Build Changelog

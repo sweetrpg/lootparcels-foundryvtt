@@ -20,7 +20,6 @@ jobs:
 
         - id: get_latest_tag
           run: |
-                set -x
                 git tag --sort version:refname
                 tag=$(git tag --sort version:refname | tail -1)
                 echo "tag=$tag" >> $GITHUB_OUTPUT
@@ -37,10 +36,14 @@ jobs:
             current_version: ${{ steps.get_latest_tag.outputs.tag }}
             level: patch
 
-        - uses: actions-ecosystem/action-push-tag@v1
-          with:
-            tag: ${{ steps.bump_semver.outputs.new_version }}
-            message: 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}'
+        - run: |
+                git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
+                git push origin --tags
+
+        # - uses: actions-ecosystem/action-push-tag@v1
+        #   with:
+        #     tag: ${{ steps.bump_semver.outputs.new_version }}
+        #     message: 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}'
 
         # Build the changelog
         - name: Build Changelog

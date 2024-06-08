@@ -23,6 +23,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v4
+          with:
+            fetch-tags: true
+            fetch-depth: 0
+            show-progress: true
 
         - id: get_latest_tag
           run: |

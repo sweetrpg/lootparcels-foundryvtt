@@ -115,35 +115,35 @@ Hooks.once('setup', async () => {
 			OSESystem.registerHandlers();
 			break;
 		case 'castles-and-crusades':
-			Registry.registerAcceptableActorTypes(['pc']);
+			Registry.registerAcceptableActorTypes(['character']);
 			CCSystem.registerHandlers();
 			break;
 		case 'dungeonworld':
-			Registry.registerAcceptableActorTypes(['pc']);
+			Registry.registerAcceptableActorTypes(['character']);
 			DungeonworldSystem.registerHandlers();
 			break;
 		case 'fate-core-official':
-			Registry.registerAcceptableActorTypes(['pc']);
+			Registry.registerAcceptableActorTypes(['character']);
 			FATESystem.registerHandlers();
 			break;
 		case 'forbidden-lands':
-			Registry.registerAcceptableActorTypes(['pc']);
+			Registry.registerAcceptableActorTypes(['character']);
 			ForbiddenLandsSystem.registerHandlers();
 			break;
 		case 'hackmaster5e':
-			Registry.registerAcceptableActorTypes(['pc']);
+			Registry.registerAcceptableActorTypes(['character']);
 			Hackmaster5eSystem.registerHandlers();
 			break;
 		case 'archmage':
-			Registry.registerAcceptableActorTypes(['pc']);
+			Registry.registerAcceptableActorTypes(['character']);
 			ArchmageSystem.registerHandlers();
 			break;
 		case 'pbta':
-			Registry.registerAcceptableActorTypes(['pc']);
+			Registry.registerAcceptableActorTypes(['character']);
 			PbtASystem.registerHandlers();
 			break;
 		case 'wfrp4e':
-			Registry.registerAcceptableActorTypes(['pc']);
+			Registry.registerAcceptableActorTypes(['character']);
 			WFRP4eSystem.registerHandlers();
 			break;
 	}

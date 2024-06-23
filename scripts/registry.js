@@ -10,6 +10,7 @@ export class Registry {
     static actorTypes = [];
     static stackedItemTypes = [];
     static stackedItemCallback = null;
+    static stackedItemQuantityPath = 'system.quantity';
 
     static getDirectiveHandler(name) {
         Logging.debug("Registry.getDirectiveHandler", name);
@@ -89,8 +90,10 @@ export class Registry {
      *
      * @param {Array} types
      */
-    static registerStackedItemTypes(types) {
-        Logging.info("Registering stacked item types:", types)
+    static registerStackedItemTypes(types, qtyPath) {
+        Logging.info("Registering stacked item types:", types, qtyPath);
+
+        Registry.stackedItemQuantityPath = qtyPath || 'system.quantity';
 
         types?.forEach(type => {
             Logging.debug("Registering stacked item type", type);

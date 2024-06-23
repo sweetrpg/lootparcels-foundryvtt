@@ -112,7 +112,7 @@ export class AllSystems {
         let itemName = args.name || args.text || "An item with no name";
         let itemLevel = args.level;
         let quantity = parseInt(args.quantity);
-        let quantityProperty = qtyProp || 'system.quantity';
+        let quantityProperty = qtyProp || Registry.stackedItemQuantityPath || 'system.quantity';
         let itemData = null;
 
         const linkInfo = args.link;

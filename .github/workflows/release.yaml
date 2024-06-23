@@ -62,6 +62,9 @@ jobs:
           with:
             files: 'module.json'
           env:
+            name: loot-parcels
+            id: loot-parcels
+            title: "Loot Parcels"
             version: ${{ steps.bump_semver.outputs.new_version }}
             url: https://github.com/${{ github.repository }}
             manifest: https://github.com/${{ github.repository }}/releases/latest/download/module.json

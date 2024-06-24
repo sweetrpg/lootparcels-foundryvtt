@@ -1,4 +1,6 @@
-
+/**
+ *
+ */
 import { Logging } from "./logging.js";
 
 export class Registry {
@@ -8,6 +10,7 @@ export class Registry {
     static actorTypes = [];
     static stackedItemTypes = [];
     static stackedItemCallback = null;
+    static stackedItemQuantityPath = 'system.quantity';
 
     static getDirectiveHandler(name) {
         Logging.debug("Registry.getDirectiveHandler", name);
@@ -74,8 +77,9 @@ export class Registry {
 
     /**
      *
-     * @param {String} name
-     * @param {function} fn
+     * @param {String} name The name of the directive.
+     * @param {function} fn The function that will be called to process the directive. The function must accept two
+     *   arguments: an `actor` and an array of `args`.
      */
     static registerDirectiveHandler(name, fn) {
         Logging.info('Registering directive handler:', name);
@@ -87,8 +91,10 @@ export class Registry {
      *
      * @param {Array} types
      */
-    static registerStackedItemTypes(types) {
-        Logging.info("Registering stacked item types:", types)
+    static registerStackedItemTypes(types, qtyPath) {
+        Logging.info("Registering stacked item types:", types, qtyPath);
+
+        Registry.stackedItemQuantityPath = qtyPath || 'system.quantity';
 
         types?.forEach(type => {
             Logging.debug("Registering stacked item type", type);

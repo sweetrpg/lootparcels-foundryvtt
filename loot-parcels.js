@@ -1,3 +1,8 @@
+/**
+ * Root module.
+ */
+import { Registry } from "./scripts/registry.js";
+import { Logging } from "./scripts/logging.js";
 import { Config } from "./scripts/config.js";
 import { handleParcelDrop } from "./scripts/parcels.js";
 import { CypherSystem } from "./scripts/handlers-cyphersystem.js";
@@ -14,8 +19,18 @@ import { DnD1eSystem } from "./scripts/handlers-dnd1e.js";
 import { ShadowdarkSystem } from "./scripts/handlers-shadowdark.js";
 import { PF1System } from "./scripts/handlers-pf1.js";
 import { PF2eSystem } from "./scripts/handlers-pf2e.js";
-import { Registry } from "./scripts/registry.js";
-import { Logging } from "./scripts/logging.js";
+import { WWNSystem } from "./scripts/handlers-wwn.js";
+import { OSESystem } from "./scripts/handlers-ose.js";
+import { SWADESystem } from "./scripts/handlers-swade.js";
+import { CCSystem } from "./scripts/handlers-cc.js";
+import { DungeonworldSystem } from "./scripts/handlers-dungeonworld.js";
+import { ForbiddenLandsSystem } from "./scripts/handlers-forbidden-lands.js";
+import { Hackmaster5eSystem } from "./scripts/handlers-hackmaster5e.js";
+import { ArchmageSystem } from "./scripts/handlers-archmage.js";
+import { PbtASystem } from "./scripts/handlers-pbta.js";
+import { WFRP4eSystem } from "./scripts/handlers-wfrp4e.js";
+import { FATESystem } from "./scripts/handlers-fate.js";
+import { Shadowrun5eSystem } from "./scripts/handlers-shadowrun5e.js";
 
 Hooks.once('init', () => {
 	Logging.info('Initializing Loot Parcels...');
@@ -87,6 +102,54 @@ Hooks.once('setup', async () => {
 		case 'black-flag':
 			Registry.registerAcceptableActorTypes(['pc']);
 			BlackFlagSystem.registerHandlers();
+			break;
+		case 'wwn':
+			Registry.registerAcceptableActorTypes(['character']);
+			WWNSystem.registerHandlers();
+			break;
+		case 'swade':
+			Registry.registerAcceptableActorTypes(['character']);
+			SWADESystem.registerHandlers();
+			break;
+		case 'ose':
+			Registry.registerAcceptableActorTypes(['character']);
+			OSESystem.registerHandlers();
+			break;
+		case 'castles-and-crusades':
+			Registry.registerAcceptableActorTypes(['character']);
+			CCSystem.registerHandlers();
+			break;
+		case 'dungeonworld':
+			Registry.registerAcceptableActorTypes(['character']);
+			DungeonworldSystem.registerHandlers();
+			break;
+		case 'fate-core-official':
+			Registry.registerAcceptableActorTypes(['character']);
+			FATESystem.registerHandlers();
+			break;
+		case 'forbidden-lands':
+			Registry.registerAcceptableActorTypes(['character']);
+			ForbiddenLandsSystem.registerHandlers();
+			break;
+		case 'hackmaster5e':
+			Registry.registerAcceptableActorTypes(['character']);
+			Hackmaster5eSystem.registerHandlers();
+			break;
+		case 'archmage':
+			Registry.registerAcceptableActorTypes(['character']);
+			ArchmageSystem.registerHandlers();
+			break;
+		case 'pbta':
+			Registry.registerAcceptableActorTypes(['character']);
+			PbtASystem.registerHandlers();
+			break;
+		case 'wfrp4e':
+			Registry.registerAcceptableActorTypes(['character']);
+			WFRP4eSystem.registerHandlers();
+			break;
+		case 'shadowrun5e':
+			Registry.registerAcceptableActorTypes(['character']);
+			Shadowrun5eSystem.registerHandlers();
 			break;
 	}
 });

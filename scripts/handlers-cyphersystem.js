@@ -1,5 +1,5 @@
 /**
- *
+ * Cypher System
  */
 import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";

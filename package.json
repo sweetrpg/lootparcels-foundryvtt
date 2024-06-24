@@ -38,7 +38,7 @@
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-svelte": "^2.40.0",
-    "glob": "^10.4.1",
+    "glob": "^10.4.2",
     "postcss-scss": "^4.0.9",
     "sass": "^1.77.6",
     "stylelint": "^16.6.1",

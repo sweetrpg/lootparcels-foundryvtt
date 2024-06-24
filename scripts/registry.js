@@ -77,8 +77,9 @@ export class Registry {
 
     /**
      *
-     * @param {String} name
-     * @param {function} fn
+     * @param {String} name The name of the directive.
+     * @param {function} fn The function that will be called to process the directive. The function must accept two
+     *   arguments: an `actor` and an array of `args`.
      */
     static registerDirectiveHandler(name, fn) {
         Logging.info('Registering directive handler:', name);

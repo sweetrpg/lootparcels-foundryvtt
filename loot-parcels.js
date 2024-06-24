@@ -30,6 +30,7 @@ import { ArchmageSystem } from "./scripts/handlers-archmage.js";
 import { PbtASystem } from "./scripts/handlers-pbta.js";
 import { WFRP4eSystem } from "./scripts/handlers-wfrp4e.js";
 import { FATESystem } from "./scripts/handlers-fate.js";
+import { Shadowrun5eSystem } from "./scripts/handlers-shadowrun5e.js";
 
 Hooks.once('init', () => {
 	Logging.info('Initializing Loot Parcels...');
@@ -145,6 +146,10 @@ Hooks.once('setup', async () => {
 		case 'wfrp4e':
 			Registry.registerAcceptableActorTypes(['character']);
 			WFRP4eSystem.registerHandlers();
+			break;
+		case 'shadowrun5e':
+			Registry.registerAcceptableActorTypes(['character']);
+			Shadowrun5eSystem.registerHandlers();
 			break;
 	}
 });

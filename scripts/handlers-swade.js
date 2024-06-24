@@ -22,7 +22,7 @@ export class SWADESystem {
 
         let quantity = args.quantity;
 
-        const currentAmount = actor.system.currency;
+        const currentAmount = actor.system.details.currency || 0;
         Logging.debug("currentAmount", currentAmount);
         const amount = parseInt(currentAmount) + parseInt(quantity);
         Logging.debug('amount', amount);

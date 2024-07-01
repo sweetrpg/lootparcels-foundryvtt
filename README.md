@@ -9,7 +9,7 @@ Create parcels of loot to hand out to the PCs
 
 ## Supported Systems
 
-The following versions of Foundry are supports:
+The following versions of Foundry are supported:
 
 | Version | Support |
 | - | - |

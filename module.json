@@ -149,6 +149,114 @@
           "minimum": "0.9.024",
           "verified": "0.9.024"
         }
+      },
+      {
+        "id": "ose",
+        "type": "system",
+        "manifest": "https://github.com/vttred/ose/releases/download/1.10.2/system.json",
+        "compatibility": {
+          "minimum": "1.10.2",
+          "verified": "1.10.2"
+        }
+      },
+      {
+        "id": "wwn",
+        "type": "system",
+        "manifest": "https://github.com/SobranDM/foundryvtt-wwn/releases/download/v1.3.0/system.json",
+        "compatibility": {
+          "minimum": "1.3.0",
+          "verified": "1.3.0"
+        }
+      },
+      {
+        "id": "swade",
+        "type": "system",
+        "manifest": "https://gitlab.com/peginc/swade/-/releases/v3.4.1/downloads/system.json",
+        "compatibility": {
+          "minimum": "3.4.1",
+          "verified": "3.4.1"
+        }
+      },
+      {
+        "id": "castles-and-crusades",
+        "type": "system",
+        "manifest": "https://gitlab.com/peginc/swade/-/releases/v3.4.1/downloads/system.json",
+        "compatibility": {
+          "minimum": "1.0.2",
+          "verified": "1.0.2"
+        }
+      },
+      {
+        "id": "wfrp4e",
+        "type": "system",
+        "manifest": "https://github.com/moo-man/WFRP4e-FoundryVTT/releases/download/7.2.1/system.json",
+        "compatibility": {
+          "minimum": "7.2.1",
+          "verified": "7.2.1"
+        }
+      },
+      {
+        "id": "shadowrun5e",
+        "type": "system",
+        "manifest": "https://raw.githubusercontent.com/SR5-FoundryVTT/SR5-FoundryVTT/master/system.json",
+        "compatibility": {
+          "minimum": "0.20.2",
+          "verified": "0.20.2"
+        }
+      },
+      {
+        "id": "pbta",
+        "type": "system",
+        "manifest": "https://asacolips-artifacts.s3.amazonaws.com/pbta/1.0.14/system.json",
+        "compatibility": {
+          "minimum": "1.0.14",
+          "verified": "1.0.14"
+        }
+      },
+      {
+        "id": "hackmaster5e",
+        "type": "system",
+        "manifest": "https://github.com/n0q/hackmaster5e-fvtt/releases/download/0.4.16/system.json",
+        "compatibility": {
+          "minimum": "0.4.16",
+          "verified": "0.4.16"
+        }
+      },
+      {
+        "id": "forbidden-lands",
+        "type": "system",
+        "manifest": "https://raw.githubusercontent.com/fvtt-fria-ligan/forbidden-lands-foundry-vtt/v12.0.0/system.json",
+        "compatibility": {
+          "minimum": "12.0.0",
+          "verified": "12.0.0"
+        }
+      },
+      {
+        "id": "fate-core-official",
+        "type": "system",
+        "manifest": "https://raw.githubusercontent.com/Sk1mble/fate-core-official/v4.7.6/system.json",
+        "compatibility": {
+          "minimum": "4.7.6",
+          "verified": "4.7.6"
+        }
+      },
+      {
+        "id": "dungeonworld",
+        "type": "system",
+        "manifest": "https://asacolips-artifacts.s3.amazonaws.com/dungeonworld/1.7.1/system.json",
+        "compatibility": {
+          "minimum": "1.7.2",
+          "verified": "1.7.2"
+        }
+      },
+      {
+        "id": "archmage",
+        "type": "system",
+        "manifest": "https://asacolips-artifacts.s3.amazonaws.com/archmage/1.30.0/system.json",
+        "compatibility": {
+          "minimum": "1.30.0",
+          "verified": "1.30.0"
+        }
       }
     ]
   },

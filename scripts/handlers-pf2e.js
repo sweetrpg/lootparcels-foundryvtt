@@ -1,5 +1,6 @@
-'use strict';
-
+/**
+ * Pathfinder, 2nd Edition
+ */
 import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";

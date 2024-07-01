@@ -1,34 +1,31 @@
 /**
- * The One Ring, 1st Edition
+ * Shadowrun, 5th Edition
  */
 import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
 
-/**
- *
- */
-export class TOR1eSystem {
-    static stackedItemTypes = ['miscellaneous'];
+export class Shadowrun5eSystem {
+    static stackedItemTypes = ['ammo'];
 
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerStackedItemTypes(this.stackedItemTypes, 'system.technology.quantity');
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
-        Registry.registerDirectiveHandler('currency', TOR1eSystem._handleCurrency);
+        Registry.registerDirectiveHandler('currency', Shadowrun5eSystem._handleCurrency);
     }
 
     static async _handleCurrency(actor, args) {
-        Logging.debug('_handleCurrency', actor, args);
+        Logging.debug('handleCurrency', actor, args);
 
         let quantity = args.quantity;
 
-        const currentAmount = actor.system.treasure.value;
+        const currentAmount = actor.system.nuyen || 0;
         Logging.debug("currentAmount", currentAmount);
         const amount = parseInt(currentAmount) + parseInt(quantity);
         Logging.debug('amount', amount);
-        await actor.update({ ['system.treasure.value']: amount });
+        await actor.update({ 'system.nuyen': amount });
     }
 }

@@ -1,5 +1,5 @@
 /**
- *
+ * The One Ring, 2nd Edition
  */
 import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";

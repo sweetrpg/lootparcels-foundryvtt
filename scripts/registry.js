@@ -102,9 +102,10 @@ export class Registry {
         });
     }
 
-    static registerStackedItemCallback(fn) {
-        Logging.info("Registering stacked item callback", fn);
+    static registerStackedItemCallback(fn, qtyPath) {
+        Logging.info("Registering stacked item callback", fn, qtyPath);
 
+        Registry.stackedItemQuantityPath = qtyPath || 'system.quantity';
         Registry.stackedItemCallback = fn;
     }
 

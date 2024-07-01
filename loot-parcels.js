@@ -27,7 +27,7 @@ import { DungeonworldSystem } from "./scripts/handlers-dungeonworld.js";
 import { ForbiddenLandsSystem } from "./scripts/handlers-forbidden-lands.js";
 import { Hackmaster5eSystem } from "./scripts/handlers-hackmaster5e.js";
 import { ArchmageSystem } from "./scripts/handlers-archmage.js";
-import { PbtASystem } from "./scripts/handlers-pbta.js";
+// import { PbtASystem } from "./scripts/handlers-pbta.js";
 import { WFRP4eSystem } from "./scripts/handlers-wfrp4e.js";
 import { FATESystem } from "./scripts/handlers-fate.js";
 import { Shadowrun5eSystem } from "./scripts/handlers-shadowrun5e.js";
@@ -139,10 +139,10 @@ Hooks.once('setup', async () => {
 			Registry.registerAcceptableActorTypes(['character']);
 			ArchmageSystem.registerHandlers();
 			break;
-		case 'pbta':
-			Registry.registerAcceptableActorTypes(['character']);
-			PbtASystem.registerHandlers();
-			break;
+		// case 'pbta':
+		// 	Registry.registerAcceptableActorTypes(['character']);
+		// 	PbtASystem.registerHandlers();
+		// 	break;
 		case 'wfrp4e':
 			Registry.registerAcceptableActorTypes(['character']);
 			WFRP4eSystem.registerHandlers();

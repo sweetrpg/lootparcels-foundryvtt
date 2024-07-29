@@ -45,7 +45,7 @@
     "stylelint-config-sass-guidelines": "^11.0.0",
     "svelte-range-slider-pips": "^2.3.1",
     "svelte-select": "^5.8.3",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.4",
     "vite": "^4.5.3"
   },
   "dependencies": {

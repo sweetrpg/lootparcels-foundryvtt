@@ -31,6 +31,7 @@ import { PbtASystem } from "./scripts/handlers-pbta.js";
 import { WFRP4eSystem } from "./scripts/handlers-wfrp4e.js";
 import { FATESystem } from "./scripts/handlers-fate.js";
 import { Shadowrun5eSystem } from "./scripts/handlers-shadowrun5e.js";
+import { Starfinder1eSystem } from "./scripts/handlers-sfrpg.js";
 
 Hooks.once('init', () => {
 	Logging.info('Initializing Loot Parcels...');
@@ -151,7 +152,11 @@ Hooks.once('setup', async () => {
 			Registry.registerAcceptableActorTypes(['character']);
 			Shadowrun5eSystem.registerHandlers();
 			break;
-	}
+		case 'sfrpg':
+			Registry.registerAcceptableActorTypes(['character']);
+			Starfinder1eSystem.registerHandlers();
+			break;
+		}
 });
 
 // Called when dropping something on the character sheet

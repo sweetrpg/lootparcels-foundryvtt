@@ -1,5 +1,5 @@
 /**
- *
+ * Shadow of the Demon Lord
  */
 import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";

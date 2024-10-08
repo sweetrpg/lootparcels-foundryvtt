@@ -257,6 +257,15 @@
           "minimum": "1.30.0",
           "verified": "1.30.0"
         }
+      },
+      {
+        "id": "sfrpg",
+        "type": "system",
+        "manifest": "https://raw.githubusercontent.com/foundryvtt-starfinder/foundryvtt-starfinder/master/src/system.json",
+        "compatibility": {
+          "minimum": "0.26.1",
+          "verified": "0.26.1"
+        }
       }
     ]
   },

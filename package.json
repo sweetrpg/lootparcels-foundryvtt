@@ -40,7 +40,7 @@
     "eslint-plugin-svelte": "^2.44.1",
     "glob": "^11.0.0",
     "postcss-scss": "^4.0.9",
-    "sass": "^1.79.5",
+    "sass": "^1.80.4",
     "stylelint": "^16.6.1",
     "stylelint-config-sass-guidelines": "^12.1.0",
     "svelte-range-slider-pips": "^3.1.1",

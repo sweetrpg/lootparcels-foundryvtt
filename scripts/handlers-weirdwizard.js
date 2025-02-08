@@ -1,5 +1,6 @@
-'use strict';
-
+/**
+ * Shadow of the Weird Wizard
+ */
 import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";
@@ -18,7 +19,7 @@ export class SotWWSystem {
 
     /**
      *
-     * @param {CypherActor} actor
+     * @param {Actor} actor
      * @param {object} args
      */
     static async _handleTextEntry(actor, args) {

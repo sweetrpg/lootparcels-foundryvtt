@@ -112,7 +112,8 @@ export class AllSystems {
         let itemName = args.name || args.text || "An item with no name";
         let itemLevel = args.level;
         let quantity = parseInt(args.quantity);
-        let quantityProperty = qtyProp || 'system.quantity';
+        let quantityProperty = qtyProp || Registry.stackedItemQuantityPath || 'system.quantity';
+        Logging.debug("quantityProperty", quantityProperty);
         let itemData = null;
 
         const linkInfo = args.link;
@@ -139,9 +140,9 @@ export class AllSystems {
 
             if (item.name == itemName) {
                 // adjust quantity
-                const qtyValue = foundry.utils.getProperty(item, quantityProperty);
+                const qtyValue = foundry.utils.getProperty(item, quantityProperty) || 1;
                 Logging.debug('qtyValue', qtyValue);
-                const currentAmount = parseInt(qtyValue);
+                const currentAmount = parseInt(qtyValue) || 1;
                 Logging.debug('currentAmount', currentAmount);
                 const newAmount = currentAmount + quantity;
                 Logging.debug('newAmount', newAmount);

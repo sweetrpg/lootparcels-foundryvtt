@@ -1,5 +1,6 @@
-'use strict';
-
+/**
+ * Dungeons and Dragons, 1st Edition
+ */
 import { AllSystems } from "./handlers-all.js";
 import { Registry } from "./registry.js";
 import { Logging } from "./logging.js";

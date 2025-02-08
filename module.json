@@ -205,15 +205,6 @@
         }
       },
       {
-        "id": "pbta",
-        "type": "system",
-        "manifest": "https://asacolips-artifacts.s3.amazonaws.com/pbta/1.0.14/system.json",
-        "compatibility": {
-          "minimum": "1.0.14",
-          "verified": "1.0.14"
-        }
-      },
-      {
         "id": "hackmaster5e",
         "type": "system",
         "manifest": "https://github.com/n0q/hackmaster5e-fvtt/releases/download/0.4.16/system.json",
@@ -263,8 +254,8 @@
         "type": "system",
         "manifest": "https://raw.githubusercontent.com/foundryvtt-starfinder/foundryvtt-starfinder/master/src/system.json",
         "compatibility": {
-          "minimum": "0.26.1",
-          "verified": "0.26.1"
+          "minimum": "0.27.1",
+          "verified": "0.27.1"
         }
       }
     ]

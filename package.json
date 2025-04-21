@@ -46,7 +46,7 @@
     "svelte-range-slider-pips": "^3.1.1",
     "svelte-select": "^5.8.3",
     "typescript": "^5.6.2",
-    "vite": "^4.5.9"
+    "vite": "^6.3.2"
   },
   "dependencies": {
     "@rollup/plugin-node-resolve": "^15.3.0",

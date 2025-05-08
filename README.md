@@ -2,6 +2,7 @@
 
 ![](https://img.shields.io/badge/Foundry-v11-informational)
 ![](https://img.shields.io/badge/Foundry-v12-informational)
+![](https://img.shields.io/badge/Foundry-v13-informational)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/sweetrpg/lootparcels-foundryvtt/latest/module.zip)
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Floot-parcels&colorB=4aa94a)
 
@@ -15,22 +16,35 @@ The following versions of Foundry are supported:
 | - | - |
 | v11 | &check; |
 | v12 | &check; |
+| v13 | &check; |
 
 The following systems are currently supported:
 
+* 13th Age
 * Advanced 5E (Level Up)
-* Black Flag Roleplaying
+* Black Flag Roleplaying (Tales of the Valiant)
+* Castles & Crusades
 * Cypher System
 * Dungeons & Dragons, 5th edition
+* DungeonWorld
+* FATE Core
+* Forbidden Lands
+* HackMaster, 5th edition
 * Genesys
+* Old School Essentials
 * Pathfinder, 1st edition
 * Pathfinder, 2nd edition
+* Powered by the Apocalypse
+* Savage Worlds: Adventure Edition
 * Shadow of the Demon Lord
 * Shadow of the Weird Wizard
 * Shadowdark
+* Shadowrun, 5th edition
 * The One Ring, 1st edition
 * The One Ring, 2nd edition
 * Twilight:2000, 4th edition
+* Warhammer Fantasy Roleplaying, 4th edition
+* Worlds Without Number
 
 If you would like to see a system added, please open an [issue](https://github.com/sweetrpg/lootparcels-foundryvtt/issues).
 

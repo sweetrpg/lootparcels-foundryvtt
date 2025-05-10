@@ -3,19 +3,6 @@ name: Release
 concurrency: release
 
 on:
-    # push:
-    #     branches:
-    #         - master
-    #     paths:
-    #         - "*.js"
-    #         - "scripts/**"
-    #         - "img/**"
-    #         - "lang/**"
-    #         - "packs/**"
-    #         - "styles/**"
-    #         - "templates/**"
-    #         - "package*.json"
-    #         - "module.json"
     workflow_dispatch:
         inputs:
             bump_type:

@@ -17,7 +17,7 @@ export class ShadowdarkSystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerStackedItemTypes(ShadowdarkSystem.stackedItemTypes);
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
         Registry.registerDirectiveHandler('currency', ShadowdarkSystem._handleCurrency);

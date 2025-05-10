@@ -11,7 +11,7 @@ export class GenesysSystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerStackedItemTypes(GenesysSystem.stackedItemTypes);
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
         Registry.registerDirectiveHandler('currency', GenesysSystem._handleCurrency);

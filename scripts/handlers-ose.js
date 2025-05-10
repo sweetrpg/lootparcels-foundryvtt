@@ -11,7 +11,7 @@ export class OSESystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerStackedItemTypes(OSESystem.stackedItemTypes);
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
     }

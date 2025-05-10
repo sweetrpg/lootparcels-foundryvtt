@@ -17,7 +17,7 @@ export class BlackFlagSystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerStackedItemTypes(BlackFlagSystem.stackedItemTypes);
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
         Registry.registerDirectiveHandler('currency', BlackFlagSystem._handleCurrency);

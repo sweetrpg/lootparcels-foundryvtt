@@ -20,7 +20,7 @@ export class WWNSystem {
     static _isItemStackable(item) {
         Logging.debug("_isItemStackable", item);
 
-        return ((item.type == 'item') &&
+        return (WWNSystem.stackedItemTypes.contains(item.type) &&
                 !item.system.hasCharges);
     }
 

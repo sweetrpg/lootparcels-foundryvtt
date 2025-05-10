@@ -1,12 +1,9 @@
 import { Logging } from "./logging.js";
 
-/*------------------------------------------------------------------------------------------------
-------------------------------------------- Class(es) --------------------------------------------
-------------------------------------------------------------------------------------------------*/
-
 export class Utils {
 	/**
-	 * @description Get ride of HTML tag in a string, and ensure paragraphs are separated by line breaks.
+	 * Get rid of HTML tag in a string, and ensure paragraphs are separated by line breaks.
+	 *
 	 * @static
 	 * @param 	{ String } html
 	 * @return 	{ String }
@@ -39,11 +36,12 @@ export class Utils {
 	};
 
 	/**
-	 * @description Sanitize a string
+	 * Sanitize a string by removing all characters that are not letters, numbers, or some special characters.
+	 *
 	 * @static
 	 * @param 	{ String } str
 	 * @return 	{ String }
-	 * @memberof UTILITIES
+	 * @memberof Utils
 	 */
 	static sanitizeString(str) {
 		str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
@@ -51,15 +49,24 @@ export class Utils {
 	};
 
 	/**
-	 * @description Capitalize first letter of a string (https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript/53930826#53930826)
+	 * Capitalize first letter of a string (https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript/53930826#53930826)
+	 *
 	 * @static
-	 * @param { * } [ first, ...rest ]
-	 * @param { * } [locale=navigator.language]
-	 * @memberof UTILITIES
+	 * @param {*} [ first, ...rest ]
+	 * @param {*} [locale=navigator.language]
+	 * @memberof Utils
 	 */
 	static capitalizeFirstLetter = (str, locale = navigator.language) =>
 		str.replace(/^\p{CWU}/u, char => char.toLocaleUpperCase(locale));
 
+	/**
+	 * Get the quantity of an item from a value or die specification.
+	 *
+	 * @static
+	 * @param {string} valueOrDieSpec
+	 * @returns {number|null} The total quantity, or null if the specification is invalid.
+	 * @memberof Utils
+	 */
 	static async determineQuantity(valueOrDieSpec) {
 		Logging.debug('determineQuantity', valueOrDieSpec);
 
@@ -75,6 +82,17 @@ export class Utils {
 		}
 	}
 
+	/**
+	 * Parse a link in the format @UUID[<UUID>]{<name>}
+	 *
+	 * @static
+	 * @param {string} text The text to parse
+	 * @returns {object|null} If successfully parsed, an object with the following properties:
+	 * - source: The original text that was matched.
+	 * - id: The UUID of the linked item.
+	 * - name: The name of the linked item.
+	 * @memberof Utils
+	 */
 	static parseLink(text) {
 		Logging.debug('parseLink', text);
 
@@ -92,11 +110,15 @@ export class Utils {
 	}
 
 	/**
+	 * Determine if an item should be stacked.
 	 *
-	 * @param {Item} item
-	 * @param {Array} types
-	 * @param {function} callback
-	 * @returns {Boolean}
+	 * @static
+	 * @param {Item} item The item to check
+	 * @param {Array} types An array of item types to check against.
+	 * @param {function|null} callback A callback function that takes an item as an argument and returns a boolean indicating if the item should be stacked.
+	 *                               If provided, this callback will be used instead of the default type checking.
+	 * @returns {Boolean} Indicates if the item should be stacked.
+	 * @memberof Utils
 	 */
 	static shouldStackItem(item, types, callback) {
 		Logging.debug('Utils.shouldStackItem', item, types, callback);

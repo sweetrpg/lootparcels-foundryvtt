@@ -11,7 +11,7 @@ export class Shadowrun5eSystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(this.stackedItemTypes, 'system.technology.quantity');
+        Registry.registerStackedItemTypes(Shadowrun5eSystem.stackedItemTypes, 'system.technology.quantity');
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
         Registry.registerDirectiveHandler('currency', Shadowrun5eSystem._handleCurrency);

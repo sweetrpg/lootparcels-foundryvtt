@@ -18,7 +18,7 @@ export class Starfinder1eSystem {
         Logging.debug("registerHandlers");
 
         // Registry.registerStackedItemCallback(Starfinder1eSystem._isItemStackable);
-        Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerStackedItemTypes(Starfinder1eSystem.stackedItemTypes);
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
         Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);

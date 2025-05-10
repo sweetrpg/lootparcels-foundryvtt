@@ -36,7 +36,7 @@ export class CypherSystem {
 
         const item = await fromUuid(args.link.id);
         Logging.debug('item', item);
-        const stacked = args.stacked || Utils.shouldStackItem(item, this.stackedItemTypes);
+        const stacked = args.stacked || Utils.shouldStackItem(item, CypherSystem.stackedItemTypes);
         const type = item.type;
         Logging.debug('type', type, 'stacked', stacked);
         const addlSystemInfo = {};

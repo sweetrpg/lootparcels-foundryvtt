@@ -11,7 +11,7 @@ export class SotWWSystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerStackedItemTypes(SotWWSystem.stackedItemTypes);
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(SotWWSystem._handleTextEntry);
         Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);

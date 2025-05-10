@@ -18,7 +18,7 @@ export class T2K4eSystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(this.stackedItemTypes);
+        Registry.registerStackedItemTypes(T2K4eSystem.stackedItemTypes);
         Registry.registerLinkEntryHandler(T2K4eSystem._handleLinkEntry);
         Registry.registerTextEntryHandler(T2K4eSystem._handleTextEntry);
         // Registry.registerDirectiveHandler('currency', BlackFlagSystem._handleCurrency);

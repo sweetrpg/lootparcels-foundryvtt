@@ -11,7 +11,7 @@ export class WFRP4eSystem {
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(this.stackedItemTypes, 'system.quantity.value');
+        Registry.registerStackedItemTypes(WFRP4eSystem.stackedItemTypes, 'system.quantity.value');
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
     }

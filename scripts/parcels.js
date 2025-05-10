@@ -17,7 +17,6 @@ const allowedJournalTypes = [
  * @param {BaseActor} actor An actor appropriate to the active system.
  * @param {*} html Not used.
  * @param {JournalEntry} droppedEntity If this is not a journal entry, the function exits early.
- * @returns Nothing.
  */
 export async function handleParcelDrop(actor, html, droppedEntity) {
     Logging.debug("handleParcelDrop", actor, html, droppedEntity);

@@ -21,7 +21,16 @@ on:
             bump_type:
                 description: 'How to bump the tag'
                 required: true
-                default: 'none'
+                type: choice
+                default: 'minor'
+                options:
+                    - prerelease
+                    - prepatch
+                    - patch
+                    - preminor
+                    - minor
+                    - premajor
+                    - major
 
 jobs:
 

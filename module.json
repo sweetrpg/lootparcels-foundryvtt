@@ -5,7 +5,7 @@
   "version": "[Current Version]",
   "compatibility": {
     "minimum": "11",
-    "verified": "12"
+    "verified": "13"
   },
   "authors": [
     {
@@ -202,15 +202,6 @@
         "compatibility": {
           "minimum": "0.20.2",
           "verified": "0.20.2"
-        }
-      },
-      {
-        "id": "pbta",
-        "type": "system",
-        "manifest": "https://asacolips-artifacts.s3.amazonaws.com/pbta/1.0.14/system.json",
-        "compatibility": {
-          "minimum": "1.0.14",
-          "verified": "1.0.14"
         }
       },
       {

@@ -32,6 +32,9 @@ on:
                     - premajor
                     - major
 
+permissions:
+    contents: write
+
 jobs:
 
     build:

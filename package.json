@@ -43,7 +43,7 @@
     "sass": "^1.87.0",
     "stylelint": "^16.13.0",
     "stylelint-config-sass-guidelines": "^12.1.0",
-    "svelte-range-slider-pips": "^3.1.1",
+    "svelte-range-slider-pips": "^4.0.2",
     "svelte-select": "^5.8.3",
     "typescript": "^5.6.2",
     "vite": "^6.3.4"

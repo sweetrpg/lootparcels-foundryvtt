@@ -77,7 +77,7 @@ Hooks.once('setup', async () => {
 			SotWWSystem.registerHandlers();
 			break;
 		case 'demonlord':
-			Registry.registerAcceptableActorTypes(['character']);
+			Registry.registerAcceptableActorTypes(['character','creature']);
 			SotDLSystem.registerHandlers();
 			break;
 		case 'dnd5e':

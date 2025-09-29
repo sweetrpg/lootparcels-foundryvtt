@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@rollup/plugin-node-resolve": "^15.3.0",
-    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
     "@typhonjs-fvtt/runtime": "^0.2.0",
     "@typhonjs-fvtt/svelte-standard": "^0.1.0",
     "svelte": "^5.39.4",

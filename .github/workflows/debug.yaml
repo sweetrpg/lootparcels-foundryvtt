@@ -1,25 +1,25 @@
 name: Debug
 
 on:
-    release:
-        types:
-            - published
-            - created
-    push:
-        branches:
-            - '*'
-        tags:
-            - '*'
+  release:
+    types:
+      - published
+      - created
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
   debug:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -58,19 +58,3 @@ jobs:
           semver_only: true
           initial_version: v0.0.0
           with_initial_version: true
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            registry.sweetrpg.com/sweetrpg-main-web
-          tags: |
-            type=raw,value=latest
-            type=raw,value=${{ steps.previoustag.outputs.tag }}
-            type=raw,value=${{ steps.getbuilddate.outputs.date }}
-            type=ref,event=branch
-            type=ref,event=tag
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha

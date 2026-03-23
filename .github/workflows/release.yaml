@@ -3,104 +3,103 @@ name: Release
 concurrency: release
 
 on:
-    workflow_dispatch:
-        inputs:
-            bump_type:
-                description: 'How to bump the tag'
-                required: true
-                type: choice
-                default: 'minor'
-                options:
-                    - prerelease
-                    - prepatch
-                    - patch
-                    - preminor
-                    - minor
-                    - premajor
-                    - major
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'How to bump the tag'
+        required: true
+        type: choice
+        default: 'minor'
+        options:
+          - prerelease
+          - prepatch
+          - patch
+          - preminor
+          - minor
+          - premajor
+          - major
 
 permissions:
-    contents: write
+  contents: write
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
 
-    build:
-        runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-tags: true
+          fetch-depth: 0
+          show-progress: true
 
-        steps:
-        - uses: actions/checkout@v4
-          with:
-            fetch-tags: true
-            fetch-depth: 0
-            show-progress: true
+      - id: get_latest_tag
+        run: |
+              git tag --sort version:refname
+              tag=$(git tag --sort version:refname | tail -1)
+              echo "tag=$tag" >> $GITHUB_OUTPUT
 
-        - id: get_latest_tag
-          run: |
-                git tag --sort version:refname
-                tag=$(git tag --sort version:refname | tail -1)
-                echo "tag=$tag" >> $GITHUB_OUTPUT
+      - uses: actions-ecosystem/action-bump-semver@v1
+        id: bump_semver
+        if: ${{ inputs.bump_type != 'none' }}
+        with:
+          current_version: ${{ steps.get_latest_tag.outputs.tag }}
+          level: ${{ inputs.bump_type }}
 
-        - uses: actions-ecosystem/action-bump-semver@v1
-          id: bump_semver
-          if: ${{ inputs.bump_type != 'none' }}
-          with:
-              current_version: ${{ steps.get_latest_tag.outputs.tag }}
-              level: ${{ inputs.bump_type }}
+      - run: |
+              git config --global user.email 'ci@sweetrpg.com'
+              git config --global user.name 'SweetRPG CI'
+              git tag -a -m 'Release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
+              git push origin --tags
 
-        - run: |
-                git config --global user.email 'ci@sweetrpg.com'
-                git config --global user.name 'SweetRPG CI'
-                git tag -a -m 'Release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
-                git push origin --tags
+      # Build the changelog
+      - name: Build Changelog
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v3.6.0
+        with:
+          configuration: ".github/configs/release-changelog-builder-action.json"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-        # Build the changelog
-        - name: Build Changelog
-          id: build_changelog
-          uses: mikepenz/release-changelog-builder-action@v3.6.0
-          with:
-              configuration: ".github/configs/release-changelog-builder-action.json"
-          env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Substitute the Manifest and Download URLs in the module.json
+      - name: Substitute Manifest and Download Links For Versioned Ones
+        id: sub_manifest_link_version
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'module.json'
+        env:
+          name: loot-parcels
+          id: loot-parcels
+          title: "Loot Parcels"
+          version: ${{ steps.bump_semver.outputs.new_version }}
+          url: https://github.com/${{ github.repository }}
+          manifest: https://github.com/${{ github.repository }}/releases/latest/download/module.json
+          download: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.zip
 
-        # Substitute the Manifest and Download URLs in the module.json
-        - name: Substitute Manifest and Download Links For Versioned Ones
-          id: sub_manifest_link_version
-          uses: microsoft/variable-substitution@v1
-          with:
-              files: 'module.json'
-          env:
-              name: loot-parcels
-              id: loot-parcels
-              title: "Loot Parcels"
-              version: ${{ steps.bump_semver.outputs.new_version }}
-              url: https://github.com/${{ github.repository }}
-              manifest: https://github.com/${{ github.repository }}/releases/latest/download/module.json
-              download: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.zip
+      # Create a zip file with all files required by the module to add to the release
+      - run: |
+              # change log level
+              sed -i -e 's/logLevel = 3/logLevel = 1/g' scripts/logging.js
+              # package
+              zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
-        # Create a zip file with all files required by the module to add to the release
-        - run: |
-                # change log level
-                sed -i -e 's/logLevel = 3/logLevel = 1/g' scripts/logging.js
-                # package
-                zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+      # Create a release for this specific version
+      - name: Create Release with Files
+        id: create_version_release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          allowUpdates: false
+          name: 'Release: ${{ steps.bump_semver.outputs.new_version }}'
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: './module.json, ./module.zip'
+          tag: ${{ steps.bump_semver.outputs.new_version }}
+          body: ${{steps.build_changelog.outputs.changelog }}
 
-        # Create a release for this specific version
-        - name: Create Release with Files
-          id: create_version_release
-          uses: ncipollo/release-action@v1.12.0
-          with:
-              allowUpdates: false
-              name: 'Release: ${{ steps.bump_semver.outputs.new_version }}'
-              draft: false
-              prerelease: false
-              token: ${{ secrets.GITHUB_TOKEN }}
-              artifacts: './module.json, ./module.zip'
-              tag: ${{ steps.bump_semver.outputs.new_version }}
-              body: ${{steps.build_changelog.outputs.changelog }}
-
-        # Push release to Foundry
-        - id: foundryvtt_release
-          uses: illandril/FoundryVTT-package-release-action@v1
-          with:
-              package-release-token: ${{ secrets.PACKAGE_RELEASE_TOKEN }}
-              manifest-url: https://github.com/${{ github.repository }}/releases/latest/download/module.json
+      # Push release to Foundry
+      - id: foundryvtt_release
+        uses: illandril/FoundryVTT-package-release-action@v1
+        with:
+          package-release-token: ${{ secrets.PACKAGE_RELEASE_TOKEN }}
+          manifest-url: https://github.com/${{ github.repository }}/releases/latest/download/module.json

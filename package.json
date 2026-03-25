@@ -42,7 +42,7 @@
     "postcss-scss": "^4.0.9",
     "sass": "^1.93.0",
     "stylelint": "^16.25.0",
-    "stylelint-config-sass-guidelines": "^12.1.0",
+    "stylelint-config-sass-guidelines": "^13.0.0",
     "svelte-range-slider-pips": "^4.0.7",
     "svelte-select": "^5.8.3",
     "typescript": "^5.6.2",

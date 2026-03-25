@@ -17,6 +17,7 @@ The following versions of Foundry are supported:
 | v11 | &check; |
 | v12 | &check; |
 | v13 | &check; |
+| v14 | &rarr; |
 
 The following systems are currently supported:
 
@@ -40,6 +41,7 @@ The following systems are currently supported:
 * Shadow of the Weird Wizard
 * Shadowdark
 * Shadowrun, 5th edition
+* Starfinder, 1st edition
 * The One Ring, 1st edition
 * The One Ring, 2nd edition
 * Twilight:2000, 4th edition

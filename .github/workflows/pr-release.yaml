@@ -30,7 +30,7 @@ jobs:
         id: bump_semver
         with:
           current_version: ${{ steps.get_latest_tag.outputs.tag }}
-          level: XXX -- add a suffix for the PR number here, e.g. "patch-PR123"
+          level: prepatch # add a suffix for the PR number here, e.g. "patch-PR123"
 
       - run: |
               git config --global user.email 'ci@sweetrpg.com'

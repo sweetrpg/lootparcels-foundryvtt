@@ -59,7 +59,7 @@ jobs:
         with:
           files: 'module.json'
         env:
-          version: ${{ steps.bump_semver.outputs.new_version }}
+          version: ${{ steps.create_tag.outputs.new_version }}
           url: https://github.com/${{ github.repository }}
           # TODO: update the manifest and download URLs to point to the PR release instead of the latest release, e.g.
           manifest: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_tag.outputs.new_version }}/module.json

@@ -257,6 +257,15 @@
           "minimum": "0.30.1",
           "verified": "0.30.1"
         }
+      },
+      {
+        "id": "pbta",
+        "type": "system",
+        "manifest": "https://asacolips-artifacts.s3.amazonaws.com/pbta/latest/system.json",
+        "compatibility": {
+          "minimum": "1.1.22",
+          "verified": "1.1.22"
+        }
       }
     ]
   },

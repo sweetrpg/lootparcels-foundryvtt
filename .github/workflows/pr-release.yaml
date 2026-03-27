@@ -41,7 +41,7 @@ jobs:
 
               echo "new_version=${{ env.NEW_VERSION }}" >> $GITHUB_OUTPUT
         env:
-          NEW_VERSION: ${{ steps.bump_semver.outputs.new_version }}-PR${{ github.event.number }}
+          NEW_VERSION: ${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}
 
       # Build the changelog
       - name: Build Changelog

@@ -32,11 +32,16 @@ jobs:
           current_version: ${{ steps.get_latest_tag.outputs.tag }}
           level: prepatch # add a suffix for the PR number here, e.g. "patch-PR123"
 
-      - run: |
+      - id: create_tag
+        run: |
               git config --global user.email 'ci@sweetrpg.com'
               git config --global user.name 'SweetRPG CI'
-              git tag -a -m 'PR release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
+              git tag -a -m 'PR release tag: ${{ env.NEW_VERSION}}' "${{ env.NEW_VERSION }}"
               git push origin --tags
+
+              echo "new_version=${{ env.NEW_VERSION }}" >> $GITHUB_OUTPUT
+        env:
+          NEW_VERSION: ${{ steps.bump_semver.outputs.new_version }}-PR${{ github.event.number }}
 
       # Build the changelog
       - name: Build Changelog
@@ -57,8 +62,8 @@ jobs:
           version: ${{ steps.bump_semver.outputs.new_version }}
           url: https://github.com/${{ github.repository }}
           # TODO: update the manifest and download URLs to point to the PR release instead of the latest release, e.g.
-          manifest: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.json
-          download: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.zip
+          manifest: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_tag.outputs.new_version }}/module.json
+          download: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_tag.outputs.new_version }}/module.zip
 
       # Create a zip file with all files required by the module to add to the release
       - run: zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
@@ -69,10 +74,10 @@ jobs:
         uses: ncipollo/release-action@v1.12.0
         with:
           allowUpdates: false
-          name: 'PR release: ${{ steps.bump_semver.outputs.new_version }}'
+          name: 'PR release: ${{ steps.create_tag.outputs.new_version }}'
           draft: false
           prerelease: true
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: './module.json, ./module.zip'
-          tag: ${{ steps.bump_semver.outputs.new_version }}
+          tag: ${{ steps.create_tag.outputs.new_version }}
           body: ${{steps.build_changelog.outputs.changelog }}

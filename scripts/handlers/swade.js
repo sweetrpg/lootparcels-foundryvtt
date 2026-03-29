@@ -1,20 +1,20 @@
 /**
- * Shadowrun, 5th Edition
+ * Savage Worlds, Adventure Edition
  */
 import { AllSystems } from "./handlers-all.js";
-import { Registry } from "./registry.js";
-import { Logging } from "./logging.js";
+import { Registry } from "../registry.js";
+import { Logging } from "../logging.js";
 
-export class Shadowrun5eSystem {
-    static stackedItemTypes = ['ammo'];
+export class SWADESystem {
+    static stackedItemTypes = ['consumable'];
 
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(Shadowrun5eSystem.stackedItemTypes, 'system.technology.quantity');
+        Registry.registerStackedItemTypes(SWADESystem.stackedItemTypes);
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
-        Registry.registerDirectiveHandler('currency', Shadowrun5eSystem._handleCurrency);
+        Registry.registerDirectiveHandler('currency', SWADESystem._handleCurrency);
     }
 
     static async _handleCurrency(actor, args) {
@@ -22,10 +22,10 @@ export class Shadowrun5eSystem {
 
         let quantity = args.quantity;
 
-        const currentAmount = actor.system.nuyen || 0;
+        const currentAmount = actor.system.details.currency || 0;
         Logging.debug("currentAmount", currentAmount);
         const amount = parseInt(currentAmount) + parseInt(quantity);
         Logging.debug('amount', amount);
-        await actor.update({ 'system.nuyen': amount });
+        await actor.update({ 'system.details.currency': amount });
     }
 }

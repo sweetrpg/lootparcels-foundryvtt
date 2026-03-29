@@ -2,9 +2,9 @@
  * Cypher System
  */
 import { AllSystems } from "./handlers-all.js";
-import { Registry } from "./registry.js";
-import { Logging } from "./logging.js";
-import { Utils } from "./utilities.js";
+import { Registry } from "../registry.js";
+import { Logging } from "../logging.js";
+import { Utils } from "../utilities.js";
 
 /**
  * Class container for all Cypher System related functions.

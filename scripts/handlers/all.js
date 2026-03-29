@@ -1,9 +1,9 @@
 /**
  *
  */
-import { Logging } from "./logging.js";
-import { Utils } from "./utilities.js";
-import { Registry } from "./registry.js";
+import { Logging } from "../logging.js";
+import { Utils } from "../utilities.js";
+import { Registry } from "../registry.js";
 
 /**
  *

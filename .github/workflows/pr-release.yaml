@@ -26,9 +26,15 @@ jobs:
               tag=$(git tag --sort version:refname | tail -1)
               echo "tag=$tag" >> $GITHUB_OUTPUT
 
+      - uses: actions-ecosystem/action-bump-semver@v1
+        id: bump_semver
+        with:
+          current_version: ${{ steps.get_latest_tag.outputs.tag }}
+          level: prepatch # add a suffix for the PR number here, e.g. "patch-PR123"
+
       - id: create_pr_version
         run: |
-              echo "version=${{ steps.get_latest_tag.outputs.tag }}-0.PR${{ github.event.number }}" >> $GITHUB_OUTPUT
+              echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}" >> $GITHUB_OUTPUT
 
       # Substitute the Manifest and Download URLs in the module.json
       - name: Substitute Manifest and Download Links For Versioned Ones
@@ -50,7 +56,7 @@ jobs:
         id: create_version_release
         uses: ncipollo/release-action@v1.12.0
         with:
-          allowUpdates: true
+          allowUpdates: false
           name: 'PR release: ${{ steps.create_pr_version.outputs.version }}'
           draft: false
           prerelease: true
@@ -58,8 +64,3 @@ jobs:
           artifacts: './module.json, ./module.zip'
           tag: ${{ steps.create_pr_version.outputs.version }}
           body: "PR release for version ${{ steps.create_pr_version.outputs.version }}. This release is automatically generated from the PR and is meant for testing purposes. It will be deleted once the PR is merged or closed."
-          generateReleaseNotes: true
-          removeArtifacts: true
-          replacesArtifacts: true
-          skipIfReleaseExists: false
-          updateOnlyUnreleased: false

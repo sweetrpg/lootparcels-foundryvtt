@@ -23,7 +23,7 @@ import { DungeonworldSystem } from "./scripts/handlers-dungeonworld.js";
 import { ForbiddenLandsSystem } from "./scripts/handlers-forbidden-lands.js";
 import { Hackmaster5eSystem } from "./scripts/handlers-hackmaster5e.js";
 import { ArchmageSystem } from "./scripts/handlers-archmage.js";
-// import { PbtASystem } from "./scripts/handlers-pbta.js";
+import { PbtASystem } from "./scripts/handlers-pbta.js";
 import { WFRP4eSystem } from "./scripts/handlers-wfrp4e.js";
 import { FATESystem } from "./scripts/handlers-fate.js";
 import { Shadowrun5eSystem } from "./scripts/handlers-shadowrun5e.js";
@@ -53,7 +53,7 @@ export const SYSTEMS = {
     'forbidden-lands': { actorTypes: ['character'], handler: ForbiddenLandsSystem },
     'hackmaster5e': { actorTypes: ['character'], handler: Hackmaster5eSystem },
     'archmage': { actorTypes: ['character'], handler: ArchmageSystem },
-    //  'pbta':{ actorTypes: ['character'], handler: PbtASystem },
+    'pbta': { actorTypes: ['character'], handler: PbtASystem },
     'wfrp4e': { actorTypes: ['character'], handler: WFRP4eSystem },
     'shadowrun5e': { actorTypes: ['character'], handler: Shadowrun5eSystem },
     'sfrpg': { actorTypes: ['character'], handler: Starfinder1eSystem },

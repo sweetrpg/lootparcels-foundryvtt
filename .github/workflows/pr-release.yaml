@@ -50,7 +50,7 @@ jobs:
         id: create_version_release
         uses: ncipollo/release-action@v1.12.0
         with:
-          allowUpdates: false
+          allowUpdates: true
           name: 'PR release: ${{ steps.create_pr_version.outputs.version }}'
           draft: false
           prerelease: true
@@ -58,3 +58,9 @@ jobs:
           artifacts: './module.json, ./module.zip'
           tag: ${{ steps.create_pr_version.outputs.version }}
           body: "PR release for version ${{ steps.create_pr_version.outputs.version }}. This release is automatically generated from the PR and is meant for testing purposes. It will be deleted once the PR is merged or closed."
+          generateReleaseNotes: true
+          omitBody: true
+          removeArtifacts: true
+          replacesArtifacts: true
+          skipIfReleaseExists: false
+          updateOnlyUnreleased: false

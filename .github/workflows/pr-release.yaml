@@ -57,10 +57,10 @@ jobs:
         uses: ncipollo/release-action@v1.12.0
         with:
           allowUpdates: false
-          artifacts: './module.json, ./module.zip'
-          body: "PR release for version ${{ steps.create_pr_version.outputs.version }}. This release is automatically generated from the PR and is meant for testing purposes. It will be deleted once the PR is merged or closed."
-          draft: false
           name: 'PR release: ${{ steps.create_pr_version.outputs.version }}'
+          draft: false
           prerelease: true
-          tag: ${{ steps.create_pr_version.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: './module.json, ./module.zip'
+          tag: ${{ steps.create_pr_version.outputs.version }}
+          body: "PR release for version ${{ steps.create_pr_version.outputs.version }}. This release is automatically generated from the PR and is meant for testing purposes. It will be deleted once the PR is merged or closed."

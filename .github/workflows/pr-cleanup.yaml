@@ -1,67 +1,32 @@
----
-name: PR Release
+name: Cleanup PR Release Artifacts
 
 concurrency: pr-release
 
 on:
   pull_request:
-    branches:
-      - develop
-
-permissions:
-  contents: write
+    types: [closed]
 
 jobs:
-  build:
+  cleanup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - name: Delete PR release
+        uses: actions/github-script@v7
         with:
-          fetch-tags: true
-          fetch-depth: 0
-          show-progress: true
+          script: |
+            const prNumber = context.issue.number;
+            const releases = await github.rest.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
 
-      - id: get_latest_tag
-        run: |
-              git tag --sort version:refname
-              tag=$(git tag --sort version:refname | tail -1)
-              echo "tag=$tag" >> $GITHUB_OUTPUT
-
-      - uses: actions-ecosystem/action-bump-semver@v1
-        id: bump_semver
-        with:
-          current_version: ${{ steps.get_latest_tag.outputs.tag }}
-          level: prepatch # add a suffix for the PR number here, e.g. "patch-PR123"
-
-      - id: create_pr_version
-        run: |
-              echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}" >> $GITHUB_OUTPUT
-
-      # Substitute the Manifest and Download URLs in the module.json
-      - name: Substitute Manifest and Download Links For Versioned Ones
-        id: sub_manifest_link_version
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: 'module.json'
-        env:
-          version: ${{ steps.create_pr_version.outputs.version }}
-          url: https://github.com/${{ github.repository }}
-          manifest: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_pr_version.outputs.version }}/module.json
-          download: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_pr_version.outputs.version }}/module.zip
-
-      # Create a zip file with all files required by the module to add to the release
-      - run: zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
-
-      # Create a release for this specific version
-      - name: Create Release with Files
-        id: create_version_release
-        uses: ncipollo/release-action@v1.12.0
-        with:
-          allowUpdates: false
-          name: 'PR release: ${{ steps.create_pr_version.outputs.version }}'
-          draft: false
-          prerelease: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: './module.json, ./module.zip'
-          tag: ${{ steps.create_pr_version.outputs.version }}
-          body: "PR release for version ${{ steps.create_pr_version.outputs.version }}. This release is automatically generated from the PR and is meant for testing purposes. It will be deleted once the PR is merged or closed."
+            for (const release of releases.data) {
+              if (release.prerelease && release.tag_name.includes(`-0.PR${prNumber}`)) {
+                await github.rest.repos.deleteRelease({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  release_id: release.id,
+                });
+                console.log(`Deleted prerelease: ${release.tag_name}`);
+              }
+            }

@@ -12,7 +12,7 @@ export class Logging {
         if (Logging.logLevel > 1) console.log("loot-parcels |", ...args);
     };
     static warn = (...args) => {
-        if (Logging.debugEnabled > 0) console.warn("loot-parcels |", ...args);
+        if (Logging.logLevel > 0) console.warn("loot-parcels |", ...args);
     };
     static error = (...args) => {
         console.error("loot-parcels |", ...args);

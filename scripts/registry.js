@@ -1,5 +1,5 @@
 /**
- *
+ * Registry class.
  */
 import { Logging } from "./logging.js";
 

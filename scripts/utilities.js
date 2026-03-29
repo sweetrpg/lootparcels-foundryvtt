@@ -1,3 +1,6 @@
+/**
+ * Utility functions for the module.
+ */
 import { Logging } from "./logging.js";
 
 export class Utils {

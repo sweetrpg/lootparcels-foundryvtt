@@ -2,8 +2,8 @@
  * Dungeons and Dragons, 1st Edition
  */
 import { AllSystems } from "./handlers-all.js";
-import { Registry } from "./registry.js";
-import { Logging } from "./logging.js";
+import { Registry } from "../registry.js";
+import { Logging } from "../logging.js";
 
 export class DnD1eSystem {
     static registerHandlers() {

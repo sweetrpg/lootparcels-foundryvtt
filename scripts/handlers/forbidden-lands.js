@@ -1,17 +1,17 @@
 /**
- * Dungeonworld
+ * Forbidden Lands
  */
 import { AllSystems } from "./handlers-all.js";
-import { Registry } from "./registry.js";
-import { Logging } from "./logging.js";
+import { Registry } from "../registry.js";
+import { Logging } from "../logging.js";
 
-export class DungeonworldSystem {
+export class ForbiddenLandsSystem {
     static stackedItemTypes = ['consumable', 'loot', 'tool'];
 
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(DungeonworldSystem.stackedItemTypes);
+        Registry.registerStackedItemTypes(ForbiddenLandsSystem.stackedItemTypes);
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
         Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);

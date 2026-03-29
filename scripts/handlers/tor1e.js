@@ -1,26 +1,23 @@
 /**
- * The One Ring, 2nd Edition
+ * The One Ring, 1st Edition
  */
 import { AllSystems } from "./handlers-all.js";
-import { Registry } from "./registry.js";
-import { Logging } from "./logging.js";
+import { Registry } from "../registry.js";
+import { Logging } from "../logging.js";
 
 /**
  *
  */
-export class TOR2eSystem {
+export class TOR1eSystem {
     static stackedItemTypes = ['miscellaneous'];
 
-    /**
-     *
-     */
     static registerHandlers() {
         Logging.debug("registerHandlers");
 
-        Registry.registerStackedItemTypes(TOR2eSystem.stackedItemTypes);
+        Registry.registerStackedItemTypes(TOR1eSystem.stackedItemTypes);
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
-        Registry.registerDirectiveHandler('currency', TOR2eSystem._handleCurrency);
+        Registry.registerDirectiveHandler('currency', TOR1eSystem._handleCurrency);
     }
 
     static async _handleCurrency(actor, args) {

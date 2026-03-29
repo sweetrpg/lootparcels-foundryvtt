@@ -1,9 +1,11 @@
 name: Generate Changelog
 
+concurrency: changelog
+
 on:
   push:
     branches:
-      - develop # master
+      - master
 
 jobs:
   changelog:

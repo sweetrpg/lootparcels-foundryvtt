@@ -39,14 +39,12 @@ jobs:
               git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
               git push origin --tags
 
-      # Build the changelog
-      - name: Build Changelog
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@v3.6.0
+      - name: Conventional Release Action
+        id: release_notes
+        uses: onesoft-sudo/conventional-release-action@v1.7.0
         with:
-          configuration: ".github/configs/release-changelog-builder-action.json"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          create-tag: false
+          create-commit: false
 
       # Substitute the Manifest and Download URLs in the module.json
       - name: Substitute Manifest and Download Links For Versioned Ones
@@ -75,4 +73,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: './module.json, ./module.zip'
           tag: ${{ steps.bump_semver.outputs.new_version }}
-          body: ${{steps.build_changelog.outputs.changelog }}
+          body: ${{steps.release_notes.outputs.release_notes }}

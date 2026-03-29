@@ -10,13 +10,6 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-    #   - name: Delete PR release artifacts
-    #     uses: geekyeggo/delete-artifact@v2
-    #     with:
-    #       name: |
-    #         release-*-pr-${{ github.event.pull_request.number }}-*
-    #       failOnError: false
-
       - name: Delete PR release
         uses: actions/github-script@v7
         with:

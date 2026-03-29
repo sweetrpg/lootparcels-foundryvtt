@@ -5,8 +5,8 @@ export class Utils {
 	 * Get rid of HTML tag in a string, and ensure paragraphs are separated by line breaks.
 	 *
 	 * @static
-	 * @param 	{ String } html
-	 * @return 	{ String }
+	 * @param 	 { String } html
+	 * @return 	 { String }
 	 * @memberof Utils
 	 */
 	static getLinesFromHtml(html) {
@@ -39,8 +39,8 @@ export class Utils {
 	 * Sanitize a string by removing all characters that are not letters, numbers, or some special characters.
 	 *
 	 * @static
-	 * @param 	{ String } str
-	 * @return 	{ String }
+	 * @param 	 { String } str
+	 * @return 	 { String }
 	 * @memberof Utils
 	 */
 	static sanitizeString(str) {
@@ -52,8 +52,8 @@ export class Utils {
 	 * Capitalize first letter of a string (https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript/53930826#53930826)
 	 *
 	 * @static
-	 * @param {*} [ first, ...rest ]
-	 * @param {*} [locale=navigator.language]
+	 * @param    { String } str
+	 * @param    { String } locale=navigator.language
 	 * @memberof Utils
 	 */
 	static capitalizeFirstLetter = (str, locale = navigator.language) =>
@@ -63,8 +63,8 @@ export class Utils {
 	 * Get the quantity of an item from a value or die specification.
 	 *
 	 * @static
-	 * @param {string} valueOrDieSpec
-	 * @returns {number|null} The total quantity, or null if the specification is invalid.
+	 * @param    { String } 	   valueOrDieSpec
+	 * @returns  { Number | null } The total quantity, or null if the specification is invalid.
 	 * @memberof Utils
 	 */
 	static async determineQuantity(valueOrDieSpec) {
@@ -77,7 +77,7 @@ export class Utils {
 			Logging.debug("total", r.total);
 			return r.total;
 		}
-		catch (error) {
+		catch(error) {
 			return null;
 		}
 	}
@@ -86,8 +86,8 @@ export class Utils {
 	 * Parse a link in the format @UUID[<UUID>]{<name>}
 	 *
 	 * @static
-	 * @param {string} text The text to parse
-	 * @returns {object|null} If successfully parsed, an object with the following properties:
+	 * @param    { String }        text The text to parse
+	 * @returns  { Object | null } If successfully parsed, an object with the following properties:
 	 * - source: The original text that was matched.
 	 * - id: The UUID of the linked item.
 	 * - name: The name of the linked item.
@@ -98,7 +98,7 @@ export class Utils {
 
 		const linkExpr = /@UUID\[(\S+)\]\{(.+?)\}/;
 		let matchResult = text.match(linkExpr);
-		if (matchResult === undefined || matchResult === null) {
+		if(matchResult === undefined || matchResult === null) {
 			return null;
 		}
 
@@ -113,11 +113,11 @@ export class Utils {
 	 * Determine if an item should be stacked.
 	 *
 	 * @static
-	 * @param {Item} item The item to check
-	 * @param {Array} types An array of item types to check against.
-	 * @param {function|null} callback A callback function that takes an item as an argument and returns a boolean indicating if the item should be stacked.
+	 * @param    { Item } 			 item The item to check
+	 * @param    { Array } 			 types An array of item types to check against.
+	 * @param    { function | null } callback A callback function that takes an item as an argument and returns a boolean indicating if the item should be stacked.
 	 *                               If provided, this callback will be used instead of the default type checking.
-	 * @returns {Boolean} Indicates if the item should be stacked.
+	 * @returns  { Boolean } 		 Indicates if the item should be stacked.
 	 * @memberof Utils
 	 */
 	static shouldStackItem(item, types, callback) {
@@ -131,18 +131,18 @@ export class Utils {
 		const itemType = item.type.toLowerCase();
 		const itemSubtype = item.system.subtype?.toLowerCase() || null;
 
-		for (let type of types) {
+		for(let type of types) {
 			Logging.debug('type', type);
 			const typeSubtype = type.split(':');
 			Logging.debug("typeSubtype", typeSubtype);
 
-			if (typeSubtype[0] === itemType) {
+			if(typeSubtype[0] === itemType) {
 				Logging.debug(`Item's type ${itemType} matches`);
 
-				if (typeSubtype.length > 1) {
+				if(typeSubtype.length > 1) {
 					Logging.debug("Registered type requires a subtype", typeSubtype[1]);
 
-					if (typeSubtype[1] === itemSubtype) {
+					if(typeSubtype[1] === itemSubtype) {
 						Logging.debug(`Item's subtype ${itemSubtype} matches`);
 						return true;
 					}
@@ -159,5 +159,4 @@ export class Utils {
 		Logging.debug("No item types matched");
 		return false;
 	}
-
 };

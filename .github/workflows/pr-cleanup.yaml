@@ -1,3 +1,4 @@
+---
 name: Cleanup PR Release Artifacts
 
 concurrency: pr-release

@@ -1,3 +1,4 @@
+---
 name: Generate Changelog
 
 concurrency: changelog

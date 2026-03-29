@@ -5,7 +5,7 @@ import { A5eSystem } from "./scripts/handlers/a5e.js";
 import { ArchmageSystem } from "./scripts/handlers/archmage.js";
 import { BlackFlagSystem } from "./scripts/handlers/black-flag.js";
 import { CCSystem } from "./scripts/handlers/cc.js";
-import { CypherSystem } from "./scripts/handlers/cyphersystem.js";
+import { CypherSystem } from "./scripts/handlers/cypher.js";
 import { DnD1eSystem } from "./scripts/handlers/dnd1e.js";
 import { DnD5eSystem } from "./scripts/handlers/dnd5e.js";
 import { DungeonworldSystem } from "./scripts/handlers/dungeonworld.js";

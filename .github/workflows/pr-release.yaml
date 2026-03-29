@@ -43,15 +43,6 @@ jobs:
         env:
           NEW_VERSION: ${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}
 
-      # Build the changelog
-      - name: Build Changelog
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@v3.6.0
-        with:
-          configuration: ".github/configs/release-changelog-builder-action.json"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       # Substitute the Manifest and Download URLs in the module.json
       - name: Substitute Manifest and Download Links For Versioned Ones
         id: sub_manifest_link_version
@@ -80,4 +71,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: './module.json, ./module.zip'
           tag: ${{ steps.create_tag.outputs.new_version }}
-          body: ${{steps.build_changelog.outputs.changelog }}
+          body: "PR release for version ${{ steps.create_tag.outputs.new_version }}. This release is automatically generated from the PR and is meant for testing purposes. It will be deleted once the PR is merged or closed."

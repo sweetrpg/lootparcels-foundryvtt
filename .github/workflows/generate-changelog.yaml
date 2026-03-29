@@ -29,5 +29,5 @@ jobs:
     - name: Commit Changelog
       run: |
         git add CHANGELOG.md
-        git commit -m "docs: :robot: changelog file generated" || echo "No changes to commit"
+        git commit -m "docs: :robot: changelog file generated [skip ci]" || echo "No changes to commit"
         git push

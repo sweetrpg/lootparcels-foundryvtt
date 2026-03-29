@@ -32,16 +32,9 @@ jobs:
           current_version: ${{ steps.get_latest_tag.outputs.tag }}
           level: prepatch # add a suffix for the PR number here, e.g. "patch-PR123"
 
-      - id: create_tag
+      - id: create_pr_version
         run: |
-              git config --global user.email 'ci@sweetrpg.com'
-              git config --global user.name 'SweetRPG CI'
-              git tag -a -m 'PR release tag: ${{ env.NEW_VERSION}}' "${{ env.NEW_VERSION }}"
-              git push origin --tags
-
-              echo "new_version=${{ env.NEW_VERSION }}" >> $GITHUB_OUTPUT
-        env:
-          NEW_VERSION: ${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}
+              echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}" >> $GITHUB_OUTPUT
 
       # Substitute the Manifest and Download URLs in the module.json
       - name: Substitute Manifest and Download Links For Versioned Ones
@@ -50,11 +43,10 @@ jobs:
         with:
           files: 'module.json'
         env:
-          version: ${{ steps.create_tag.outputs.new_version }}
+          version: ${{ steps.create_pr_version.outputs.version }}
           url: https://github.com/${{ github.repository }}
-          # TODO: update the manifest and download URLs to point to the PR release instead of the latest release, e.g.
-          manifest: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_tag.outputs.new_version }}/module.json
-          download: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_tag.outputs.new_version }}/module.zip
+          manifest: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_pr_version.outputs.version }}/module.json
+          download: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_pr_version.outputs.version }}/module.zip
 
       # Create a zip file with all files required by the module to add to the release
       - run: zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
@@ -65,10 +57,10 @@ jobs:
         uses: ncipollo/release-action@v1.12.0
         with:
           allowUpdates: false
-          name: 'PR release: ${{ steps.create_tag.outputs.new_version }}'
+          name: 'PR release: ${{ steps.create_pr_version.outputs.version }}'
           draft: false
           prerelease: true
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: './module.json, ./module.zip'
-          tag: ${{ steps.create_tag.outputs.new_version }}
-          body: "PR release for version ${{ steps.create_tag.outputs.new_version }}. This release is automatically generated from the PR and is meant for testing purposes. It will be deleted once the PR is merged or closed."
+          tag: ${{ steps.create_pr_version.outputs.version }}
+          body: "PR release for version ${{ steps.create_pr_version.outputs.version }}. This release is automatically generated from the PR and is meant for testing purposes. It will be deleted once the PR is merged or closed."

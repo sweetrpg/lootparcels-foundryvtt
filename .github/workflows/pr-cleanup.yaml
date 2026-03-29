@@ -1,7 +1,10 @@
 name: Cleanup PR Release Artifacts
 
+<<<<<<< HEAD
 concurrency: pr-release
 
+=======
+>>>>>>> dc494d8 (chore: add PR cleanup workflow)
 on:
   pull_request:
     types: [closed]

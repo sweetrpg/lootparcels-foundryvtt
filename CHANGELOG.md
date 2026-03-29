@@ -6,6 +6,50 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased changes
 
+### Chore
+- update version in security policy [`1e72ca6`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/1e72ca6)
+- update copyright year in license [`f0be3b1`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/f0be3b1)
+
+## 0.23.14-0.PR228 (2026-03-28)
+
+### Feature
+- add workflow to generate the changelog [`b09329d`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/b09329d)
+- add workflow to generate changelog [`d18f8e5`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/d18f8e5)
+- Use a map of systems [`ca16ad3`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/ca16ad3)
+- Add workflow to enforce conventional commits [`b2361be`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/b2361be)
+- Add system: Powered by the Apocalypse Fixes #223 [`5379a15`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/5379a15)
+
+### Bug Fixes
+- Add configuration for changelog builder [`ec96e74`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/ec96e74)
+- check logLevel in warn() function [`ed8b6a4`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/ed8b6a4)
+- change format of version string [`b0707e6`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/b0707e6)
+- Update version ref [`e79d95e`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/e79d95e)
+- Include PR number in the version info [`1db2a20`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/1db2a20)
+
+### Documentation
+- :robot: changelog file generated [`fcaec18`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/fcaec18)
+
+### Chore
+- enable PbtA in new system map setup [`51b28f8`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/51b28f8)
+- update package.json [`362d5fb`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/362d5fb)
+- add contribution doc [`6f2094b`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/6f2094b)
+- add AI policy [`3766130`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/3766130)
+
+### Other
+- Merge fcaec1878bfe28c9f7c2a994e7b23f31afa8d6af into 3b6486eea372fdde4a3765af7c404ae4638da4df [`9e7a866`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/9e7a866)
+- Merge branch 'develop' into feature/223-pbta [`d01ebd4`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/d01ebd4)
+- Update bump step [`0a4c77c`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/0a4c77c)
+- Remove workflow dispatch trigger [`5ee5d85`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/5ee5d85)
+
+## 0.23.14 (2026-03-28)
+
+### Documentation
+- :robot: changelog file generated [`3b6486e`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/3b6486e)
+
+### Chore
+- update version in security policy [`1e72ca6`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/1e72ca6)
+- update copyright year in license [`f0be3b1`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/f0be3b1)
+
 ### Other
 - Merge pull request #241 from sweetrpg/feature/240-better-changelog-generation [`c300d65`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/c300d65)
 

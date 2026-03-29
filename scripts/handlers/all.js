@@ -12,8 +12,8 @@ export class AllSystems {
 
     /**
      *
-     * @param {Actor} actor
-     * @param {object} args
+     * @param { Actor }  actor The actor to which the item should be added
+     * @param { object } args
      */
     static async handleLinkEntry(actor, args) {
         Logging.debug('handleLinkEntry', actor, args);

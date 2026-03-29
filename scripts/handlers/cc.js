@@ -1,7 +1,7 @@
 /**
  * Castles and Crusades
  */
-import { AllSystems } from "./handlers-all.js";
+import { AllSystems } from "./all.js";
 import { Registry } from "../registry.js";
 import { Logging } from "../logging.js";
 

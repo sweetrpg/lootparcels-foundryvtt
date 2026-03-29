@@ -7,9 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Unreleased changes
 
 ### Documentation
+- :robot: changelog file generated [`0e03966`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/0e03966)
 - :robot: changelog file generated [`c26e7e0`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/c26e7e0)
 
 ### Chore
+- add concurrency to PR cleanup workflow [`4d6a7e3`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/4d6a7e3)
 - update action step to generate release notes [`0b4185f`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/0b4185f)
 - add PR cleanup workflow [`dc494d8`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/dc494d8)
 - remove release notes generation for PR release [`d69cfcb`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/d69cfcb)

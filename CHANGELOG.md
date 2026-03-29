@@ -1405,4 +1405,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Other
 - Commit to master [`0cd8ae8`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/0cd8ae8)
 - Initial commit [`47bd167`](https://github.com/sweetrpg/lootparcels-foundryvtt/commit/47bd167)
-

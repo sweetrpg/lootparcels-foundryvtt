@@ -1,5 +1,7 @@
 name: Cleanup PR Release Artifacts
 
+concurrency: pr-release
+
 on:
   pull_request:
     types: [closed]

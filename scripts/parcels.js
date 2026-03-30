@@ -5,6 +5,7 @@
 import { Logging } from "./logging.js";
 import { Utils } from "./utilities.js";
 import { Registry } from "./registry.js";
+import { Chat } from "./chat.js";
 
 const prefix = '$';
 const allowedJournalTypes = [
@@ -159,5 +160,8 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         }
 
         await fn(actor, args);
+
+        // Write it to the chat log
+        await Chat.logParcelEntry(actor, entryType, args);
     });
 }

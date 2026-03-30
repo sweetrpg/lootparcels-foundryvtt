@@ -6,12 +6,14 @@ import { Registry } from "../registry.js";
 import { Logging } from "../logging.js";
 
 /**
- *
+ * System class for A5E, responsible for registering handlers and defining system-specific logic.
  */
 export class A5eSystem {
 
     /**
+     * Registers all handlers for the A5E system.
      *
+     * @static
      */
     static registerHandlers() {
         Logging.debug("registerHandlers");
@@ -23,6 +25,12 @@ export class A5eSystem {
         Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);
     }
 
+    /**
+     * @static
+     * @private
+     * @param { Item } item An item object to check for stackability.
+     * @returns { Boolean } True if the item is stackable, false otherwise.
+     */
     static _isItemStackable(item) {
         Logging.debug("_isItemStackable", item);
 

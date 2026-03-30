@@ -14,6 +14,7 @@ import { ForbiddenLandsSystem } from "./scripts/handlers/forbidden-lands.js";
 import { GenesysSystem } from "./scripts/handlers/genesys.js";
 import { Hackmaster5eSystem } from "./scripts/handlers/hackmaster5e.js";
 import { OSESystem } from "./scripts/handlers/ose.js";
+import { PbtASystem } from "./scripts/handlers/pbta.js";
 import { PF1System } from "./scripts/handlers/pf1.js";
 import { PF2eSystem } from "./scripts/handlers/pf2e.js";
 import { ShadowdarkSystem } from "./scripts/handlers/shadowdark.js";
@@ -43,6 +44,7 @@ export const SYSTEMS = {
     'genesys': { actorTypes: ['character'], handler: GenesysSystem },
     'hackmaster5e': { actorTypes: ['character'], handler: Hackmaster5eSystem },
     'ose': { actorTypes: ['character'], handler: OSESystem },
+    'pbta': { actorTypes: ['character'], handler: PbtASystem },
     'pf1': { actorTypes: ['character'], handler: PF1System },
     'pf2e': { actorTypes: ['character'], handler: PF2eSystem },
     'sfrpg': { actorTypes: ['character'], handler: Starfinder1eSystem },

@@ -106,6 +106,15 @@ export class AllSystems {
         }
     }
 
+    /**
+     *
+     * @param {*} actor
+     * @param {*} type
+     * @param {*} args
+     * @param {*} addlSystemInfo
+     * @param {*} qtyProp
+     * @returns
+     */
     static async handleStackedItem(actor, type, args, addlSystemInfo, qtyProp) {
         Logging.debug('handleStackedItem', actor, type, args, addlSystemInfo, qtyProp);
 
@@ -213,6 +222,13 @@ export class AllSystems {
         AllSystems.updateCurrency(actor, 'system.currency', name, quantity);
     }
 
+    /**
+     *
+     * @param {*} actor
+     * @param {*} basePath
+     * @param {*} name
+     * @param {*} quantity
+     */
     static async updateCurrency(actor, basePath, name, quantity) {
         Logging.debug('updateCurrency', actor, basePath, name, quantity);
 

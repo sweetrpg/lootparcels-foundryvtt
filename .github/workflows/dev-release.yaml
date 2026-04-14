@@ -46,7 +46,7 @@ jobs:
               git add package.json
               git commit -m "Bump version to $VERSION [skip ci]"
 
-              git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }} [skip ci]"
+              git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }} [skip ci]' "${{ steps.bump_semver.outputs.new_version }}"
               git push origin --tags
 
       - name: Conventional Release Action

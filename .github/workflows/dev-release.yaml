@@ -23,7 +23,7 @@ jobs:
       - id: get_latest_tag
         run: |
               git tag --sort version:refname
-              tag=$(git tag --sort version:refname | tail -1)
+              tag=$(git tag --sort version:refname | grep -v 'PR' | tail -1)
               echo "tag=$tag" >> $GITHUB_OUTPUT
 
       - uses: actions-ecosystem/action-bump-semver@v1
@@ -32,18 +32,29 @@ jobs:
           current_version: ${{ steps.get_latest_tag.outputs.tag }}
           level: patch
 
-      - run: |
+      - id: bump_package_version_and_tag
+        env:
+          VERSION: ${{ steps.bump_semver.outputs.new_version }}
+        run: |
               git config --global user.email 'ci@sweetrpg.com'
               git config --global user.name 'SweetRPG CI'
-              git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
+              git config --global pull.rebase true
+
+              echo "Setting version to $VERSION"
+              jq --arg v "$VERSION" '.version=$v' package.json > package.tmp.json
+              mv package.tmp.json package.json
+              git add package.json
+              git commit -m "Bump version to $VERSION [skip ci]"
+
+              git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }} [skip ci]' "${{ steps.bump_semver.outputs.new_version }}"
               git push origin --tags
 
-      - name: Conventional Release Action
-        id: release_notes
-        uses: onesoft-sudo/conventional-release-action@v1.7.0
-        with:
-          create-tag: false
-          create-commit: false
+      # - name: Conventional Release Action
+      #   id: release_notes
+      #   uses: onesoft-sudo/conventional-release-action@v1.7.0
+      #   with:
+      #     create-tag: false
+      #     create-commit: false
 
       # Substitute the Manifest and Download URLs in the module.json
       - name: Substitute Manifest and Download Links For Versioned Ones

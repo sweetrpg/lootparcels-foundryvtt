@@ -32,11 +32,21 @@ jobs:
           current_version: ${{ steps.get_latest_tag.outputs.tag }}
           level: patch
 
-      - run: |
+      - id: bump_package_version_and_tag
+        env:
+          VERSION: ${{ steps.bump_semver.outputs.new_version }}
+        run: |
               git config --global user.email 'ci@sweetrpg.com'
               git config --global user.name 'SweetRPG CI'
               git config --global pull.rebase true
-              git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
+
+              echo "Setting version to $VERSION"
+              jq --arg v "$VERSION" '.version=$v' package.json > package.tmp.json
+              mv package.tmp.json package.json
+              git add package.json
+              git commit -m "Bump version to $VERSION [skip ci]"
+
+              git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }} [skip ci]"
               git push origin --tags
 
       - name: Conventional Release Action

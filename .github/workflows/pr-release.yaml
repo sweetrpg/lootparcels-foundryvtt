@@ -41,7 +41,7 @@ jobs:
         id: release_notes
         run: |
               echo "Generating release notes for version ${{ steps.create_pr_version.outputs.version }}"
-              echo "summary=Release ${{ steps.create_pr_version.outputs.version }}\n$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
+              echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
 
       # Substitute the Manifest and Download URLs in the module.json
       - name: Substitute Manifest and Download Links For Versioned Ones

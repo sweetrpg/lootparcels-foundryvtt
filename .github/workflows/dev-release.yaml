@@ -53,7 +53,7 @@ jobs:
         id: release_notes
         run: |
               echo "Generating release notes for version ${{ steps.bump_semver.outputs.new_version }}"
-              echo "summary=Release ${{ steps.bump_semver.outputs.new_version }}\n$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
+              echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
 
               echo "" > release-changelog.txt
               git add release-changelog.txt

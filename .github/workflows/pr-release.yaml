@@ -34,7 +34,7 @@ jobs:
 
       - id: create_pr_version
         run: |
-              rev_count=$(git rev-list --count ${{ github.event.pull_request.head.sha }})
+              rev_count=$(git rev-list --count HEAD)
               echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT
 
       # Substitute the Manifest and Download URLs in the module.json

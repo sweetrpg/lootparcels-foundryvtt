@@ -23,7 +23,7 @@ jobs:
       - id: get_latest_tag
         run: |
               git tag --sort version:refname
-              tag=$(git tag --sort version:refname | tail -1)
+              tag=$(git tag --sort version:refname | grep -v 'PR' | tail -1)
               echo "tag=$tag" >> $GITHUB_OUTPUT
 
       - uses: actions-ecosystem/action-bump-semver@v1
@@ -34,7 +34,8 @@ jobs:
 
       - id: create_pr_version
         run: |
-              echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}" >> $GITHUB_OUTPUT
+              rev_count=$(git rev-list --count ${{ github.event.pull_request.head.sha }})
+              echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT
 
       # Substitute the Manifest and Download URLs in the module.json
       - name: Substitute Manifest and Download Links For Versioned Ones

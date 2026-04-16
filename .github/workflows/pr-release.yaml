@@ -30,12 +30,20 @@ jobs:
         id: bump_semver
         with:
           current_version: ${{ steps.get_latest_tag.outputs.tag }}
-          level: prepatch # add a suffix for the PR number here, e.g. "patch-PR123"
+          level: prepatch
 
       - id: create_pr_version
         run: |
               rev_count=$(git rev-list --count HEAD)
               echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT
+
+      - name: Generate Release Notes
+        id: release_notes
+        uses: yuk1ty/conventional-release-note@v1.1.1
+        with:
+          kind: default
+          tag-pattern: '*'
+          current-tag: ${{ steps.bump_semver.outputs.new_version }}
 
       # Substitute the Manifest and Download URLs in the module.json
       - name: Substitute Manifest and Download Links For Versioned Ones
@@ -64,4 +72,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: './module.json, ./module.zip'
           tag: ${{ steps.create_pr_version.outputs.version }}
-          body: "PR release for version ${{ steps.create_pr_version.outputs.version }}. This release is automatically generated from the PR and is meant for testing purposes. It will be deleted once the PR is merged or closed."
+          body: |
+                 PR release for version ${{ steps.create_pr_version.outputs.version }}.
+
+                 This release is automatically generated from the PR and is meant for testing purposes.
+                 It will be deleted once the PR is merged or closed.
+
+                 ${{steps.release_notes.outputs.summary }}

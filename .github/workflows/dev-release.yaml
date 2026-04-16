@@ -84,4 +84,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: './module.json, ./module.zip'
           tag: ${{ steps.bump_semver.outputs.new_version }}
-          body: ${{steps.release_notes.outputs.release_notes }}
+          body: ${{steps.release_notes.outputs.summary }}

@@ -41,6 +41,8 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         return;
     };
 
+    var receivedItems = [];
+
     journalContent.forEach(async (jc) => {
         // parse line
         let line = jc.trim();
@@ -161,7 +163,9 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
 
         await fn(actor, args);
 
-        // Write it to the chat log
-        await Chat.logParcelEntry(actor, args);
+        receivedItems.push(args);
     });
+
+    // Write it to the chat log
+    await Chat.logParcelEntry(actor, args);
 }

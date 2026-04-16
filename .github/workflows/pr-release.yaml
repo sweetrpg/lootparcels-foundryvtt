@@ -1,6 +1,6 @@
 name: PR Release
 
-concurrency: pr-release
+concurrency: pr-release-${{ github.event.pull_request.number }}
 
 on:
   pull_request:

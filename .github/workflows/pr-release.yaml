@@ -39,11 +39,10 @@ jobs:
 
       - name: Generate Release Notes
         id: release_notes
-        uses: yuk1ty/conventional-release-note@v1.1.1
-        with:
-          kind: default
-          tag-pattern: '*'
-          current-tag: ${{ steps.bump_semver.outputs.new_version }}
+        run: |
+              echo "Generating release notes for version ${{ steps.bump_semver.outputs.new_version }}"
+              echo "TODO" > changelog.txt
+              echo "summary=Release ${{ steps.bump_semver.outputs.new_version }}\n$(cat changelog.txt)" >> $GITHUB_OUTPUT
 
       # Substitute the Manifest and Download URLs in the module.json
       - name: Substitute Manifest and Download Links For Versioned Ones

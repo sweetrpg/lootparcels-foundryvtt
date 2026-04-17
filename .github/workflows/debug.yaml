@@ -2,6 +2,11 @@ name: Debug
 
 on:
   workflow_dispatch:
+    inputs:
+      bump-level:
+        description: 'The level of version bump to calculate the next version (patch, minor, major).'
+        required: false
+        default: 'patch'
 
 permissions:
   contents: read
@@ -47,8 +52,8 @@ jobs:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: echo "$MATRIX_CONTEXT"
 
-      - name: Get current date
-        id: getbuilddate
+      - name: Get build dates
+        id: get_build_date
         run: |
              echo "date=$(date -u)" >> $GITHUB_OUTPUT
              echo "isodate=$(date -u '+%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
@@ -71,12 +76,11 @@ jobs:
           level: patch
 
       - name: Generate change log
-        id: changelog
+        id: gen_changelog
         uses: kiyoon/changelog-action@v2
         with:
           new-version-tag-for-future: ${{ steps.bump_semver.outputs.new_version }}
           previous-version-tag: ${{ steps.get_latest_tag.outputs.tag }}
-          # exclude-types: ${{ github.event.inputs.exclude-types }}
           write-to-file: false
           reverse-order: true
 

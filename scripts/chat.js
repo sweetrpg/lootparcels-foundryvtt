@@ -8,13 +8,13 @@ export class Chat {
     /**
      * Logs a parcel entry to the chat.
      *
-     * @param {Actor} actor The actor receiving the parcel entry.
-     * @param {Object} args The arguments associated with the parcel entry.
+     * @param {Actor}  actor The actor receiving the parcel entry.
+     * @param {Object} args  The arguments associated with the parcel entry.
      */
     static async logParcelEntry(actor, items) {
         Logging.debug("Chat.logParcelEntry", "actor", actor, "items", items);
 
-        const content = items.map(i => `<li><strong>${i.quantity}x ${i.text}</strong></li>`).join('<br/>');
+        const content = items.map(i => `<li><strong>${i.quantity}x</strong> ${i.text}</li>`).join('<br/>');
         Logging.debug("Chat.logParcelEntry", "content", content);
 
         const chatData = {

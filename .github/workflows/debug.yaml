@@ -50,12 +50,12 @@ jobs:
       - name: Get current date
         id: getbuilddate
         run: |
-             echo "::set-output name=date::$(date -u)"
-             echo "::set-output name=isodate::$(date -u '+%Y-%m-%dT%H:%M:%S')"
-             echo "::set-output name=tagdate::$(date -u '+%Y%m%d%H%M%S')"
-             echo "::set-output name=timestamp::$(date -u '+%s')"
+             echo "date=$(date -u)" >> $GITHUB_OUTPUT
+             echo "isodate=$(date -u '+%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
+             echo "tagdate=$(date -u '+%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+             echo "timestamp=$(date -u '+%s')" >> $GITHUB_OUTPUT
 
-      - name: 'Get Previous tag'
+      - name: Get previous tag
         id: previoustag
         uses: actions-ecosystem/action-get-latest-tag@v1
         with:
@@ -63,7 +63,7 @@ jobs:
           initial_version: v0.0.0
           with_initial_version: true
 
-      - name: Generate CHANGELOG
+      - name: Generate change log
         id: changelog
         uses: kiyoon/changelog-action@v2
         with:
@@ -73,7 +73,26 @@ jobs:
           write-to-file: true
           changelog-file-path: CHANGELOG.md
 
-      - name: Other interesting things
-        run: |
-              git rev-list --count develop ^${{ github.ref_name }}
-              git rev-list --count master ^${{ github.ref_name }}
+      # - name: Other interesting things
+      #   run: |
+      #         git rev-list --count develop ^${{ github.ref_name }}
+      #         git rev-list --count master ^${{ github.ref_name }}
+
+      - name: "Read git info"
+        id: "git_info"
+        uses: YunaBraska/git-info-action@3.0.1
+        with:
+          workDir: '.'
+          ignore-files: '.java, .groovy, .jar'
+          branch-fallback: 'master'
+          tag-fallback: '0.0.1'
+          tag-match-pattern: '1.*'
+          fallback-commit-type: 'chore'
+          fallback-commit-scope: 'performance'
+          commit-msg-with-footer: 'true'
+          max-changelog-length: 200
+
+      - name: "Print git info"
+        env:
+          GIT_INFO: ${{ toJson(steps.git_info.outputs) }}
+        run: echo "$GIT_INFO"

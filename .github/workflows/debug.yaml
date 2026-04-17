@@ -89,8 +89,8 @@ jobs:
       #         git rev-list --count develop ^${{ github.ref_name }}
       #         git rev-list --count master ^${{ github.ref_name }}
 
-      - name: "Read git info"
-        id: "git_info"
+      - name: Read git info
+        id: git_info
         uses: YunaBraska/git-info-action@3.0.1
         with:
           work-dir: '.'

@@ -17,7 +17,7 @@ export class Chat {
         var content = "<li>Nothing!</li>";
 
         if (items.length > 0) {
-            content = items.map(i => `<li><strong>${i.quantity}x</strong> ${i.text}</li>`).join('');
+            content = items.map(i => `<li><strong>${i.quantity}x</strong> ${i.text}</li>`).join('\n');
             Logging.debug("Chat.logParcelEntry", "content", content);
         }
 

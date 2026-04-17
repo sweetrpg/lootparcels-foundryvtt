@@ -34,7 +34,7 @@ jobs:
 
       - id: create_pr_version
         run: |
-              rev_count=$(git rev-list --count HEAD)
+              rev_count=$(git rev-list --count HEAD ^${{ github.ref_name }})
               echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT
 
       - name: Generate Release Notes

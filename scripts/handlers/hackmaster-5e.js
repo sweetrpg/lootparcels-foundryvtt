@@ -1,6 +1,7 @@
 /**
- * Hackmaster, 5th Edition
+ * System: Hackmaster, 5th Edition
  */
+
 import { AllSystems } from "./all.js";
 import { Registry } from "../registry.js";
 import { Logging } from "../logging.js";

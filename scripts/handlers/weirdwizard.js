@@ -1,6 +1,7 @@
 /**
- * Shadow of the Weird Wizard
+ * System: Shadow of the Weird Wizard
  */
+
 import { AllSystems } from "./all.js";
 import { Registry } from "../registry.js";
 import { Logging } from "../logging.js";

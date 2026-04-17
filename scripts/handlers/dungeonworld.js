@@ -1,6 +1,7 @@
 /**
- * Dungeonworld
+ * System: Dungeonworld
  */
+
 import { AllSystems } from "./all.js";
 import { Registry } from "../registry.js";
 import { Logging } from "../logging.js";

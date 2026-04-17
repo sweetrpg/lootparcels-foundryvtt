@@ -71,5 +71,5 @@ jobs:
 
       - name: Other interesting things
         run: |
-              git rev-list --count 'develop..${{ github.ref_name }}'
-              git rev-list --count 'master..${{ github.ref_name }}'
+              git rev-list --count develop ^${{ github.ref_name }}
+              git rev-list --count master ^${{ github.ref_name }}

@@ -14,7 +14,7 @@ export class Chat {
     static async logParcelEntry(actor, items) {
         Logging.debug("Chat.logParcelEntry", "actor", actor, "items", items);
 
-        const content = items.map(i => `<li><strong>${i.quantity}x</strong> ${i.text}</li>`).join('<br/>');
+        const content = items.map(i => `<li><strong>${i.quantity}x</strong> ${i.text}</li>`).join('');
         Logging.debug("Chat.logParcelEntry", "content", content);
 
         const chatData = {

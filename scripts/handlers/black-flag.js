@@ -1,5 +1,5 @@
 /**
- * Black Flag Roleplaying
+ * System: Black Flag Roleplaying (Tales of the Valiant)
  */
 import { AllSystems } from "./all.js";
 import { Registry } from "../registry.js";

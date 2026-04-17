@@ -1,6 +1,7 @@
 /**
  * Utilities for the Loot Parcels module.
  */
+
 import { Logging } from "./logging.js";
 
 export class Utils {

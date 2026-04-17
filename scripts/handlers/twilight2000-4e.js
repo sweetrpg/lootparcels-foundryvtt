@@ -1,6 +1,7 @@
 /**
- * Twilight:2000
+ * System: Twilight:2000
  */
+
 import { AllSystems } from "./all.js";
 import { Registry } from "../registry.js";
 import { Logging } from "../logging.js";

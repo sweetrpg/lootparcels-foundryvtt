@@ -1,6 +1,7 @@
 /**
- * Castles and Crusades
+ * System: Castles and Crusades
  */
+
 import { AllSystems } from "./all.js";
 import { Registry } from "../registry.js";
 import { Logging } from "../logging.js";

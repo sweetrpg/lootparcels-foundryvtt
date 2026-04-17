@@ -1,6 +1,11 @@
 /**
- *
+ * Handler for all systems.
+ * This is the default handler that will be used if no system-specific handler
+ * is found. It provides basic functionality for handling linked entries, text
+ * entries, and currency updates. System-specific handlers can extend this class
+ * to provide additional functionality as needed.
  */
+
 import { Logging } from "../logging.js";
 import { Utils } from "../utilities.js";
 import { Registry } from "../registry.js";

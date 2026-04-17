@@ -68,3 +68,8 @@ jobs:
           # exclude-types: ${{ github.event.inputs.exclude-types }}
           write-to-file: true
           changelog-file-path: CHANGELOG.md
+
+      - name: Other interesting things
+        run: |
+              git rev-list --count 'develop..${{ github.ref_name }}'
+              git rev-list --count 'master..${{ github.ref_name }}'

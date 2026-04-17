@@ -1,6 +1,7 @@
 /**
- * Savage Worlds, Adventure Edition
+ * System: Savage Worlds, Adventure Edition
  */
+
 import { AllSystems } from "./all.js";
 import { Registry } from "../registry.js";
 import { Logging } from "../logging.js";

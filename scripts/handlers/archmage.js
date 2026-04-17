@@ -1,6 +1,7 @@
 /**
- * 13th Age (Archmage)
+ * System: 13th Age (Archmage)
  */
+
 import { AllSystems } from "./all.js";
 import { Registry } from "../registry.js";
 import { Logging } from "../logging.js";

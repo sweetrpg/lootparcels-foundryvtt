@@ -1,6 +1,7 @@
 /**
- *
+ * Registry for handlers and configuration related to the Loot Parcels module.
  */
+
 import { Logging } from "./logging.js";
 
 export class Registry {

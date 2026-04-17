@@ -1,3 +1,7 @@
+/**
+ * Configuration for the module, including settings and flags.
+ */
+
 'use strict';
 
 import { Logging } from "./logging.js";

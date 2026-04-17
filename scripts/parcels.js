@@ -5,6 +5,7 @@
 import { Logging } from "./logging.js";
 import { Utils } from "./utilities.js";
 import { Registry } from "./registry.js";
+import { Chat } from "./chat.js";
 
 const prefix = '$';
 const allowedJournalTypes = [
@@ -40,7 +41,9 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         return;
     };
 
-    journalContent.forEach(async (jc) => {
+    var receivedItems = [];
+
+    for (const jc of journalContent) {
         // parse line
         let line = jc.trim();
         let fn = null;
@@ -159,5 +162,10 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         }
 
         await fn(actor, args);
-    });
+
+        receivedItems.push(args);
+    }
+
+    // Write it to the chat log
+    await Chat.logParcelEntry(actor, receivedItems);
 }

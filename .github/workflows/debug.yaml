@@ -46,10 +46,10 @@ jobs:
       - name: Get current date
         id: getbuilddate
         run: |
-             echo "date=$(date -u)" >> $GITHUB_OUTPUT
-             echo "isodate=$(date -u '+%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
-             echo "tagdate=$(date -u '+%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-             echo "timestamp=$(date -u '+%s')" >> $GITHUB_OUTPUT
+             echo "::set-output name=date::$(date -u)"
+             echo "::set-output name=isodate::$(date -u '+%Y-%m-%dT%H:%M:%S')"
+             echo "::set-output name=tagdate::$(date -u '+%Y%m%d%H%M%S')"
+             echo "::set-output name=timestamp::$(date -u '+%s')"
 
       - name: 'Get Previous tag'
         id: previoustag
@@ -68,3 +68,8 @@ jobs:
           # exclude-types: ${{ github.event.inputs.exclude-types }}
           write-to-file: true
           changelog-file-path: CHANGELOG.md
+
+      - name: Other interesting things
+        run: |
+              git rev-list --count 'develop..${{ github.ref_name }}'
+              git rev-list --count 'master..${{ github.ref_name }}'

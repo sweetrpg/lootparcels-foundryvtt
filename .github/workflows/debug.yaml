@@ -46,10 +46,10 @@ jobs:
       - name: Get current date
         id: getbuilddate
         run: |
-             echo "::set-output name=date::$(date -u)"
-             echo "::set-output name=isodate::$(date -u '+%Y-%m-%dT%H:%M:%S')"
-             echo "::set-output name=tagdate::$(date -u '+%Y%m%d%H%M%S')"
-             echo "::set-output name=timestamp::$(date -u '+%s')"
+             echo "date=$(date -u)" >> $GITHUB_OUTPUT
+             echo "isodate=$(date -u '+%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
+             echo "tagdate=$(date -u '+%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+             echo "timestamp=$(date -u '+%s')" >> $GITHUB_OUTPUT
 
       - name: 'Get Previous tag'
         id: previoustag

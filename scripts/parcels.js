@@ -43,7 +43,7 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
 
     var receivedItems = [];
 
-    journalContent.forEach(async (jc) => {
+    for (const jc of journalContent) {
         // parse line
         let line = jc.trim();
         let fn = null;
@@ -164,7 +164,7 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         await fn(actor, args);
 
         receivedItems.push(args);
-    });
+    }
 
     // Write it to the chat log
     await Chat.logParcelEntry(actor, receivedItems);

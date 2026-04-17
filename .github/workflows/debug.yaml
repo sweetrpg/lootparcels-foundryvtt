@@ -1,15 +1,16 @@
 name: Debug
 
 on:
-  # release:
-  #   types:
-  #     - published
-  #     - created
+  release:
+    types:
+      - published
+      - created
   push:
     branches:
       - '*'
     tags:
       - '*'
+  workflow_dispatch:
 
 permissions:
   contents: read

@@ -1,10 +1,10 @@
 name: Debug
 
 on:
-  release:
-    types:
-      - published
-      - created
+  # release:
+  #   types:
+  #     - published
+  #     - created
   push:
     branches:
       - '*'

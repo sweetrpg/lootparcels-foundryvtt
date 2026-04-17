@@ -66,8 +66,8 @@ jobs:
           new-version-tag-for-future: ${{ steps.getbuilddate.outputs.isodate }}
           previous-version-tag: ${{ steps.previoustag.outputs.tag }}
           # exclude-types: ${{ github.event.inputs.exclude-types }}
-          write-to-file: true
-          changelog-file-path: CHANGELOG.md
+          write-to-file: false
+          reverse-order: true
 
       - name: Other interesting things
         run: |

@@ -69,8 +69,8 @@ jobs:
           with_initial_version: true
 
       - name: Get next tag
-        uses: actions-ecosystem/action-bump-semver@v1
         id: bump_semver
+        uses: actions-ecosystem/action-bump-semver@v1
         with:
           current_version: ${{ steps.get_latest_tag.outputs.tag }}
           level: patch

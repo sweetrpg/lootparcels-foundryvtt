@@ -105,6 +105,4 @@ jobs:
 
       - name: Other interesting things
         run: |
-              # git rev-list --help
               git rev-list --count ${{ github.ref_name }}
-              # git rev-list --count ${{ github.ref_name }}..master

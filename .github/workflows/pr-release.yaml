@@ -21,6 +21,11 @@ jobs:
           fetch-depth: 0
           show-progress: true
 
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - name: Get latest tag
         id: get_latest_tag
         run: |

@@ -1,6 +1,7 @@
 /**
  * Root module.
  */
+
 import { Registry } from "./scripts/registry.js";
 import { Logging } from "./scripts/logging.js";
 import { Config } from "./scripts/config.js";

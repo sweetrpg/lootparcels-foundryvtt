@@ -84,11 +84,6 @@ jobs:
           write-to-file: false
           reverse-order: true
 
-      # - name: Other interesting things
-      #   run: |
-      #         git rev-list --count develop ^${{ github.ref_name }}
-      #         git rev-list --count master ^${{ github.ref_name }}
-
       - name: Read git info
         id: git_info
         uses: YunaBraska/git-info-action@3.0.1
@@ -107,3 +102,8 @@ jobs:
         env:
           GIT_INFO: ${{ toJson(steps.git_info.outputs) }}
         run: echo "$GIT_INFO"
+
+      - name: Other interesting things
+        run: |
+              git rev-list --count ${{ github.ref_name }} ^develop
+              git rev-list --count ${{ github.ref_name }} ^master

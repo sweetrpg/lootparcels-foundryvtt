@@ -14,28 +14,46 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout
+        uses: actions/checkout@v6
         with:
           fetch-tags: true
           fetch-depth: 0
           show-progress: true
 
-      - id: get_latest_tag
+      - name: Get latest tag
+        id: get_latest_tag
         run: |
               git tag --sort version:refname
               tag=$(git tag --sort version:refname | grep -v 'PR' | tail -1)
               echo "tag=$tag" >> $GITHUB_OUTPUT
 
-      - uses: actions-ecosystem/action-bump-semver@v1
+      - name: Bump version
         id: bump_semver
+        uses: actions-ecosystem/action-bump-semver@v1
         with:
           current_version: ${{ steps.get_latest_tag.outputs.tag }}
           level: prepatch
 
-      - id: create_pr_version
+      - name: Read git info
+        id: git_info
+        uses: YunaBraska/git-info-action@3.0.1
+        with:
+          work-dir: '.'
+          ignore-files: '.java, .groovy, .jar'
+          branch-fallback: 'master'
+          tag-fallback: '0.0.1'
+          tag-match-pattern: '1.*'
+          fallback-commit-type: 'chore'
+          fallback-commit-scope: 'performance'
+          commit-msg-with-footer: 'true'
+          max-changelog-length: 200
+
+      - name: Create PR version
+        id: create_pr_version
         run: |
-              rev_count=$(git rev-list --count 'develop..${{ github.ref_name }}')
-              echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT
+              #rev_count=$(git rev-list --count 'develop..${{ github.ref_name }}')
+              echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${{ steps.git_info.outputs.commits_ahead }}" >> $GITHUB_OUTPUT
 
       - name: Generate Release Notes
         id: release_notes
@@ -44,7 +62,7 @@ jobs:
               echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
 
       # Substitute the Manifest and Download URLs in the module.json
-      - name: Substitute Manifest and Download Links For Versioned Ones
+      - name: Substitute module values
         id: sub_manifest_link_version
         uses: microsoft/variable-substitution@v1
         with:
@@ -56,10 +74,11 @@ jobs:
           download: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_pr_version.outputs.version }}/module.zip
 
       # Create a zip file with all files required by the module to add to the release
-      - run: zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+      - name: Create module zip file
+        run: zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
       # Create a release for this specific version
-      - name: Create Release with Files
+      - name: Create release
         id: create_version_release
         uses: ncipollo/release-action@v1.12.0
         with:

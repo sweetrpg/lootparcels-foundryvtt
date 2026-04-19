@@ -35,25 +35,11 @@ jobs:
           current_version: ${{ steps.get_latest_tag.outputs.tag }}
           level: prepatch
 
-      - name: Read git info
-        id: git_info
-        uses: YunaBraska/git-info-action@3.0.1
-        with:
-          work-dir: '.'
-          ignore-files: '.java, .groovy, .jar'
-          branch-fallback: 'master'
-          tag-fallback: '0.0.1'
-          tag-match-pattern: '1.*'
-          fallback-commit-type: 'chore'
-          fallback-commit-scope: 'performance'
-          commit-msg-with-footer: 'true'
-          max-changelog-length: 200
-
       - name: Create PR version
         id: create_pr_version
         run: |
-              #rev_count=$(git rev-list --count 'develop..${{ github.ref_name }}')
-              echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${{ steps.git_info.outputs.commits_ahead }}" >> $GITHUB_OUTPUT
+              rev_count=$(git rev-list --count ${{ github.ref_name }})
+              echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT
 
       - name: Generate Release Notes
         id: release_notes

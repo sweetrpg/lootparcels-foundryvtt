@@ -21,11 +21,6 @@ jobs:
           fetch-depth: 0
           show-progress: true
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
       - name: Get latest tag
         id: get_latest_tag
         run: |
@@ -43,7 +38,7 @@ jobs:
       - name: Create PR version
         id: create_pr_version
         env:
-          GITHUB_REF_NAME: ${{ github.ref_name }}
+          GITHUB_REF_NAME: ${{ github.head_ref }}
         run: |
               rev_count=$(git rev-list --count ${GITHUB_REF_NAME})
               echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT

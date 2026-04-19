@@ -105,5 +105,5 @@ jobs:
 
       - name: Other interesting things
         run: |
-              git rev-list --count ${{ github.ref_name }} ^develop
-              git rev-list --count ${{ github.ref_name }} ^master
+              git rev-list --count ${{ github.ref_name }} develop
+              git rev-list --count ${{ github.ref_name }} master

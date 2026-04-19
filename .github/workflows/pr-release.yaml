@@ -61,7 +61,8 @@ jobs:
 
       # Create a zip file with all files required by the module to add to the release
       - name: Create module zip file
-        run: zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+        run: |
+              zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
       # Create a release for this specific version
       - name: Create release

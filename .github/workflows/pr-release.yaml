@@ -21,6 +21,16 @@ jobs:
           fetch-depth: 0
           show-progress: true
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version-file: '.node-version'
+
+      - name: Install dependencies and test
+        run: |
+              npm ci
+              npm test
+
       - name: Get latest tag
         id: get_latest_tag
         run: |

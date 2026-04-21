@@ -17,5 +17,4 @@ export class ForbiddenLandsSystem {
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
         Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);
     }
-
 }

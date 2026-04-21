@@ -24,5 +24,4 @@ export class WWNSystem {
         return (WWNSystem.stackedItemTypes.contains(item.type) &&
                 !item.system.hasCharges);
     }
-
 }

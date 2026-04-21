@@ -7,9 +7,6 @@ import { Registry } from "../registry.js";
 import { Logging } from "../logging.js";
 import { Utils } from "../utilities.js";
 
-/**
- *
- */
 export class T2K4eSystem {
     static stackedItemTypes = ['explosive', 'ammunition', 'gear'];
 
@@ -75,5 +72,4 @@ export class T2K4eSystem {
             await AllSystems.handleItem(actor, type, args, addlSystemInfo, 'system.qty');
         }
     }
-
 }

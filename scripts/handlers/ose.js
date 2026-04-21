@@ -16,5 +16,4 @@ export class OSESystem {
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
     }
-
 }

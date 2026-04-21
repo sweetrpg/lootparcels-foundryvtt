@@ -1,10 +1,10 @@
-// XXX: Actor creation button currently broken in this system.
 /**
  * Powered by the Apocalypse
  */
+
 import { AllSystems } from "./all.js";
-import { Registry } from "./registry.js";
-import { Logging } from "./logging.js";
+import { Registry } from "../registry.js";
+import { Logging } from "../logging.js";
 
 export class PbtASystem {
     static stackedItemTypes = ['consumable', 'loot', 'tool'];
@@ -17,5 +17,4 @@ export class PbtASystem {
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
         Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);
     }
-
 }

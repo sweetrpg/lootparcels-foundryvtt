@@ -93,3 +93,10 @@ jobs:
             It will be deleted once the PR is merged or closed.
 
             ${{ steps.release_notes.outputs.summary }}
+
+      - name: Update release
+        id: update_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release edit --target ${{ github.head_ref }} ${{ steps.create_pr_version.outputs.version }}

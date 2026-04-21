@@ -1,5 +1,5 @@
 /**
- * Powered by the Apocalypse
+ * System: Powered by the Apocalypse
  */
 
 import { AllSystems } from "./all.js";

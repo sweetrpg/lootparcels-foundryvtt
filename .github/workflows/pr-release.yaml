@@ -79,7 +79,7 @@ jobs:
         id: create_version_release
         uses: ncipollo/release-action@v1.12.0
         with:
-          allowUpdates: false
+          allowUpdates: true
           name: "PR release: ${{ steps.create_pr_version.outputs.version }}"
           draft: false
           prerelease: true

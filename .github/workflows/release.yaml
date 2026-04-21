@@ -6,10 +6,10 @@ on:
   workflow_dispatch:
     inputs:
       bump_type:
-        description: 'How to bump the tag'
+        description: "How to bump the tag"
         required: true
         type: choice
-        default: 'minor'
+        default: "minor"
         options:
           - prerelease
           - prepatch
@@ -33,38 +33,40 @@ jobs:
           fetch-depth: 0
           show-progress: true
 
-      - id: get_latest_tag
+      - name: Get latest tag
+        id: get_latest_tag
         run: |
-              git tag --sort version:refname
-              tag=$(git tag --sort version:refname | tail -1)
-              echo "tag=$tag" >> $GITHUB_OUTPUT
+          git tag --sort version:refname
+          tag=$(git tag --sort version:refname | tail -1)
+          echo "tag=$tag" >> $GITHUB_OUTPUT
 
-      - uses: actions-ecosystem/action-bump-semver@v1
+      - name: Bump version
         id: bump_semver
+        uses: actions-ecosystem/action-bump-semver@v1
         if: ${{ inputs.bump_type != 'none' }}
         with:
           current_version: ${{ steps.get_latest_tag.outputs.tag }}
           level: ${{ inputs.bump_type }}
 
-      - run: |
-              git config --global user.email 'ci@sweetrpg.com'
-              git config --global user.name 'SweetRPG CI'
-              git tag -a -m 'Release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
-              git push origin --tags
+      - name: Tag
+        run: |
+          git config --global user.email 'ci@sweetrpg.com'
+          git config --global user.name 'SweetRPG CI'
+          git tag -a -m 'Release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
+          git push origin --tags
 
-      - name: Conventional Release Action
+      - name: Generate release notes
         id: release_notes
         uses: onesoft-sudo/conventional-release-action@v1.7.0
         with:
           create-tag: false
           create-commit: false
 
-      # Substitute the Manifest and Download URLs in the module.json
-      - name: Substitute Manifest and Download Links For Versioned Ones
-        id: sub_manifest_link_version
+      - name: Substitute module values
+        id: sub_mod_values
         uses: microsoft/variable-substitution@v1
         with:
-          files: 'module.json'
+          files: "module.json"
         env:
           name: loot-parcels
           id: loot-parcels
@@ -74,29 +76,30 @@ jobs:
           manifest: https://github.com/${{ github.repository }}/releases/latest/download/module.json
           download: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.zip
 
-      # Create a zip file with all files required by the module to add to the release
-      - run: |
-              # change log level
-              sed -i -e 's/logLevel = 3/logLevel = 1/g' scripts/logging.js
-              # package
-              zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+      - name: Package module
+        run: |
+          # change log level
+          sed -i -e 's/logLevel = 3/logLevel = 1/g' scripts/logging.js
+          # package
+          zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
       # Create a release for this specific version
-      - name: Create Release with Files
+      - name: Create release with files
         id: create_version_release
         uses: ncipollo/release-action@v1.12.0
         with:
           allowUpdates: false
-          name: 'Release: ${{ steps.bump_semver.outputs.new_version }}'
+          name: "Release: ${{ steps.bump_semver.outputs.new_version }}"
           draft: false
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: './module.json, ./module.zip'
+          artifacts: "./module.json, ./module.zip"
           tag: ${{ steps.bump_semver.outputs.new_version }}
           body: ${{steps.release_notes.outputs.release_notes }}
 
       # Push release to Foundry
-      - id: foundryvtt_release
+      - name: Push release to Foundry
+        id: foundryvtt_release
         uses: illandril/FoundryVTT-package-release-action@v1
         with:
           package-release-token: ${{ secrets.PACKAGE_RELEASE_TOKEN }}

@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       bump-level:
-        description: 'The level of version bump to calculate the next version (patch, minor, major).'
+        description: "The level of version bump to calculate the next version (patch, minor, major)."
         required: false
-        default: 'patch'
+        default: "patch"
 
 permissions:
   contents: read
@@ -55,17 +55,17 @@ jobs:
       - name: Get build dates
         id: get_build_date
         run: |
-             echo "date=$(date -u)" >> $GITHUB_OUTPUT
-             echo "isodate=$(date -u '+%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
-             echo "tagdate=$(date -u '+%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-             echo "timestamp=$(date -u '+%s')" >> $GITHUB_OUTPUT
+          echo "date=$(date -u)" >> $GITHUB_OUTPUT
+          echo "isodate=$(date -u '+%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
+          echo "tagdate=$(date -u '+%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+          echo "timestamp=$(date -u '+%s')" >> $GITHUB_OUTPUT
 
       - name: Get latest tag
         id: get_latest_tag
         uses: actions-ecosystem/action-get-latest-tag@v1
         with:
           semver_only: true
-          initial_version: '0.0.0'
+          initial_version: "0.0.0"
           with_initial_version: true
 
       - name: Get next tag
@@ -88,14 +88,14 @@ jobs:
         id: git_info
         uses: YunaBraska/git-info-action@3.0.1
         with:
-          work-dir: '.'
-          ignore-files: '.java, .groovy, .jar'
-          branch-fallback: 'master'
-          tag-fallback: '0.0.1'
-          tag-match-pattern: '1.*'
-          fallback-commit-type: 'chore'
-          fallback-commit-scope: 'performance'
-          commit-msg-with-footer: 'true'
+          work-dir: "."
+          ignore-files: ".java, .groovy, .jar"
+          branch-fallback: "master"
+          tag-fallback: "0.0.1"
+          tag-match-pattern: "1.*"
+          fallback-commit-type: "chore"
+          fallback-commit-scope: "performance"
+          commit-msg-with-footer: "true"
           max-changelog-length: 200
 
       - name: "Print git info"
@@ -105,4 +105,4 @@ jobs:
 
       - name: Other interesting things
         run: |
-              git rev-list --count ${{ github.ref_name }}
+          git rev-list --count ${{ github.ref_name }}

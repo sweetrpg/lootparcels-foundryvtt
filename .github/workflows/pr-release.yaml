@@ -21,22 +21,22 @@ jobs:
           fetch-depth: 0
           show-progress: true
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v6.4.0
         with:
-          node-version-file: '.node-version'
+          node-version-file: ".node-version"
 
       - name: Install dependencies and test
         run: |
-              npm ci
-              npm test
+          npm ci
+          npm test
 
       - name: Get latest tag
         id: get_latest_tag
         run: |
-              git tag --sort version:refname
-              tag=$(git tag --sort version:refname | grep -v 'PR' | tail -1)
-              echo "tag=$tag" >> $GITHUB_OUTPUT
+          git tag --sort version:refname
+          tag=$(git tag --sort version:refname | grep -v 'PR' | tail -1)
+          echo "tag=$tag" >> $GITHUB_OUTPUT
 
       - name: Bump version
         id: bump_semver
@@ -50,48 +50,46 @@ jobs:
         env:
           REF_NAME: ${{ github.head_ref }}
         run: |
-              rev_count=$(git rev-list --count ${REF_NAME} || echo '0')
-              echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT
+          rev_count=$(git rev-list --count ${REF_NAME} || echo '0')
+          echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT
 
-      - name: Generate Release Notes
+      - name: Generate release notes
         id: release_notes
         run: |
-              echo "Generating release notes for version ${{ steps.create_pr_version.outputs.version }}"
-              echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
+          echo "Generating release notes for version ${{ steps.create_pr_version.outputs.version }}"
+          echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
 
-      # Substitute the Manifest and Download URLs in the module.json
       - name: Substitute module values
         id: sub_manifest_link_version
         uses: microsoft/variable-substitution@v1
         with:
-          files: 'module.json'
+          files: "module.json"
         env:
           version: ${{ steps.create_pr_version.outputs.version }}
           url: https://github.com/${{ github.repository }}
           manifest: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_pr_version.outputs.version }}/module.json
           download: https://github.com/${{ github.repository }}/releases/download/${{ steps.create_pr_version.outputs.version }}/module.zip
 
-      # Create a zip file with all files required by the module to add to the release
       - name: Create module zip file
+        id: zip_module
         run: |
-              zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+          zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
-      # Create a release for this specific version
       - name: Create release
         id: create_version_release
         uses: ncipollo/release-action@v1.12.0
         with:
           allowUpdates: false
-          name: 'PR release: ${{ steps.create_pr_version.outputs.version }}'
+          name: "PR release: ${{ steps.create_pr_version.outputs.version }}"
           draft: false
           prerelease: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: './module.json, ./module.zip'
+          artifacts: "./module.json, ./module.zip"
           tag: ${{ steps.create_pr_version.outputs.version }}
           body: |
-                 PR release for version ${{ steps.create_pr_version.outputs.version }}.
+            PR release for version ${{ steps.create_pr_version.outputs.version }}.
 
-                 This release is automatically generated from the PR and is meant for testing purposes.
-                 It will be deleted once the PR is merged or closed.
+            This release is automatically generated from the PR and is meant for testing purposes.
+            It will be deleted once the PR is merged or closed.
 
-                 ${{steps.release_notes.outputs.summary }}
+            ${{steps.release_notes.outputs.summary }}

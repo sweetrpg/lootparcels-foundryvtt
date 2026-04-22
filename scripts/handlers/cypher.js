@@ -11,7 +11,7 @@ import { Utils } from "../utilities.js";
  * Class container for all Cypher System related functions.
  */
 export class CypherSystem {
-    static stackedItemTypes = ['material'];
+    static stackedItemTypes = ['material', 'equipment'];
 
     /**
      *

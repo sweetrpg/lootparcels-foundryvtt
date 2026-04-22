@@ -75,6 +75,16 @@ jobs:
         run: |
               zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
+      - name: Generate change log
+        id: gen_changelog
+        uses: kiyoon/changelog-action@v2.0.1
+        continue-on-error: true
+        with:
+          new-version-tag-for-future: ${{ steps.bump_semver.outputs.new_version }}
+          previous-version-tag: ${{ steps.get_latest_tag.outputs.tag }}
+          write-to-file: false
+          reverse-order: true
+
       - name: Create release
         id: create_version_release
         uses: ncipollo/release-action@v1.12.0
@@ -95,7 +105,7 @@ jobs:
                  It will be deleted once the PR is merged or closed.
 
                  ---
-                 ${{ steps.release_notes.outputs.summary }}
+                 ${{ steps.gen_changelog.outputs.changes }}
                  ---
 
       - name: Update release
@@ -105,22 +115,11 @@ jobs:
         run: |
               gh release edit --target ${{ github.head_ref }} ${{ steps.create_pr_version.outputs.version }}
 
-      - name: Generate change log
-        id: gen_changelog
-        uses: kiyoon/changelog-action@v2.0.1
-        with:
-          new-version-tag-for-future: ${{ steps.bump_semver.outputs.new_version }}
-          previous-version-tag: ${{ steps.get_latest_tag.outputs.tag }}
-          write-to-file: true
-          reverse-order: true
-
       - name: Print generated change log
         env:
-          CHANGELOG: ${{ steps.gen_changelog.outputs.changelog }}
+          CHANGELOG: ${{ steps.gen_changelog.outputs.changes }}
         run: |
               echo "$CHANGELOG"
-
-              cat CHANGELOG.md
 
       - name: Read git info
         id: git_info

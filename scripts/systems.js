@@ -39,7 +39,7 @@ export const SYSTEMS = {
     'cyphersystem':         { actorTypes: ['pc'],                    handler: CypherSystem },
     'demonlord':            { actorTypes: ['character', 'creature'], handler: SotDLSystem },
     'dnd1e':                { actorTypes: ['TBD'],                   handler: DnD1eSystem },
-    'dnd4e':                { actorTypes: ['character'],             handler: DnD4eSystem },
+    'dnd4e':                { actorTypes: ['Player Character'],      handler: DnD4eSystem },
     'dnd5e':                { actorTypes: ['character'],             handler: DnD5eSystem },
     'dungeonworld':         { actorTypes: ['character'],             handler: DungeonworldSystem },
     'fate-core-official':   { actorTypes: ['character'],             handler: FATESystem },

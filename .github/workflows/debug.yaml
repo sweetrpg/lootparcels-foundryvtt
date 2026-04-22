@@ -98,7 +98,7 @@ jobs:
           commit-msg-with-footer: "true"
           max-changelog-length: 200
 
-      - name: "Print git info"
+      - name: Print git info
         env:
           GIT_INFO: ${{ toJson(steps.git_info.outputs) }}
         run: echo "$GIT_INFO"

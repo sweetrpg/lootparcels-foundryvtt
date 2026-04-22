@@ -1,6 +1,6 @@
 {
   "name": "loot-parcels",
-  "version": "0.23.44",
+  "version": "0.23.46",
   "description": "A module for creating parcels of items.",
   "main": "dist/index.js",
   "type": "module",
@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-      "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "imports": {
     "#runtime/*": "@typhonjs-fvtt/runtime/*",

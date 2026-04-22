@@ -33,5 +33,4 @@ export class Starfinder1eSystem {
     //             (item.system.subType == 'misc' ||
     //                 item.system.subType == 'ammo')));
     // }
-
 }

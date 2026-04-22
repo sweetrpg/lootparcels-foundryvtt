@@ -39,5 +39,4 @@ export class SotWWSystem {
             await AllSystems.handleItem(actor, type, args, addlSystemInfo);
         }
     }
-
 }

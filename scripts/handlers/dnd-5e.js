@@ -17,5 +17,4 @@ export class DnD5eSystem {
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
         Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);
     }
-
 }

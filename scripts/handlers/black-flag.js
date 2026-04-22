@@ -52,5 +52,4 @@ export class BlackFlagSystem {
         const newItem = await Item.create([data], { parent: actor });
         Logging.debug("newItem", newItem);
     }
-
 }

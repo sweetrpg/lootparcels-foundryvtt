@@ -16,5 +16,4 @@ export class WFRP4eSystem {
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
     }
-
 }

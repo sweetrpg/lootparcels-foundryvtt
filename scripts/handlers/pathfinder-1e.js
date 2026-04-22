@@ -31,5 +31,4 @@ export class PF1System {
                 (item.system.subType == 'misc' ||
                     item.system.subType == 'ammo')));
     }
-
 }

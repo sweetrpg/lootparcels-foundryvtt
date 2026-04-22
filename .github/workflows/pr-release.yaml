@@ -60,7 +60,7 @@ jobs:
           echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
 
       - name: Substitute module values
-        id: sub_manifest_link_version
+        id: sub_mod_values
         uses: microsoft/variable-substitution@v1
         with:
           files: "module.json"
@@ -79,7 +79,7 @@ jobs:
         id: create_version_release
         uses: ncipollo/release-action@v1.12.0
         with:
-          allowUpdates: false
+          allowUpdates: true
           name: "PR release: ${{ steps.create_pr_version.outputs.version }}"
           draft: false
           prerelease: true
@@ -92,4 +92,11 @@ jobs:
             This release is automatically generated from the PR and is meant for testing purposes.
             It will be deleted once the PR is merged or closed.
 
-            ${{steps.release_notes.outputs.summary }}
+            ${{ steps.release_notes.outputs.summary }}
+
+      - name: Update release
+        id: update_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release edit --target ${{ github.head_ref }} ${{ steps.create_pr_version.outputs.version }}

@@ -17,5 +17,4 @@ export class DungeonworldSystem {
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
         Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);
     }
-
 }

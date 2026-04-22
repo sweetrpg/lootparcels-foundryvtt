@@ -80,22 +80,19 @@ jobs:
 
       - name: Generate change log
         id: gen_changelog
-        uses: kiyoon/changelog-action@v2
+        uses: kiyoon/changelog-action@v2.0.1
         with:
           new-version-tag-for-future: ${{ steps.bump_semver.outputs.new_version }}
           previous-version-tag: ${{ steps.get_latest_tag.outputs.tag }}
           write-to-file: false
           reverse-order: true
+          exclude-types: "chore,docs,style,refactor,perf"
+          exclude-scopes: "ci,build"
 
       - name: Print generated change log
         env:
-          CHANGELOG: ${{ steps.gen_changelog.outputs.changelog }}
+          CHANGELOG: ${{ steps.gen_changelog.outputs.changes }}
         run: echo "$CHANGELOG"
-
-      - name: Print generated release notes
-        env:
-          RELEASE_NOTES: ${{ steps.gen_release_notes.outputs.release_notes }}
-        run: echo "$RELEASE_NOTES"
 
       - name: Read git info
         id: git_info

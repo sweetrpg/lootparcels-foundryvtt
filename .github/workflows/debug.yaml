@@ -2,6 +2,11 @@ name: Debug
 
 on:
   workflow_dispatch:
+    inputs:
+      bump-level:
+        description: "The level of version bump to calculate the next version (patch, minor, major)."
+        required: false
+        default: "patch"
 
 permissions:
   contents: read
@@ -9,9 +14,16 @@ permissions:
 jobs:
   debug:
     runs-on: ubuntu-latest
+
+    continue-on-error: true
+
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-tags: true
+          fetch-depth: 0
+          show-progress: true
 
       - name: Dump GitHub context
         env:
@@ -43,33 +55,66 @@ jobs:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: echo "$MATRIX_CONTEXT"
 
-      - name: Get current date
-        id: getbuilddate
+      - name: Get build dates
+        id: get_build_date
         run: |
-             echo "::set-output name=date::$(date -u)"
-             echo "::set-output name=isodate::$(date -u '+%Y-%m-%dT%H:%M:%S')"
-             echo "::set-output name=tagdate::$(date -u '+%Y%m%d%H%M%S')"
-             echo "::set-output name=timestamp::$(date -u '+%s')"
+              echo "date=$(date -u)" >> $GITHUB_OUTPUT
+              echo "isodate=$(date -u '+%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
+              echo "tagdate=$(date -u '+%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+              echo "timestamp=$(date -u '+%s')" >> $GITHUB_OUTPUT
 
-      - name: 'Get Previous tag'
-        id: previoustag
+      - name: Get latest tag
+        id: get_latest_tag
         uses: actions-ecosystem/action-get-latest-tag@v1
         with:
           semver_only: true
-          initial_version: v0.0.0
+          initial_version: "0.0.0"
           with_initial_version: true
 
-      - name: Generate CHANGELOG
-        id: changelog
-        uses: kiyoon/changelog-action@v2
+      - name: Get next tag
+        id: bump_semver
+        uses: actions-ecosystem/action-bump-semver@v1
         with:
-          new-version-tag-for-future: ${{ steps.getbuilddate.outputs.isodate }}
-          previous-version-tag: ${{ steps.previoustag.outputs.tag }}
-          # exclude-types: ${{ github.event.inputs.exclude-types }}
-          write-to-file: true
-          changelog-file-path: CHANGELOG.md
+          current_version: ${{ steps.get_latest_tag.outputs.tag }}
+          level: patch
+
+      - name: Generate change log
+        id: gen_changelog
+        uses: kiyoon/changelog-action@v2.0.1
+        with:
+          new-version-tag-for-future: ${{ steps.bump_semver.outputs.new_version }}
+          previous-version-tag: ${{ steps.get_latest_tag.outputs.tag }}
+          write-to-file: false
+          reverse-order: true
+          exclude-types: "chore,docs,style,refactor,perf"
+          exclude-scopes: "ci,build"
+
+      - name: Print generated change log
+        env:
+          CHANGELOG: ${{ steps.gen_changelog.outputs.changes }}
+        run: |
+              echo "$CHANGELOG"
+
+      - name: Read git info
+        id: git_info
+        uses: YunaBraska/git-info-action@3.0.1
+        with:
+          work-dir: "."
+          ignore-files: ".java, .groovy, .jar"
+          branch-fallback: "master"
+          tag-fallback: "0.0.1"
+          tag-match-pattern: "1.*"
+          fallback-commit-type: "chore"
+          fallback-commit-scope: "performance"
+          commit-msg-with-footer: "true"
+          max-changelog-length: 200
+
+      - name: Print git info
+        env:
+          GIT_INFO: ${{ toJson(steps.git_info.outputs) }}
+        run: |
+              echo "$GIT_INFO"
 
       - name: Other interesting things
         run: |
-              git rev-list --count 'develop..${{ github.ref_name }}'
-              git rev-list --count 'master..${{ github.ref_name }}'
+              git rev-list --count ${{ github.ref_name }}

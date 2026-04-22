@@ -5,6 +5,7 @@
 import { Logging } from "./logging.js";
 import { Utils } from "./utilities.js";
 import { Registry } from "./registry.js";
+import { Chat } from "./chat.js";
 
 const prefix = '$';
 const allowedJournalTypes = [
@@ -40,7 +41,9 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         return;
     };
 
-    journalContent.forEach(async (jc) => {
+    var receivedItems = [];
+
+    for (const jc of journalContent) {
         // parse line
         let line = jc.trim();
         let fn = null;
@@ -66,6 +69,9 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
             const fnType = entryType.substring(1);
             fn = Registry.getDirectiveHandler(fnType);
             Logging.debug("fn", fn);
+
+            // Pre-emptively set the text to the directive type, in case there is no remaining text.
+            args['text'] = fnType;
 
             if (fn === undefined || fn === "") {
                 ui.notifications.warn(game.i18n.format('LOOTPARCELS.UnsupportedDirective',
@@ -159,5 +165,10 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
         }
 
         await fn(actor, args);
-    });
+
+        receivedItems.push(args);
+    }
+
+    // Write it to the chat log
+    await Chat.logParcelEntry(actor, receivedItems);
 }

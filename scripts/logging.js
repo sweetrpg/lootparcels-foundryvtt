@@ -1,6 +1,7 @@
 /**
  * Logging methods.
  */
+
 export class Logging {
 
     static logLevel = 3; // 0: error, 1: warn, 2: info, 3: debug
@@ -12,7 +13,7 @@ export class Logging {
         if (Logging.logLevel > 1) console.log("loot-parcels |", ...args);
     };
     static warn = (...args) => {
-        if (Logging.debugEnabled > 0) console.warn("loot-parcels |", ...args);
+        if (Logging.logLevel > 0) console.warn("loot-parcels |", ...args);
     };
     static error = (...args) => {
         console.error("loot-parcels |", ...args);

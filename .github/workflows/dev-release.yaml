@@ -18,61 +18,100 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-tags: true
-          fetch-depth: 0
           show-progress: true
 
-      - id: get_latest_tag
+      - name: Setup Node.js
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version-file: ".node-version"
+
+      - name: Install dependencies and test
+        run: |
+              npm ci
+              npm test
+
+      - name: Get latest tag
+        id: get_latest_tag
         run: |
               git tag --sort version:refname
-              tag=$(git tag --sort version:refname | tail -1)
+              tag=$(git tag --sort version:refname | grep -v 'PR' | tail -1)
               echo "tag=$tag" >> $GITHUB_OUTPUT
 
-      - uses: actions-ecosystem/action-bump-semver@v1
+      - name: Bump version
         id: bump_semver
+        uses: actions-ecosystem/action-bump-semver@v1
         with:
           current_version: ${{ steps.get_latest_tag.outputs.tag }}
           level: patch
 
-      - run: |
+      - name: Update package version
+        id: bump_package_version_and_tag
+        env:
+          VERSION: ${{ steps.bump_semver.outputs.new_version }}
+        run: |
               git config --global user.email 'ci@sweetrpg.com'
               git config --global user.name 'SweetRPG CI'
-              git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }}' "${{ steps.bump_semver.outputs.new_version }}"
+              git config --global pull.rebase true
+
+              echo "Setting version to $VERSION"
+              jq --arg v "$VERSION" '.version=$v' package.json > package.tmp.json
+              mv package.tmp.json package.json
+              git add package.json
+              git commit -m "Bump version to $VERSION [skip ci]"
+
+              git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }} [skip ci]' "${{ steps.bump_semver.outputs.new_version }}"
               git push origin --tags
 
-      # Build the changelog
-      - name: Build Changelog
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@v3.6.0
-        with:
-          configuration: ".github/configs/release-changelog-builder-action.json"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate release notes
+        id: release_notes
+        run: |
+              echo "Generating release notes for version ${{ steps.bump_semver.outputs.new_version }}"
+              echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
 
-      # Substitute the Manifest and Download URLs in the module.json
-      - name: Substitute Manifest and Download Links For Versioned Ones
+              echo "" > release-changelog.txt
+              git add release-changelog.txt
+              git commit -m "Reset release changelog for next release [skip ci]" || true
+              git push origin
+
+      - name: Substitute module values
         id: sub_manifest_link_version
         uses: microsoft/variable-substitution@v1
         with:
-          files: 'module.json'
+          files: "module.json"
         env:
           version: ${{ steps.bump_semver.outputs.new_version }}
           url: https://github.com/${{ github.repository }}
           manifest: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.json
           download: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.zip
 
-      # Create a zip file with all files required by the module to add to the release
-      - run: zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+      - name: Generate change log
+        id: gen_changelog
+        uses: kiyoon/changelog-action@v2.0.1
+        continue-on-error: true
+        with:
+          new-version-tag-for-future: ${{ steps.bump_semver.outputs.new_version }}
+          previous-version-tag: ${{ steps.get_latest_tag.outputs.tag }}
+          write-to-file: false
+          reverse-order: true
+          exclude-types: "chore,docs,style,refactor,perf"
+          exclude-scopes: "ci,build"
+
+      - name: Zip module files
+        id: zip_module
+        run: |
+              zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
       # Create a release for this specific version
-      - name: Create Release with Files
+      - name: Create release with files
         id: create_version_release
         uses: ncipollo/release-action@v1.12.0
         with:
           allowUpdates: false
-          name: 'Dev release: ${{ steps.bump_semver.outputs.new_version }}'
+          name: "Dev release: ${{ steps.bump_semver.outputs.new_version }}"
           draft: false
           prerelease: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: './module.json, ./module.zip'
+          artifacts: "./module.json, ./module.zip"
           tag: ${{ steps.bump_semver.outputs.new_version }}
-          body: ${{steps.build_changelog.outputs.changelog }}
+          body: |
+                 ${{ steps.gen_changelog.outputs.changes }}

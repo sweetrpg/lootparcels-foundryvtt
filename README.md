@@ -3,6 +3,7 @@
 ![](https://img.shields.io/badge/Foundry-v11-informational)
 ![](https://img.shields.io/badge/Foundry-v12-informational)
 ![](https://img.shields.io/badge/Foundry-v13-informational)
+![](https://img.shields.io/badge/Foundry-v14-informational)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/sweetrpg/lootparcels-foundryvtt/latest/module.zip)
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Floot-parcels&colorB=4aa94a)
 
@@ -17,7 +18,7 @@ The following versions of Foundry are supported:
 | v11 | &check; |
 | v12 | &check; |
 | v13 | &check; |
-| v14 | &rarr; |
+| v14 | &check; |
 
 The following systems are currently supported:
 
@@ -26,6 +27,7 @@ The following systems are currently supported:
 * Black Flag Roleplaying (Tales of the Valiant)
 * Castles & Crusades
 * Cypher System
+* Dungeons & Dragons, 4th edition
 * Dungeons & Dragons, 5th edition
 * DungeonWorld
 * FATE Core

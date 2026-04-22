@@ -1,0 +1,19 @@
+/**
+ * System: Old-School Essentials
+ */
+
+import { AllSystems } from "./all.js";
+import { Registry } from "../registry.js";
+import { Logging } from "../logging.js";
+
+export class OSESystem {
+    static stackedItemTypes = ['item'];
+
+    static registerHandlers() {
+        Logging.debug("registerHandlers");
+
+        Registry.registerStackedItemTypes(OSESystem.stackedItemTypes);
+        Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
+        Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
+    }
+}

@@ -84,6 +84,26 @@ jobs:
           write-to-file: false
           reverse-order: true
 
+      - name: Print generated change log
+        env:
+          CHANGELOG: ${{ steps.gen_changelog.outputs.changelog }}
+        run: echo "$CHANGELOG"
+
+      - name: Conventional Release Action
+        id: gen_release_notes
+        uses: onesoft-sudo/conventional-release-action@v1.7.0
+        with:
+          allowed-commit-types: "feat, fix, docs, style, perf"
+          create-tag: false
+          create-commit: false
+          add-release-notes: true
+          changelog-format: 'markdown'
+
+      - name: Print generated release notes
+        env:
+          RELEASE_NOTES: ${{ steps.gen_release_notes.outputs.release_notes }}
+        run: echo "$RELEASE_NOTES"
+
       - name: Read git info
         id: git_info
         uses: YunaBraska/git-info-action@3.0.1

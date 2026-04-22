@@ -104,3 +104,46 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release edit --target ${{ github.head_ref }} ${{ steps.create_pr_version.outputs.version }}
+
+      - name: Print generated change log
+        env:
+          CHANGELOG: ${{ steps.gen_changelog.outputs.changelog }}
+        run: echo "$CHANGELOG"
+
+      - name: Conventional Release Action
+        id: gen_release_notes
+        uses: onesoft-sudo/conventional-release-action@v1.7.0
+        with:
+          allowed-commit-types: "feat, fix, docs, style, perf"
+          create-tag: false
+          create-commit: false
+          add-release-notes: true
+          changelog-format: 'markdown'
+
+      - name: Print generated release notes
+        env:
+          RELEASE_NOTES: ${{ steps.gen_release_notes.outputs.release_notes }}
+        run: echo "$RELEASE_NOTES"
+
+      - name: Read git info
+        id: git_info
+        uses: YunaBraska/git-info-action@3.0.1
+        with:
+          work-dir: "."
+          ignore-files: ".java, .groovy, .jar"
+          branch-fallback: "master"
+          tag-fallback: "0.0.1"
+          tag-match-pattern: "1.*"
+          fallback-commit-type: "chore"
+          fallback-commit-scope: "performance"
+          commit-msg-with-footer: "true"
+          max-changelog-length: 200
+
+      - name: Print git info
+        env:
+          GIT_INFO: ${{ toJson(steps.git_info.outputs) }}
+        run: echo "$GIT_INFO"
+
+      - name: Other interesting things
+        run: |
+          git rev-list --count ${{ github.ref_name }}

@@ -28,15 +28,15 @@ jobs:
 
       - name: Install dependencies and test
         run: |
-          npm ci
-          npm test
+              npm ci
+              npm test
 
       - name: Get latest tag
         id: get_latest_tag
         run: |
-          git tag --sort version:refname
-          tag=$(git tag --sort version:refname | grep -v 'PR' | tail -1)
-          echo "tag=$tag" >> $GITHUB_OUTPUT
+              git tag --sort version:refname
+              tag=$(git tag --sort version:refname | grep -v 'PR' | tail -1)
+              echo "tag=$tag" >> $GITHUB_OUTPUT
 
       - name: Bump version
         id: bump_semver
@@ -50,14 +50,14 @@ jobs:
         env:
           REF_NAME: ${{ github.head_ref }}
         run: |
-          rev_count=$(git rev-list --count ${REF_NAME} || echo '0')
-          echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT
+              rev_count=$(git rev-list --count ${REF_NAME} || echo '0')
+              echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT
 
       - name: Generate release notes
         id: release_notes
         run: |
-          echo "Generating release notes for version ${{ steps.create_pr_version.outputs.version }}"
-          echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
+              echo "Generating release notes for version ${{ steps.create_pr_version.outputs.version }}"
+              echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
 
       - name: Substitute module values
         id: sub_mod_values
@@ -73,7 +73,7 @@ jobs:
       - name: Create module zip file
         id: zip_module
         run: |
-          zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+              zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
       - name: Create release
         id: create_version_release
@@ -87,37 +87,40 @@ jobs:
           artifacts: "./module.json, ./module.zip"
           tag: ${{ steps.create_pr_version.outputs.version }}
           body: |
-            ${{ github.event.pull_request.title }}
+                 ${{ github.event.pull_request.title }}
 
-            PR release for version ${{ steps.create_pr_version.outputs.version }}.
+                 PR release for version ${{ steps.create_pr_version.outputs.version }}.
 
-            This release is automatically generated from the PR and is meant for testing purposes.
-            It will be deleted once the PR is merged or closed.
+                 This release is automatically generated from the PR and is meant for testing purposes.
+                 It will be deleted once the PR is merged or closed.
 
-            ---
-            ${{ steps.release_notes.outputs.summary }}
-            ---
+                 ---
+                 ${{ steps.release_notes.outputs.summary }}
+                 ---
 
       - name: Update release
         id: update_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release edit --target ${{ github.head_ref }} ${{ steps.create_pr_version.outputs.version }}
+              gh release edit --target ${{ github.head_ref }} ${{ steps.create_pr_version.outputs.version }}
 
       - name: Generate change log
         id: gen_changelog
-        uses: kiyoon/changelog-action@v2
+        uses: kiyoon/changelog-action@v2.0.1
         with:
           new-version-tag-for-future: ${{ steps.bump_semver.outputs.new_version }}
           previous-version-tag: ${{ steps.get_latest_tag.outputs.tag }}
-          write-to-file: false
+          write-to-file: true
           reverse-order: true
 
       - name: Print generated change log
         env:
           CHANGELOG: ${{ steps.gen_changelog.outputs.changelog }}
-        run: echo "$CHANGELOG"
+        run: |
+              echo "$CHANGELOG"
+
+              cat CHANGELOG.md
 
       - name: Read git info
         id: git_info
@@ -141,4 +144,4 @@ jobs:
       - name: Other interesting things
         continue-on-error: true
         run: |
-          git rev-list --count ${{ github.ref_name }}
+              git rev-list --count ${{ github.ref_name }}

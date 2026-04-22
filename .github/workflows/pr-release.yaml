@@ -84,6 +84,8 @@ jobs:
           previous-version-tag: ${{ steps.get_latest_tag.outputs.tag }}
           write-to-file: false
           reverse-order: true
+          exclude-types: "chore,docs,style,refactor,perf"
+          exclude-scopes: "ci,build"
 
       - name: Create release
         id: create_version_release

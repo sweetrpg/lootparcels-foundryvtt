@@ -8,6 +8,7 @@ import { BlackFlagSystem } from "./handlers/black-flag.js";
 import { CCSystem } from "./handlers/cc.js";
 import { CypherSystem } from "./handlers/cypher.js";
 import { DnD1eSystem } from "./handlers/dnd-1e.js";
+import { DnD4eSystem } from "./handlers/dnd-4e.js";
 import { DnD5eSystem } from "./handlers/dnd-5e.js";
 import { DungeonworldSystem } from "./handlers/dungeonworld.js";
 import { FATESystem } from "./handlers/fate.js";
@@ -38,6 +39,7 @@ export const SYSTEMS = {
     'cyphersystem':         { actorTypes: ['pc'],                    handler: CypherSystem },
     'demonlord':            { actorTypes: ['character', 'creature'], handler: SotDLSystem },
     'dnd1e':                { actorTypes: ['TBD'],                   handler: DnD1eSystem },
+    'dnd4e':                { actorTypes: ['Player Character'],      handler: DnD4eSystem },
     'dnd5e':                { actorTypes: ['character'],             handler: DnD5eSystem },
     'dungeonworld':         { actorTypes: ['character'],             handler: DungeonworldSystem },
     'fate-core-official':   { actorTypes: ['character'],             handler: FATESystem },

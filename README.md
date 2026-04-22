@@ -18,7 +18,7 @@ The following versions of Foundry are supported:
 | v11 | &check; |
 | v12 | &check; |
 | v13 | &check; |
-| v14 | &rarr; |
+| v14 | &check; |
 
 The following systems are currently supported:
 
@@ -27,6 +27,7 @@ The following systems are currently supported:
 * Black Flag Roleplaying (Tales of the Valiant)
 * Castles & Crusades
 * Cypher System
+* Dungeons & Dragons, 4th edition
 * Dungeons & Dragons, 5th edition
 * DungeonWorld
 * FATE Core

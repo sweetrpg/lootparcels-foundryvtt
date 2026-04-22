@@ -266,6 +266,15 @@
           "minimum": "1.1.22",
           "verified": "1.1.22"
         }
+      },
+      {
+        "id": "dnd4e",
+        "type": "system",
+        "manifest": "https://github.com/EndlesNights/dnd4eBeta/releases/download/0.7.11/system.json",
+        "compatibility": {
+          "minimum": "0.7.11",
+          "verified": "0.7.11"
+        }
       }
     ]
   },

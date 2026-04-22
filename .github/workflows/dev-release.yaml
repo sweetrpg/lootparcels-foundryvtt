@@ -27,15 +27,15 @@ jobs:
 
       - name: Install dependencies and test
         run: |
-          npm ci
-          npm test
+              npm ci
+              npm test
 
       - name: Get latest tag
         id: get_latest_tag
         run: |
-          git tag --sort version:refname
-          tag=$(git tag --sort version:refname | grep -v 'PR' | tail -1)
-          echo "tag=$tag" >> $GITHUB_OUTPUT
+              git tag --sort version:refname
+              tag=$(git tag --sort version:refname | grep -v 'PR' | tail -1)
+              echo "tag=$tag" >> $GITHUB_OUTPUT
 
       - name: Bump version
         id: bump_semver
@@ -49,29 +49,29 @@ jobs:
         env:
           VERSION: ${{ steps.bump_semver.outputs.new_version }}
         run: |
-          git config --global user.email 'ci@sweetrpg.com'
-          git config --global user.name 'SweetRPG CI'
-          git config --global pull.rebase true
+              git config --global user.email 'ci@sweetrpg.com'
+              git config --global user.name 'SweetRPG CI'
+              git config --global pull.rebase true
 
-          echo "Setting version to $VERSION"
-          jq --arg v "$VERSION" '.version=$v' package.json > package.tmp.json
-          mv package.tmp.json package.json
-          git add package.json
-          git commit -m "Bump version to $VERSION [skip ci]"
+              echo "Setting version to $VERSION"
+              jq --arg v "$VERSION" '.version=$v' package.json > package.tmp.json
+              mv package.tmp.json package.json
+              git add package.json
+              git commit -m "Bump version to $VERSION [skip ci]"
 
-          git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }} [skip ci]' "${{ steps.bump_semver.outputs.new_version }}"
-          git push origin --tags
+              git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }} [skip ci]' "${{ steps.bump_semver.outputs.new_version }}"
+              git push origin --tags
 
       - name: Generate release notes
         id: release_notes
         run: |
-          echo "Generating release notes for version ${{ steps.bump_semver.outputs.new_version }}"
-          echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
+              echo "Generating release notes for version ${{ steps.bump_semver.outputs.new_version }}"
+              echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
 
-          echo "" > release-changelog.txt
-          git add release-changelog.txt
-          git commit -m "Reset release changelog for next release [skip ci]" || true
-          git push origin
+              echo "" > release-changelog.txt
+              git add release-changelog.txt
+              git commit -m "Reset release changelog for next release [skip ci]" || true
+              git push origin
 
       - name: Substitute module values
         id: sub_manifest_link_version
@@ -84,11 +84,22 @@ jobs:
           manifest: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.json
           download: https://github.com/${{ github.repository }}/releases/download/${{ steps.bump_semver.outputs.new_version }}/module.zip
 
-      # Create a zip file with all files required by the module to add to the release
+      - name: Generate change log
+        id: gen_changelog
+        uses: kiyoon/changelog-action@v2.0.1
+        continue-on-error: true
+        with:
+          new-version-tag-for-future: ${{ steps.bump_semver.outputs.new_version }}
+          previous-version-tag: ${{ steps.get_latest_tag.outputs.tag }}
+          write-to-file: false
+          reverse-order: true
+          exclude-types: "chore,docs,style,refactor,perf"
+          exclude-scopes: "ci,build"
+
       - name: Zip module files
         id: zip_module
         run: |
-          zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+              zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
       # Create a release for this specific version
       - name: Create release with files
@@ -102,4 +113,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: "./module.json, ./module.zip"
           tag: ${{ steps.bump_semver.outputs.new_version }}
-          body: ${{steps.release_notes.outputs.summary }}
+          body: |
+                 ${{ steps.gen_changelog.outputs.changes }}

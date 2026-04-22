@@ -110,12 +110,6 @@ jobs:
         run: |
               gh release edit --target ${{ github.head_ref }} ${{ steps.create_pr_version.outputs.version }}
 
-      - name: Print generated change log
-        env:
-          CHANGELOG: ${{ steps.gen_changelog.outputs.changes }}
-        run: |
-              echo "$CHANGELOG"
-
       - name: Read git info
         id: git_info
         uses: YunaBraska/git-info-action@3.0.1

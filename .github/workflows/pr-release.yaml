@@ -99,14 +99,7 @@ jobs:
           body: |
                  ${{ github.event.pull_request.title }}
 
-                 PR release for version ${{ steps.create_pr_version.outputs.version }}.
-
-                 This release is automatically generated from the PR and is meant for testing purposes.
-                 It will be deleted once the PR is merged or closed.
-
-                 ---
                  ${{ steps.gen_changelog.outputs.changes }}
-                 ---
 
       - name: Update release
         id: update_release

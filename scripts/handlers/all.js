@@ -49,7 +49,7 @@ export class AllSystems {
         Logging.debug('handleTextEntry', actor, args);
 
         const stacked = args.stacked || false;
-        const type = args.type || 'item';
+        const type = args.type || Registry.defaultItemType || 'item';
         Logging.debug('type', type, 'stacked', stacked);
 
         if (stacked) {
@@ -209,13 +209,15 @@ export class AllSystems {
      * @param {*} actor
      * @param {*} args
      */
-    static async handleCurrency(actor, args) {
+    static async handleCurrency(actor, args, path) {
         Logging.debug('handleCurrency', actor, args);
 
         let name = args.name || args.text || 'default';
         let quantity = args.quantity;
+        let basePath = path || 'system.currency';
+        Logging.debug('name', name, 'quantity', quantity, 'basePath', basePath);
 
-        AllSystems.updateCurrency(actor, 'system.currency', name, quantity);
+        AllSystems.updateCurrency(actor, basePath, name, quantity);
     }
 
     static async updateCurrency(actor, basePath, name, quantity) {

@@ -21,6 +21,14 @@ export class PF1System {
         Registry.registerLinkEntryHandler(AllSystems.handleLinkEntry);
         Registry.registerTextEntryHandler(AllSystems.handleTextEntry);
         Registry.registerDirectiveHandler('currency', AllSystems.handleCurrency);
+        Registry.registerDirectiveHandler('altCurrency', PF1System._handleAltCurrency);
+    }
+
+    static _handleAltCurrency(actor, args) {
+        Logging.debug('_handleAltCurrency', actor, args);
+
+        const path = 'system.altCurrency';
+        AllSystems.handleCurrency(actor, args, path);
     }
 
     static _isItemStackable(item) {

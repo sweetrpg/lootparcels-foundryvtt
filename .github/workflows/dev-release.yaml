@@ -62,17 +62,6 @@ jobs:
               git tag -a -m 'Dev release tag: ${{ steps.bump_semver.outputs.new_version }} [skip ci]' "${{ steps.bump_semver.outputs.new_version }}"
               git push origin --tags
 
-      - name: Generate release notes
-        id: release_notes
-        run: |
-              echo "Generating release notes for version ${{ steps.bump_semver.outputs.new_version }}"
-              echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
-
-              echo "" > release-changelog.txt
-              git add release-changelog.txt
-              git commit -m "Reset release changelog for next release [skip ci]" || true
-              git push origin
-
       - name: Substitute module values
         id: sub_manifest_link_version
         uses: microsoft/variable-substitution@v1

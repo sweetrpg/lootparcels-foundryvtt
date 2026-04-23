@@ -1,7 +1,5 @@
 # Loot Parcels
 
-![](https://img.shields.io/badge/Foundry-v11-informational)
-![](https://img.shields.io/badge/Foundry-v12-informational)
 ![](https://img.shields.io/badge/Foundry-v13-informational)
 ![](https://img.shields.io/badge/Foundry-v14-informational)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/sweetrpg/lootparcels-foundryvtt/latest/module.zip)
@@ -15,8 +13,8 @@ The following versions of Foundry are supported:
 
 | Version | Support |
 | - | - |
-| v11 | &check; |
-| v12 | &check; |
+| v11 | &cross; |
+| v12 | &cross; |
 | v13 | &check; |
 | v14 | &check; |
 

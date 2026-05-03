@@ -88,7 +88,7 @@ jobs:
       - name: Zip module files
         id: zip_module
         run: |
-              zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+              zip -r ./module.zip module.json README.md loot-parcels.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
       # Create a release for this specific version
       - name: Create release with files

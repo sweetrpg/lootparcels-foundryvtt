@@ -67,7 +67,7 @@ jobs:
       - name: Create module zip file
         id: zip_module
         run: |
-              zip -r ./module.zip module.json *.md *.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
+              zip -r ./module.zip module.json README.md loot-parcels.js img/ lang/ packs/ screenshots/ scripts/ styles/ templates/
 
       - name: Generate change log
         id: gen_changelog

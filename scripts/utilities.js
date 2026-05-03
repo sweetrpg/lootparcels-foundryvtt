@@ -140,6 +140,9 @@ export class Utils {
 			const typeSubtype = type.split(':');
 			Logging.debug("typeSubtype", typeSubtype);
 
+			if (typeSubtype.length == 0)
+				continue;
+
 			if (typeSubtype[0] === itemType) {
 				Logging.debug(`Item's type ${itemType} matches`);
 

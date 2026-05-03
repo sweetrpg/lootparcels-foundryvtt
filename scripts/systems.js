@@ -32,7 +32,7 @@ import { WFRP4eSystem } from "./handlers/wfrp-4e.js";
 import { WWNSystem } from "./handlers/wwn.js";
 
 export const SYSTEMS = {
-    'a5e':                  { actorTypes: ['character'],             defaultItemType: 'xxx',                              handler: A5eSystem },
+    'a5e':                  { actorTypes: ['character'],             defaultItemType: 'object',                              handler: A5eSystem },
     'archmage':             { actorTypes: ['character'],             defaultItemType: 'xxx',                              handler: ArchmageSystem },
     'black-flag':           { actorTypes: ['pc'],                    defaultItemType: 'xxx',                              handler: BlackFlagSystem },
     'castles-and-crusades': { actorTypes: ['character'],             defaultItemType: 'xxx',                              handler: CCSystem },

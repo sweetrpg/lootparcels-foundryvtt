@@ -12,6 +12,7 @@ export class Registry {
     static stackedItemTypes = [];
     static stackedItemCallback = null;
     static stackedItemQuantityPath = 'system.quantity';
+    static defaultItemType = 'loot';
 
     static getDirectiveHandler(name) {
         Logging.debug("Registry.getDirectiveHandler", name);
@@ -132,5 +133,16 @@ export class Registry {
             Logging.debug("Registering actor type", type);
             Registry.actorTypes.push(type.toLowerCase());
         });
+    }
+
+    /**
+     * Registers a default item type to use when creating items.
+     *
+     * @param {String} itemType The default item type to use when creating items.
+     */
+    static registerDefaultItemType(itemType) {
+        Logging.info('Registering default item type:', itemType);
+
+        Registry.defaultItemType = itemType;
     }
 };

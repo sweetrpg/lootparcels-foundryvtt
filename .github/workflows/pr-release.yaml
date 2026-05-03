@@ -53,12 +53,6 @@ jobs:
               rev_count=$(git rev-list --count ${REF_NAME} || echo '0')
               echo "version=${{ steps.bump_semver.outputs.new_version }}.PR${{ github.event.number }}.${rev_count}" >> $GITHUB_OUTPUT
 
-      - name: Generate release notes
-        id: release_notes
-        run: |
-              echo "Generating release notes for version ${{ steps.create_pr_version.outputs.version }}"
-              echo "summary=$(cat release-changelog.txt)" >> $GITHUB_OUTPUT
-
       - name: Substitute module values
         id: sub_mod_values
         uses: microsoft/variable-substitution@v1

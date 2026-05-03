@@ -1,1 +1,11 @@
+# Features
 
+- Add support for Weightless Currency in Pathfinder 1e
+
+# Bug Fixes
+
+- Fix handling of free text entries in Pathfinder 1e
+
+# Miscellaneous
+
+- Removed support for FoundryVTT v11 and v12

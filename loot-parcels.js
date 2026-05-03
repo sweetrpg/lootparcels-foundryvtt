@@ -27,6 +27,7 @@ Hooks.once('setup', async () => {
     }
 
     Registry.registerAcceptableActorTypes(systemConfig.actorTypes);
+	Registry.registerDefaultItemType(systemConfig.defaultItemType || 'item');
     systemConfig.handler.registerHandlers();
 });
 

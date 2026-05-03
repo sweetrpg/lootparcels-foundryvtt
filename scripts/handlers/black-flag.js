@@ -30,7 +30,7 @@ export class BlackFlagSystem {
         Logging.debug('name', name);
         const amount = args.quantity || 1;
 
-        const items = actor.collections.items.filter(i => i.system.identifier?.value == name);
+        const items = actor.collections.items.filter(i => i.type == 'currency' && i.system.identifier?.value == name);
         Logging.debug('items', items);
 
         if (items.length > 0) {

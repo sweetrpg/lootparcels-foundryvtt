@@ -4,7 +4,7 @@
   "title": "Loot Parcels",
   "version": "[Current Version]",
   "compatibility": {
-    "minimum": "11",
+    "minimum": "13",
     "verified": "14"
   },
   "authors": [

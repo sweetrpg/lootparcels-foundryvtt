@@ -170,5 +170,7 @@ export async function handleParcelDrop(actor, html, droppedEntity) {
     }
 
     // Write it to the chat log
-    await Chat.logParcelEntry(actor, receivedItems);
+    if (receivedItems.length > 0) {
+        await Chat.logParcelEntry(actor, receivedItems);
+    }
 }

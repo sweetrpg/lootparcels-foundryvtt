@@ -33,8 +33,8 @@ import { WWNSystem } from "./handlers/wwn.js";
 
 export const SYSTEMS = {
     'a5e':                  { actorTypes: ['character'],             defaultItemType: 'object',                              handler: A5eSystem },
-    'archmage':             { actorTypes: ['character'],             defaultItemType: 'xxx',                              handler: ArchmageSystem },
-    'black-flag':           { actorTypes: ['pc'],                    defaultItemType: 'xxx',                              handler: BlackFlagSystem },
+    'archmage':             { actorTypes: ['character'],             defaultItemType: 'equipment',                              handler: ArchmageSystem },
+    'black-flag':           { actorTypes: ['pc'],                    defaultItemType: 'gear',                              handler: BlackFlagSystem },
     'castles-and-crusades': { actorTypes: ['character'],             defaultItemType: 'xxx',                              handler: CCSystem },
     'cyphersystem':         { actorTypes: ['pc'],                    defaultItemType: 'equipment', handler: CypherSystem },
     'demonlord':            { actorTypes: ['character', 'creature'], defaultItemType: 'xxx',                              handler: SotDLSystem },

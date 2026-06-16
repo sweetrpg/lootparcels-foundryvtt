@@ -1,59 +1,60 @@
 {
-  "name": "loot-parcels",
-  "version": "0.25.0",
-  "description": "A module for creating parcels of items.",
-  "main": "dist/index.js",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "npm run build:compendia && vite build",
-    "prepare": "husky",
-    "lint": "eslint .",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
-  },
-  "imports": {
-    "#runtime/*": "@typhonjs-fvtt/runtime/*",
-    "#standard/*": "@typhonjs-fvtt/svelte-standard/*"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sweetrpg/lootparcels-foundryvtt"
-  },
-  "author": {
-    "name": "Paul Schifferer",
-    "email": "paul@schifferers.net",
-    "url": "https://github.com/paulyhedral"
-  },
-  "bugs": {
-    "url": "https://github.com/sweetrpg/lootparcels-foundryvtt/issues"
-  },
-  "homepage": "https://github.com/sweetrpg/lootparcels-foundryvtt",
-  "license": "MIT",
-  "engines": {
-    "npm": ">=10.8.2 <11.0.0",
-    "node": ">=20.20.2 <21.0.0"
-  },
-  "dependencies": {
-    "@typhonjs-fvtt/runtime": "^0.2.0",
-    "svelte": "^4.2.0"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^20.5.0",
-    "@commitlint/config-conventional": "^20.0.0",
-    "@eslint/js": "^9.0.0",
-    "@league-of-foundry-developers/foundry-vtt-types": "^13.0.0",
-    "conventional-changelog": "^7.2.0",
-    "eslint": "^9.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-svelte": "^3.17.0",
-    "husky": "^9.1.7",
-    "jsdom": "^29.0.2",
-    "stylelint": "^16.8.2",
-    "stylelint-scss": "^6.14.0",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.0.0",
-    "vitest": "^4.1.4"
-  }
+    "name": "loot-parcels",
+    "version": "0.25.0",
+    "description": "A module for creating parcels of items.",
+    "main": "dist/index.js",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "npm run build:compendia && vite build",
+        "prepare": "husky",
+        "lint": "eslint .",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    },
+    "imports": {
+        "#runtime/*": "@typhonjs-fvtt/runtime/*",
+        "#standard/*": "@typhonjs-fvtt/svelte-standard/*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sweetrpg/lootparcels-foundryvtt"
+    },
+    "author": {
+        "name": "Paul Schifferer",
+        "email": "paul@schifferers.net",
+        "url": "https://github.com/paulyhedral"
+    },
+    "bugs": {
+        "url": "https://github.com/sweetrpg/lootparcels-foundryvtt/issues"
+    },
+    "homepage": "https://github.com/sweetrpg/lootparcels-foundryvtt",
+    "license": "MIT",
+    "engines": {
+        "npm": ">=10.8.2 <11.0.0",
+        "node": ">=20.20.2 <21.0.0"
+    },
+    "dependencies": {
+        "@typhonjs-fvtt/runtime": "^0.2.0",
+        "svelte": "^4.2.20"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^20.5.0",
+        "@commitlint/config-conventional": "^20.0.0",
+        "@eslint/js": "^9.0.0",
+        "@league-of-foundry-developers/foundry-vtt-types": "^13.0.0",
+        "conventional-changelog": "^7.2.0",
+        "eslint": "^9.0.0",
+        "eslint-plugin-import": "^2.29.1",
+        "eslint-plugin-svelte": "^3.17.0",
+        "fast-uri": "^3.1.2",
+        "husky": "^9.1.7",
+        "jsdom": "^29.0.2",
+        "stylelint": "^16.8.2",
+        "stylelint-scss": "^6.14.0",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.0.0",
+        "vitest": "^4.1.4"
+    }
 }
